@@ -1,15 +1,29 @@
+#define BLANDOMAX 4 
+#define DUROMIN 7
+#define ALTAPOROSIDADMIN 70
+#define BAJAPOROSIDADMAX 45 
+
+
 using namespace std;
+
 enum{Piedra, Polvo}
 
 
 enum definirDureza(dureza, porosidad){
-	if(dureza < 4 && porosidad < 46)
+	if(dureza < 4 && porosidad > 70){
+		return 
+	}
 }
 
 void moverBrazo(int rpm, bool sentidoReloj, int tiempo){
+	//Acá iría el código para comunicarse con el brazo
 	return;
 }
 
+void cerrarPinza(){
+	//Acá iría el código para comunicarse con la pinza
+	return;
+}
 
 void lunarRover(uint dureza, uint porosidad){
 	enum suelo = definirDureza(dureza, porosidad);

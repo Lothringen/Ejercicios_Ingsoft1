@@ -11,15 +11,24 @@ DenotativeObject subclass: #I
 I class
 	instanceVariableNames: ''!
 
+!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:18:20'!
+* numeroPeano
+	^numeroPeano! !
+
 !I class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 18:51:51'!
 + unNumeroDePeano
 
 	^unNumeroDePeano next ! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 20:44:28'!
+!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:42:49'!
 - unNumeroDePeano
 
-	^self error! !
+	[]do:[^'descripcionDeErrorDeNumerosNegativosNoSoportados']! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:30:48'!
+/ numeroPeano
+
+	numeroPeano = self ifTrue:[^I] ifFalse:[self error description: I]! !
 
 !I class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 18:27:46'!
 next
@@ -68,7 +77,7 @@ II class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:21'!
+!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -145,7 +154,7 @@ III class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:21'!
+!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -222,7 +231,7 @@ IIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:21'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -299,7 +308,7 @@ IIIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:21'!
+!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -376,7 +385,7 @@ IIIIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:21'!
+!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -453,7 +462,7 @@ IIIIIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:22'!
+!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -530,7 +539,7 @@ IIIIIIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:22'!
+!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -607,7 +616,7 @@ IIIIIIIII class
 / numeroPeano
 	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:10:22'!
+!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
