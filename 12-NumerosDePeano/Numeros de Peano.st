@@ -9,7 +9,7 @@ DenotativeObject subclass: #I
 
 !classDefinition: 'I class' category: #'Numeros de Peano'!
 I class
-	instanceVariableNames: ''!
+	instanceVariableNames: 'next'!
 
 !I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:18:20'!
 * numeroPeano
@@ -20,20 +20,56 @@ I class
 
 	^unNumeroDePeano next ! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:42:49'!
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 01:39:58'!
 - unNumeroDePeano
 
-	[]do:[^'descripcionDeErrorDeNumerosNegativosNoSoportados']! !
+	Error signal: self descripcionDeErrorDeNumerosNegativosNoSoportados.! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:30:48'!
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:05:02'!
 / numeroPeano
 
-	numeroPeano = self ifTrue:[^I] ifFalse:[self error description: I]! !
+	numeroPeano = self ifTrue:[^I] ifFalse:[Error signal: self descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor]! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 18:27:46'!
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:04:53'!
+descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
+
+	^'No se puede dividir por un numero mayor'! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 01:39:01'!
+descripcionDeErrorDeNumerosNegativosNoSoportados
+
+	^'Numeros negativos no soportados'! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:29:25'!
+initializeCollaboratorsFromFile
+	"Auto generated method for loading purposes - Do not modify it"
+
+	next := II.! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:11:50'!
 next
 
-	^II! !
+	^next! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:13:26'!
+previous
+
+	Error signal: self descripcionDeErrorDeNumerosNegativosNoSoportados.! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:18:52'!
+previousTruncado
+
+	^I! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:07:27'!
+restaInversa: numeroPeano
+
+	^numeroPeano previous! !
+
+!I class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:19:08'!
+restaTruncadaInversa: numeroPeano
+
+	^numeroPeano  previousTruncado! !
 
 
 !classDefinition: #II category: #'Numeros de Peano'!
@@ -49,14 +85,10 @@ DenotativeObject subclass: #II
 II class
 	instanceVariableNames: 'next previous'!
 
-!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:10'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:08:20'!
+* numeroPeano
+	^numeroPeano + (numeroPeano*self previous)
+	
 	! !
 
 !II class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 19:00:32'!
@@ -64,20 +96,21 @@ II class
 
 	^self previous + unNumeroDePeano next! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 17:52:42'!
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 02:00:51'!
 - unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
+	
+	^unNumeroDePeano restaInversa: self! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 17:23:00'!
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:24:52'!
 / numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
+	numeroPeano = self ifTrue:[^I] ifFalse:[^(numeroPeano restaTruncadaInversa: self)/numeroPeano + I].! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:10:21'!
+descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
+
+	^'No se puede dividir por un numero mayor'! !
+
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:29:25'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -101,6 +134,11 @@ previous: unNumeroDePeano
 
 	previous _ unNumeroDePeano! !
 
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:17:32'!
+previousTruncado
+
+	^previous! !
+
 !II class methodsFor: 'as yet unclassified' stamp: 'cl 8/26/2019 18:43:44'!
 removeAllNext
 
@@ -111,6 +149,16 @@ removeAllNext
 		next:=nil.
 		
 	]! !
+
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 02:11:41'!
+restaInversa: numeroPeano
+
+	^self previous restaInversa: numeroPeano previous! !
+
+!II class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:17:55'!
+restaTruncadaInversa: numeroPeano
+
+	^self previousTruncado restaTruncadaInversa: numeroPeano previousTruncado! !
 
 
 !classDefinition: #III category: #'Numeros de Peano'!
@@ -126,59 +174,61 @@ DenotativeObject subclass: #III
 III class
 	instanceVariableNames: 'next previous'!
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:25'!
+* numeroPeano
+	^numeroPeano + (numeroPeano*self previous)
+	
 	! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:25'!
 + unNumeroDePeano
 
 	^self previous + unNumeroDePeano next! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:25'!
 - unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
+	
+	^unNumeroDePeano restaInversa: self! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:25'!
 / numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
+	numeroPeano = self ifTrue:[^I] ifFalse:[^(numeroPeano restaTruncadaInversa: self)/numeroPeano + I].! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
+
+	^'No se puede dividir por un numero mayor'! !
+
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:29:26'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
 	next := IIII.
 	previous := II.! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 next
 	
 	next ifNil:[next _ self cloneNamed: self name,'I' ].
 	next previous: self.
 	^next! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 previous
 	
 	^previous! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 previous: unNumeroDePeano
 
 	previous _ unNumeroDePeano! !
 
-!III class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+previousTruncado
+
+	^previous! !
+
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 removeAllNext
 
 	next ifNotNil:
@@ -188,6 +238,16 @@ removeAllNext
 		next:=nil.
 		
 	]! !
+
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+restaInversa: numeroPeano
+
+	^self previous restaInversa: numeroPeano previous! !
+
+!III class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+restaTruncadaInversa: numeroPeano
+
+	^self previousTruncado restaTruncadaInversa: numeroPeano previousTruncado! !
 
 
 !classDefinition: #IIII category: #'Numeros de Peano'!
@@ -203,444 +263,61 @@ DenotativeObject subclass: #IIII
 IIII class
 	instanceVariableNames: 'next previous'!
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+* numeroPeano
+	^numeroPeano + (numeroPeano*self previous)
+	
 	! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 + unNumeroDePeano
 
 	^self previous + unNumeroDePeano next! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 - unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
+	
+	^unNumeroDePeano restaInversa: self! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 / numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
+	numeroPeano = self ifTrue:[^I] ifFalse:[^(numeroPeano restaTruncadaInversa: self)/numeroPeano + I].! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
-initializeCollaboratorsFromFile
-	"Auto generated method for loading purposes - Do not modify it"
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
 
-	next := IIIII.
-	previous := III.! !
+	^'No se puede dividir por un numero mayor'! !
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-next
-	
-	next ifNil:[next _ self cloneNamed: self name,'I' ].
-	next previous: self.
-	^next! !
-
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-previous
-	
-	^previous! !
-
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-previous: unNumeroDePeano
-
-	previous _ unNumeroDePeano! !
-
-!IIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:23'!
-removeAllNext
-
-	next ifNotNil:
-	[
-		next removeAllNext.
-		next removeFromSystem.
-		next:=nil.
-		
-	]! !
-
-
-!classDefinition: #IIIII category: #'Numeros de Peano'!
-DenotativeObject subclass: #IIIII
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numeros de Peano'!
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'IIIII class' category: #'Numeros de Peano'!
-IIIII class
-	instanceVariableNames: 'next previous'!
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
-	! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-+ unNumeroDePeano
-
-	^self previous + unNumeroDePeano next! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-- unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-/ numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
-initializeCollaboratorsFromFile
-	"Auto generated method for loading purposes - Do not modify it"
-
-	next := IIIIII.
-	previous := IIII.! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-next
-	
-	next ifNil:[next _ self cloneNamed: self name,'I' ].
-	next previous: self.
-	^next! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous
-	
-	^previous! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous: unNumeroDePeano
-
-	previous _ unNumeroDePeano! !
-
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-removeAllNext
-
-	next ifNotNil:
-	[
-		next removeAllNext.
-		next removeFromSystem.
-		next:=nil.
-		
-	]! !
-
-
-!classDefinition: #IIIIII category: #'Numeros de Peano'!
-DenotativeObject subclass: #IIIIII
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numeros de Peano'!
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'IIIIII class' category: #'Numeros de Peano'!
-IIIIII class
-	instanceVariableNames: 'next previous'!
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
-	! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-+ unNumeroDePeano
-
-	^self previous + unNumeroDePeano next! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-- unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-/ numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
-initializeCollaboratorsFromFile
-	"Auto generated method for loading purposes - Do not modify it"
-
-	next := IIIIIII.
-	previous := IIIII.! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-next
-	
-	next ifNil:[next _ self cloneNamed: self name,'I' ].
-	next previous: self.
-	^next! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous
-	
-	^previous! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous: unNumeroDePeano
-
-	previous _ unNumeroDePeano! !
-
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-removeAllNext
-
-	next ifNotNil:
-	[
-		next removeAllNext.
-		next removeFromSystem.
-		next:=nil.
-		
-	]! !
-
-
-!classDefinition: #IIIIIII category: #'Numeros de Peano'!
-DenotativeObject subclass: #IIIIIII
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numeros de Peano'!
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'IIIIIII class' category: #'Numeros de Peano'!
-IIIIIII class
-	instanceVariableNames: 'next previous'!
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
-	! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-+ unNumeroDePeano
-
-	^self previous + unNumeroDePeano next! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-- unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-/ numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
-initializeCollaboratorsFromFile
-	"Auto generated method for loading purposes - Do not modify it"
-
-	next := IIIIIIII.
-	previous := IIIIII.! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-next
-	
-	next ifNil:[next _ self cloneNamed: self name,'I' ].
-	next previous: self.
-	^next! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous
-	
-	^previous! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-previous: unNumeroDePeano
-
-	previous _ unNumeroDePeano! !
-
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-removeAllNext
-
-	next ifNotNil:
-	[
-		next removeAllNext.
-		next removeFromSystem.
-		next:=nil.
-		
-	]! !
-
-
-!classDefinition: #IIIIIIII category: #'Numeros de Peano'!
-DenotativeObject subclass: #IIIIIIII
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numeros de Peano'!
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'IIIIIIII class' category: #'Numeros de Peano'!
-IIIIIIII class
-	instanceVariableNames: 'next previous'!
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
-	! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-+ unNumeroDePeano
-
-	^self previous + unNumeroDePeano next! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-- unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:27'!
-/ numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
-initializeCollaboratorsFromFile
-	"Auto generated method for loading purposes - Do not modify it"
-
-	next := IIIIIIIII.
-	previous := IIIIIII.! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-next
-	
-	next ifNil:[next _ self cloneNamed: self name,'I' ].
-	next previous: self.
-	^next! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-previous
-	
-	^previous! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-previous: unNumeroDePeano
-
-	previous _ unNumeroDePeano! !
-
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-removeAllNext
-
-	next ifNotNil:
-	[
-		next removeAllNext.
-		next removeFromSystem.
-		next:=nil.
-		
-	]! !
-
-
-!classDefinition: #IIIIIIIII category: #'Numeros de Peano'!
-DenotativeObject subclass: #IIIIIIIII
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Numeros de Peano'!
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'IIIIIIIII class' category: #'Numeros de Peano'!
-IIIIIIIII class
-	instanceVariableNames: 'next previous'!
-
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-* unNumeroDePeano
-	|multiplicando multiplicador|
-	multiplicando:=self.
-	multiplicador:=unNumeroDePeano. 
-	[(multiplicador =I)not] whileTrue:[multiplicando _ multiplicando + self. multiplicador _ multiplicador previous].
-	^multiplicando
-	"unNumeroDePeano = I ifTrue:[^self] ifFalse:[^self + self*unNumeroDePeano previous]"
-	! !
-
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-+ unNumeroDePeano
-
-	^self previous + unNumeroDePeano next! !
-
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-- unNumeroDePeano
-	|minuendo sustraendo|
-	minuendo :=self.
-	sustraendo :=unNumeroDePeano.
-	[(sustraendo = I) not]whileTrue:[minuendo _ minuendo previous. sustraendo _ sustraendo previous].
-	^minuendo previous
-	"unNumeroDePeano = I ifTrue:[^self previous] ifFalse:[^self previous - unNumeroDePeano previous]"! !
-
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
-/ numeroPeano
-	numeroPeano = self ifTrue:[^I] ifFalse:[^self-numeroPeano/numeroPeano + I].! !
-
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/28/2019 18:49:07'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:29:26'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
 	next := nil.
-	previous := IIIIIIII.! !
+	previous := III.! !
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 next
 	
 	next ifNil:[next _ self cloneNamed: self name,'I' ].
 	next previous: self.
 	^next! !
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 previous
 	
 	^previous! !
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 previous: unNumeroDePeano
 
 	previous _ unNumeroDePeano! !
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'cl 8/27/2019 18:01:28'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+previousTruncado
+
+	^previous! !
+
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
 removeAllNext
 
 	next ifNotNil:
@@ -651,11 +328,17 @@ removeAllNext
 		
 	]! !
 
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+restaInversa: numeroPeano
+
+	^self previous restaInversa: numeroPeano previous! !
+
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MN 8/30/2019 19:27:26'!
+restaTruncadaInversa: numeroPeano
+
+	^self previousTruncado restaTruncadaInversa: numeroPeano previousTruncado! !
+
+I initializeAfterFileIn!
 II initializeAfterFileIn!
 III initializeAfterFileIn!
 IIII initializeAfterFileIn!
-IIIII initializeAfterFileIn!
-IIIIII initializeAfterFileIn!
-IIIIIII initializeAfterFileIn!
-IIIIIIII initializeAfterFileIn!
-IIIIIIIII initializeAfterFileIn!
