@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-enum Suelos {Piedra, Polvo, Desconocido};
+enum Suelos {Piedra, Polvo, Medio, Desconocido};
 
 
 Suelos definirDureza(uint dureza, uint porosidad){
@@ -16,6 +16,8 @@ Suelos definirDureza(uint dureza, uint porosidad){
 	}
 	else if(dureza > DURO_MIN && porosidad < BAJA_POROSIDAD_MAX){
 		return Piedra;
+	}else if(dureza < DURO_MIN && dureza > BLANDO_MAX && porosidad > BAJA_POROSIDAD_MAX && porosidad < ALTA_POROSIDAD_MIN){
+		return Medio;
 	}else{
 		return Desconocido;
 	}
@@ -43,6 +45,11 @@ void lunarRover(uint dureza, uint porosidad){
 		cerrarPinza();
 		moverBrazo(100, true, 5);
 		cout << "Muestra piso blando obtenida" << endl;
+	}else if(suelo == Medio){
+		moverBrazo(150, true, 5);
+		cerrarPinza();
+		moverBrazo(100, false, 10);
+		cout << "Muestra piso medio obtenida" << endl;
 	}else{
 		cout << "Error de muestreo: piso no identificado" << endl;
 	}
