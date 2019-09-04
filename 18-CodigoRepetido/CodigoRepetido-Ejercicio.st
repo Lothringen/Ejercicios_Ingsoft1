@@ -227,17 +227,11 @@ suspendCustomerNamed: aName
 ! !
 
 
-!CustomerBook methodsFor: 'unused' stamp: 'cl 9/2/2019 20:04:17'!
-eraseClient: aName inCategory: aCollection ifNotFound:aBlock
-	1 to: aCollection size do: 
-	[ :index |
-		aName = (aCollection at: index)
-			ifTrue: [
-				aCollection removeAt: index.
-				^aName
-			] 
-	].
-	^aBlock value.! !
+!CustomerBook methodsFor: 'unused' stamp: 'MN 9/4/2019 17:15:52'!
+addAndSuspendCostumerNamed:aName
+	 
+	self addCustomerNamed: aName.
+	self suspendCustomerNamed: aName.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
