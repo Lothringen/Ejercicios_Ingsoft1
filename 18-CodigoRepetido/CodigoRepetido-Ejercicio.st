@@ -21,14 +21,6 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/2/2019 21:40:18'!
-failIfPossible:  aClosure withError: anError thenDo: assertClosure
-
-	[ aClosure value.
-	self fail ]
-		on: anError 
-		do: assertClosure! !
-
 !CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/2/2019 21:08:37'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
@@ -52,17 +44,17 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/2/2019 21:52:01'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:27:08'!
 test03CanNotAddACustomerWithEmptyName 
 
 	| customerBook |
 			
 	customerBook := CustomerBook new.
-	self should: [customerBook addCustomerNamed: ''] raise: Error thenDo: [ :anError | 
+	self should: [customerBook addCustomerNamed: ''] raise: Error withExceptionDo: [ :anError | 
 			self assert: anError messageText = CustomerBook customerCanNotBeEmptyErrorMessage.
 			self assert: customerBook isEmpty ]! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'HAW 8/28/2017 08:57:25'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:35:35'!
 test04CanNotRemoveAnInvalidCustomer
 	
 	| customerBook johnLennon |
@@ -70,14 +62,9 @@ test04CanNotRemoveAnInvalidCustomer
 	customerBook := CustomerBook new.
 	johnLennon := 'John Lennon'.
 	customerBook addCustomerNamed: johnLennon.
-	
-	[ customerBook removeCustomerNamed: 'Paul McCartney'.
-	self fail ]
-		on: NotFound 
-		do: [ :anError | 
+	self should: [customerBook removeCustomerNamed: 'Paul McCartney'.] raise: NotFound withExceptionDo: [ :anError | 
 			self assert: customerBook numberOfCustomers = 1.
-			self assert: (customerBook includesCustomerNamed: johnLennon) ]
-! !
+			self assert: (customerBook includesCustomerNamed: johnLennon) ]! !
 
 !CustomerBookTest methodsFor: 'testing' stamp: 'NR 4/3/2019 10:50:25'!
 test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
@@ -99,13 +86,14 @@ test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NR 4/3/2019 10:50:28'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:50:42'!
 test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 
 	| customerBook paulMcCartney|
 	
 	customerBook := CustomerBook new.
 	paulMcCartney := 'Paul McCartney'.
+	
 	
 	customerBook addCustomerNamed: paulMcCartney.
 	customerBook suspendCustomerNamed: paulMcCartney.
@@ -120,7 +108,7 @@ test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NR 9/19/2018 17:55:41'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:36:45'!
 test07CanNotSuspendAnInvalidCustomer
 	
 	| customerBook johnLennon |
@@ -129,15 +117,12 @@ test07CanNotSuspendAnInvalidCustomer
 	johnLennon := 'John Lennon'.
 	customerBook addCustomerNamed: johnLennon.
 	
-	[ customerBook suspendCustomerNamed: 'Paul McCartney'.
-	self fail ]
-		on: CantSuspend 
-		do: [ :anError | 
+	self should: [customerBook suspendCustomerNamed: 'Paul McCartney'.] raise: CantSuspend withExceptionDo: [ :anError | 
 			self assert: customerBook numberOfCustomers = 1.
 			self assert: (customerBook includesCustomerNamed: johnLennon) ]
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NR 9/19/2018 17:57:11'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:37:18'!
 test08CanNotSuspendAnAlreadySuspendedCustomer
 	
 	| customerBook johnLennon |
@@ -147,23 +132,11 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 	customerBook addCustomerNamed: johnLennon.
 	customerBook suspendCustomerNamed: johnLennon.
 	
-	[ customerBook suspendCustomerNamed: johnLennon.
-	self fail ]
-		on: CantSuspend 
-		do: [ :anError | 
+	self should: [customerBook suspendCustomerNamed: johnLennon.] raise: CantSuspend withExceptionDo: [ :anError | 
 			self assert: customerBook numberOfCustomers = 1.
 			self assert: (customerBook includesCustomerNamed: johnLennon) ]
 ! !
 
-
-!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:16:53'!
-failsIfPossible: aFailingClosure ifNot: assertClosureOne and: assertClosureTwo
-	[ aFailingClosure value.
-	self fail ]
-		on: Error 
-		do: [ :anError | 
-			self assert: assertClosureOne.
-			self assert: assertClosureTwo ]! !
 
 !CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:11:28'!
 timeLimit: timeMax withOperation: aBlock
