@@ -150,7 +150,7 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 ! !
 
 
-!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/5/2019 21:33:10'!
+!CustomerBookTest methodsFor: 'codeSimplifiers' stamp: 'cl 9/5/2019 21:33:10'!
 assertActiveCostumersEquals: numberOfActiveCostumers andSuspendedCostumersEquals: numberOfSuspendedCostumers andTotalCostumersEquals: numberOfTotalCostumers inCostumerBook: aCostumerBook
 
 
@@ -158,16 +158,7 @@ assertActiveCostumersEquals: numberOfActiveCostumers andSuspendedCostumersEquals
 	self assert: numberOfSuspendedCostumers equals: aCostumerBook numberOfSuspendedCustomers.
 	self assert: numberOfTotalCostumers equals: aCostumerBook numberOfCustomers.! !
 
-!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:16:53'!
-failsIfPossible: aFailingClosure ifNot: assertClosureOne and: assertClosureTwo
-	[ aFailingClosure value.
-	self fail ]
-		on: Error 
-		do: [ :anError | 
-			self assert: assertClosureOne.
-			self assert: assertClosureTwo ]! !
-
-!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:11:28'!
+!CustomerBookTest methodsFor: 'codeSimplifiers' stamp: 'cl 9/2/2019 21:11:28'!
 timeLimit: timeMax withOperation: aBlock
 
 	| millisecondsBeforeRunning millisecondsAfterRunning |
@@ -254,25 +245,6 @@ suspendCustomerNamed: aName
 	
 	suspended add: aName
 ! !
-
-
-!CustomerBook methodsFor: 'unused' stamp: 'MN 9/4/2019 17:15:52'!
-addAndSuspendCostumerNamed:aName
-	 
-	self addCustomerNamed: aName.
-	self suspendCustomerNamed: aName.! !
-
-!CustomerBook methodsFor: 'unused' stamp: 'cl 9/2/2019 20:04:17'!
-eraseClient: aName inCategory: aCollection ifNotFound:aBlock
-	1 to: aCollection size do: 
-	[ :index |
-		aName = (aCollection at: index)
-			ifTrue: [
-				aCollection removeAt: index.
-				^aName
-			] 
-	].
-	^aBlock value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
