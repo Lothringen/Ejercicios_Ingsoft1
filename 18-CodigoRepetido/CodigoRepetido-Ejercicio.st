@@ -21,6 +21,14 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
+!CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/2/2019 21:40:18'!
+failIfPossible:  aClosure withError: anError thenDo: assertClosure
+
+	[ aClosure value.
+	self fail ]
+		on: anError 
+		do: assertClosure! !
+
 !CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/2/2019 21:08:37'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
@@ -66,7 +74,7 @@ test04CanNotRemoveAnInvalidCustomer
 			self assert: customerBook numberOfCustomers = 1.
 			self assert: (customerBook includesCustomerNamed: johnLennon) ]! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NR 4/3/2019 10:50:25'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/5/2019 21:33:57'!
 test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 
 	| customerBook paulMcCartney|
@@ -77,16 +85,18 @@ test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 	customerBook addCustomerNamed: paulMcCartney.
 	customerBook suspendCustomerNamed: paulMcCartney.
 	
-	self assert: 0 equals: customerBook numberOfActiveCustomers.
-	self assert: 1 equals: customerBook numberOfSuspendedCustomers.
-	self assert: 1 equals: customerBook numberOfCustomers.
+	self
+		assertActiveCostumersEquals: 0
+		andSuspendedCostumersEquals: 1
+		andTotalCostumersEquals: 1
+		inCostumerBook: customerBook.
 	self assert: (customerBook includesCustomerNamed: paulMcCartney).
 	
 
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'MN 9/4/2019 16:50:42'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'cl 9/5/2019 21:34:10'!
 test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 
 	| customerBook paulMcCartney|
@@ -99,9 +109,11 @@ test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 	customerBook suspendCustomerNamed: paulMcCartney.
 	customerBook removeCustomerNamed: paulMcCartney.
 	
-	self assert: 0 equals: customerBook numberOfActiveCustomers.
-	self assert: 0 equals: customerBook numberOfSuspendedCustomers.
-	self assert: 0 equals: customerBook numberOfCustomers.
+	self
+		assertActiveCostumersEquals: 0
+		andSuspendedCostumersEquals: 0
+		andTotalCostumersEquals: 0
+		inCostumerBook: customerBook.
 	self deny: (customerBook includesCustomerNamed: paulMcCartney).
 
 
@@ -137,6 +149,23 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 			self assert: (customerBook includesCustomerNamed: johnLennon) ]
 ! !
 
+
+!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/5/2019 21:33:10'!
+assertActiveCostumersEquals: numberOfActiveCostumers andSuspendedCostumersEquals: numberOfSuspendedCostumers andTotalCostumersEquals: numberOfTotalCostumers inCostumerBook: aCostumerBook
+
+
+	self assert: numberOfActiveCostumers equals: aCostumerBook numberOfActiveCustomers.
+	self assert: numberOfSuspendedCostumers equals: aCostumerBook numberOfSuspendedCustomers.
+	self assert: numberOfTotalCostumers equals: aCostumerBook numberOfCustomers.! !
+
+!CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:16:53'!
+failsIfPossible: aFailingClosure ifNot: assertClosureOne and: assertClosureTwo
+	[ aFailingClosure value.
+	self fail ]
+		on: Error 
+		do: [ :anError | 
+			self assert: assertClosureOne.
+			self assert: assertClosureTwo ]! !
 
 !CustomerBookTest methodsFor: 'as yet unclassified' stamp: 'cl 9/2/2019 21:11:28'!
 timeLimit: timeMax withOperation: aBlock
@@ -232,6 +261,18 @@ addAndSuspendCostumerNamed:aName
 	 
 	self addCustomerNamed: aName.
 	self suspendCustomerNamed: aName.! !
+
+!CustomerBook methodsFor: 'unused' stamp: 'cl 9/2/2019 20:04:17'!
+eraseClient: aName inCategory: aCollection ifNotFound:aBlock
+	1 to: aCollection size do: 
+	[ :index |
+		aName = (aCollection at: index)
+			ifTrue: [
+				aCollection removeAt: index.
+				^aName
+			] 
+	].
+	^aBlock value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
