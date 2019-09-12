@@ -304,10 +304,10 @@ Object subclass: #Numero
 	
 	self subclassResponsibility ! !
 
-!Numero methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 22:21:28'!
-- aSubtrahend
-
-	self subclassResponsibility ! !
+!Numero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:06:21'!
+- aSubtrahend 
+	
+	^self + aSubtrahend negated! !
 
 !Numero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 22:49'!
 / aDivisor
@@ -373,15 +373,10 @@ Numero subclass: #Entero
 	
 	^anAdder xxxsuma: self yyy: (self class with: 1)! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 23:40:37'!
-- aSubtrahend 
-	
-	^ self class with: value - aSubtrahend integerValue.! !
-
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:25:39'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:47:27'!
 / aDivisor 
 	
-	^aDivisor xxxdivison: self yyy: (self class with:1)! !
+	^aDivisor xxxdivision: self yyy: (self class with:1)! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:40:15'!
 // aDivisor 
@@ -393,7 +388,7 @@ divisionEnteros: aDivisor
 	
 	^Fraccion with: self over: aDivisor! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:09:26'!
 fibonacci
 
 	| one two |
@@ -404,8 +399,7 @@ fibonacci
 	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
 	(self isZero or: [self isOne]) ifTrue: [^one].
 	
-	^ (self - one) fibonacci + (self - two) fibonacci
-		! !
+	^ (self - one) fibonacci + (self - two) fibonacci! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:00'!
 greatestCommonDivisorWith: anEntero 
@@ -422,33 +416,24 @@ sumaEnteros: anAdder
 
 	^self class with: value + anAdder integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 17:58:51'!
-sumaxxx: unNumerador yyy: unDenominador
-
-	| newNumerator newDenominator |
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:54:48'!
+xxxdivision: aNumerator yyy: aDenominator 
 	
-	newNumerator := unNumerador sumaEnteros: (unDenominador * self).
-	newDenominator := unDenominador.
-	^newNumerator / newDenominator! !
-
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:24:11'!
-xxxdivison: aNumerator yyy: aDenominator 
-	
-	^(self multiplicacionEnteros: aDenominator) divisionEnteros: aNumerator! !
+	^aNumerator divisionEnteros: (self multiplicacionEnteros: aDenominator)! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:43:22'!
 xxxmultiplicacion: aNumerator yyy: aDenominator 
 	
 	^(self multiplicacionEnteros: aNumerator) divisionEnteros: aDenominator! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:19:30'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:50:02'!
 xxxsuma: aNumerator yyy: aDenominator
 
 	| newNumerator newDenominator |
 	
 	newNumerator := aNumerator sumaEnteros: (aDenominator * self).
 	newDenominator := aDenominator.
-	^newNumerator / newDenominator! !
+	^newNumerator divisionEnteros: newDenominator! !
 
 
 !Entero methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 21:01'!
@@ -532,26 +517,15 @@ Numero subclass: #Fraccion
 	
 	^anAdder xxxsuma: numerator yyy: denominator! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 23:43:50'!
-- aSubtrahend 
-	
-	| newNumerator newDenominator |
-	
-	newNumerator := (numerator * aSubtrahend denominator) - (denominator * aSubtrahend numerator).
-	newDenominator := denominator * aSubtrahend denominator.
-	
-	^newNumerator / newDenominator 
-! !
-
 !Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:28:28'!
 / aDivisor 
 	
 	^aDivisor xxxdivision: numerator yyy: denominator ! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:27:37'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:55:07'!
 xxxdivision: aNumerator yyy: aDenominator 
 	
-	^(numerator multiplicacionEnteros: aDenominator) divisionEnteros: (denominator multiplicacionEnteros: aNumerator)! !
+	^(denominator multiplicacionEnteros: aNumerator) divisionEnteros: (numerator multiplicacionEnteros: aDenominator)! !
 
 !Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:46:36'!
 xxxmultiplicacion: aNumerator yyy: aDenominator 
@@ -559,7 +533,7 @@ xxxmultiplicacion: aNumerator yyy: aDenominator
 	^(numerator multiplicacionEnteros: aNumerator) divisionEnteros: (denominator multiplicacionEnteros: aDenominator)
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:20:00'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:50:24'!
 xxxsuma: aNumerator yyy: aDenominator
 	
 	| newNumerator newDenominator |
@@ -567,7 +541,7 @@ xxxsuma: aNumerator yyy: aDenominator
 	newNumerator := (numerator * aDenominator) sumaEnteros: (denominator * aNumerator).
 	newDenominator := denominator * aDenominator.
 	
-	^newNumerator / newDenominator ! !
+	^newNumerator divisionEnteros: newDenominator ! !
 
 
 !Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:42'!
