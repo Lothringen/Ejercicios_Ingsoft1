@@ -363,25 +363,30 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:11:34'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:43:51'!
 * aMultiplier 
 	
-	^aMultiplier xxxmultiplicacion: self yyy: (self class with: 1). 	! !
+	^aMultiplier multiplicarmeConFraccionConNumerador: self yDenominador: (self class with: 1). 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:05:12'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:44:22'!
 + anAdder 
 	
-	^anAdder xxxsuma: self yyy: (self class with: 1)! !
+	^anAdder sumarmeConFraccionConNumerador: self yDenominador: (self class with: 1)! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:47:27'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:45:20'!
 / aDivisor 
 	
-	^aDivisor xxxdivision: self yyy: (self class with:1)! !
+	^aDivisor dividirAFraccionConNumerador: self yDenominador: (self class with:1)! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:40:15'!
 // aDivisor 
 	
 	^self class with: value // aDivisor integerValue! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:45:20'!
+dividirAFraccionConNumerador: aNumerator yDenominador: aDenominator 
+	
+	^aNumerator divisionEnteros: (self multiplicacionEnteros: aDenominator)! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:16:52'!
 divisionEnteros: aDivisor 
@@ -411,23 +416,18 @@ multiplicacionEnteros: aMultiplier
 
 	^self class with: value * aMultiplier integerValue! !
 
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:43:51'!
+multiplicarmeConFraccionConNumerador: aNumerator yDenominador: aDenominator 
+	
+	^(self multiplicacionEnteros: aNumerator) divisionEnteros: aDenominator! !
+
 !Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 17:58:27'!
 sumaEnteros: anAdder
 
 	^self class with: value + anAdder integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:54:48'!
-xxxdivision: aNumerator yyy: aDenominator 
-	
-	^aNumerator divisionEnteros: (self multiplicacionEnteros: aDenominator)! !
-
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:43:22'!
-xxxmultiplicacion: aNumerator yyy: aDenominator 
-	
-	^(self multiplicacionEnteros: aNumerator) divisionEnteros: aDenominator! !
-
-!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:50:02'!
-xxxsuma: aNumerator yyy: aDenominator
+!Entero methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:44:22'!
+sumarmeConFraccionConNumerador: aNumerator yDenominador: aDenominator
 
 	| newNumerator newDenominator |
 	
@@ -501,6 +501,30 @@ with: aValue
 	^self new initalizeWith: aValue! !
 
 
+!classDefinition: #Cero category: #'Numero-Exercise'!
+Entero subclass: #Cero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #Negativo category: #'Numero-Exercise'!
+Entero subclass: #Negativo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #Positivo category: #'Numero-Exercise'!
+Entero subclass: #Positivo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
 !classDefinition: #Fraccion category: #'Numero-Exercise'!
 Numero subclass: #Fraccion
 	instanceVariableNames: 'numerator denominator'
@@ -508,33 +532,33 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:14:33'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:46:43'!
 * aMultiplier 
-	^aMultiplier xxxmultiplicacion: numerator yyy: denominator! !
+	^aMultiplier multiplicarmeConFraccionConNumerador: numerator yDenominador: denominator! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:05:22'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:47:11'!
 + anAdder 
 	
-	^anAdder xxxsuma: numerator yyy: denominator! !
+	^anAdder sumarmeConFraccionConNumerador: numerator yDenominador: denominator! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:28:28'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:46:12'!
 / aDivisor 
 	
-	^aDivisor xxxdivision: numerator yyy: denominator ! !
+	^aDivisor dividirAFraccionConNumerador: numerator yDenominador: denominator ! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:55:07'!
-xxxdivision: aNumerator yyy: aDenominator 
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:46:12'!
+dividirAFraccionConNumerador: aNumerator yDenominador: aDenominator 
 	
 	^(denominator multiplicacionEnteros: aNumerator) divisionEnteros: (numerator multiplicacionEnteros: aDenominator)! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/11/2019 18:46:36'!
-xxxmultiplicacion: aNumerator yyy: aDenominator 
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:46:43'!
+multiplicarmeConFraccionConNumerador: aNumerator yDenominador: aDenominator 
 	
 	^(numerator multiplicacionEnteros: aNumerator) divisionEnteros: (denominator multiplicacionEnteros: aDenominator)
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 16:50:24'!
-xxxsuma: aNumerator yyy: aDenominator
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'cl 9/12/2019 20:47:11'!
+sumarmeConFraccionConNumerador: aNumerator yDenominador: aDenominator
 	
 	| newNumerator newDenominator |
 	
