@@ -5,7 +5,7 @@ TestCase subclass: #OOStackTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:30'!
+!OOStackTest methodsFor: 'test' stamp: 'cl 9/17/2019 17:51:09'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -143,6 +143,76 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 17:50:39'!
+test01EmptyStackReturnsEmptyCollection
+
+	| stack string sentenceFinder|
+	
+	stack := OOStack new.
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	string:= 'hola'.
+	
+	self assert: (sentenceFinder find:string inStack: stack) = OrderedCollection new.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:45:41'!
+test02StackWithOneElement
+	"Todavia no esta implementado"
+	| stack string sentenceFinder|
+	
+	stack := OOStack new.
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	string:= 'hola'.
+	
+	self assert: (sentenceFinder find:string inStack: stack) = OrderedCollection new.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:42:44'!
+test03FinderIsCaseSensitive
+
+	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject|
+	
+	stack := OOStack new.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	foundCollection:= OrderedCollection with:'arco' with:'arroz'.
+	
+	prefix := 'ar'.
+	
+	firstPushedObject := 'arroz'.
+	secondPushedObject := 'Argentina'.
+	thirdPushedObject := 'arco'.
+	
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	stack push: thirdPushedObject.
+	
+	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:52:05'!
+test04CollectionOfFoundSentencesKeepsTheSameOrderThanInStack
+
+	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject |
+	
+	stack := OOStack new.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	foundCollection:= OrderedCollection with:'arco' with:'arroz'.
+	
+	prefix := 'ar'.
+	
+	firstPushedObject := 'arroz'.
+	secondPushedObject := 'mandarina'.
+	thirdPushedObject := 'arco'.
+	
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	stack push: thirdPushedObject.
+	
+	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
 
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
