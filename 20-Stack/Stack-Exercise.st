@@ -156,17 +156,24 @@ test01EmptyStackReturnsEmptyCollection
 	
 	self assert: (sentenceFinder find:string inStack: stack) = OrderedCollection new.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:45:41'!
-test02StackWithOneElement
-	"Todavia no esta implementado"
-	| stack string sentenceFinder|
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 12:18:15'!
+test02AtMostOneWordIsFoundInAStackWithOneElement
+	
+	| stack prefixOne prefixTwo sentenceFinder firstPushedObject |
 	
 	stack := OOStack new.
+	firstPushedObject:= 'hola'. 
+	stack push: firstPushedObject.
+	
 	sentenceFinder:= SentenceFinderByPrefix new.
 	
-	string:= 'hola'.
+	prefixOne := 'ho'.
+	prefixTwo:= 'ar'.
 	
-	self assert: (sentenceFinder find:string inStack: stack) = OrderedCollection new.! !
+	self assert: (sentenceFinder find:prefixOne inStack: stack) size = 1.
+	self assert: (sentenceFinder find:prefixTwo inStack: stack) size = 0.
+	
+	! !
 
 !SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:42:44'!
 test03FinderIsCaseSensitive
@@ -213,6 +220,100 @@ test04CollectionOfFoundSentencesKeepsTheSameOrderThanInStack
 	stack push: thirdPushedObject.
 	
 	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 10:40:35'!
+test05FinderDoesNotDestroyStack
+
+	| stack prefix sentenceFinder foundCollectionFirstSearch foundCollectionSecondSearch firstPushedObject secondPushedObject  thirdPushedObject |
+	
+	stack := OOStack new.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	foundCollectionFirstSearch:= OrderedCollection new.
+	
+	prefix := 'ar'.
+	
+	firstPushedObject := 'arroz'.
+	secondPushedObject := 'Argentina'.
+	thirdPushedObject := 'arco'.
+	
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	stack push: thirdPushedObject.
+	
+	foundCollectionFirstSearch _ sentenceFinder find:prefix inStack: stack.
+	
+	foundCollectionSecondSearch _ sentenceFinder find:prefix inStack: stack.
+	
+	self assert: foundCollectionFirstSearch = foundCollectionSecondSearch.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 11:12:30'!
+test06IfSentenceIsNotInStackFinderReturnsEmptyCollection
+	"Todavia no esta implementado"
+	| stack prefix sentenceFinder firstPushedObject secondPushedObject |
+	
+	stack := OOStack new.
+	firstPushedObject:= 'hola'. 
+	secondPushedObject:='chau'.
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+		
+	prefix:= 'ar'.
+	
+	self assert: (sentenceFinder find:prefix inStack: stack) = OrderedCollection new.
+
+	
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 12:00:06'!
+test07SentenceFinderPerformsWellWithOneCharacterPrefix
+
+	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject |
+	
+	stack := OOStack new.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	foundCollection:= OrderedCollection with:'arco' with:'arroz'.
+	
+	prefix := 'a'.
+	
+	firstPushedObject := 'arroz'.
+	secondPushedObject := 'mandarina'.
+	thirdPushedObject := 'arco'.
+	
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	stack push: thirdPushedObject.
+	
+	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 13:08:09'!
+test08CannotFindSentencesWithEmptyPrefix
+	
+	| stack emptyPrefix sentenceFinder firstPushedObject secondPushedObject|
+	
+	stack := OOStack new.
+	firstPushedObject:= 'hola'. 
+	secondPushedObject:='que tal'.
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	emptyPrefix := ''.
+	
+	self 
+		should: [ sentenceFinder find:emptyPrefix inStack: stack]
+		raise: Error
+		withExceptionDo: [ :anError | self assert: anError 
+		messageText equals: SentenceFinderByPrefix prefixCannotBeEmptyErrorMessage ].
+		
+	
+		! !
 
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
@@ -385,7 +486,7 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 13:26:05'!
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'mn 9/17/2019 13:26:05'!
 find: aPrefix
 
 	|sentencesWithPrefixesCollection retournableSentencesWithPrefixesCollection|
@@ -397,10 +498,12 @@ find: aPrefix
 		
 	^retournableSentencesWithPrefixesCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 13:25:16'!
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 13:03:19'!
 find: aPrefix inStack: aStack
-
+	
 	|sentencesWithPrefixesCollection retournableSentencesWithPrefixesCollection|
+	
+	aPrefix isEmpty ifTrue: [ self signalPrefixCannotBeEmpty].
 	
 	sentencesWithPrefixesCollection:=OrderedCollection new.
 	
@@ -408,3 +511,18 @@ find: aPrefix inStack: aStack
 		(OOStackState with: aStack) obtainValuesFromStack: aStack andPutThemIn: sentencesWithPrefixesCollection.
 		
 	^retournableSentencesWithPrefixesCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
+
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 12:58:52'!
+signalPrefixCannotBeEmpty 
+
+	self error: self class prefixCannotBeEmptyErrorMessage ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'SentenceFinderByPrefix class' category: #'Stack-Exercise'!
+SentenceFinderByPrefix class
+	instanceVariableNames: ''!
+
+!SentenceFinderByPrefix class methodsFor: 'mensajes de error' stamp: 'cl 9/18/2019 12:59:22'!
+prefixCannotBeEmptyErrorMessage
+	^'No se puede realizar la busqueda con un prefijo vacio'! !
