@@ -340,6 +340,30 @@ test09IfPrefixIsLongerThanAnySentenceInStackFinderReturnsEmptyCollection
 	
 	! !
 
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 18:58:00'!
+test10CannotFindSentencesWithAPrefixContainingBlanckSpaces
+	
+	| stack prefixWithBlancks sentenceFinder firstPushedObject secondPushedObject|
+	
+	stack := OOStack new.
+	firstPushedObject:= 'hola'. 
+	secondPushedObject:='que tal'.
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+	
+	prefixWithBlancks := 'ho la'.
+	
+	self 
+		should: [ sentenceFinder find:prefixWithBlancks inStack: stack]
+		raise: Error
+		withExceptionDo: [ :anError | self assert: anError 
+		messageText equals: SentenceFinderByPrefix prefixCannotHaveEmptySpacesErrorMessage].
+		
+	
+		! !
+
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
@@ -523,12 +547,13 @@ find: aPrefix
 		
 	^retournableSentencesWithPrefixesCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
 
-!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 13:03:19'!
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 18:54:13'!
 find: aPrefix inStack: aStack
 	
 	|sentencesWithPrefixesCollection retournableSentencesWithPrefixesCollection|
 	
 	aPrefix isEmpty ifTrue: [ self signalPrefixCannotBeEmpty].
+	(aPrefix allSatisfy: [:a | (a = $ ) not]) ifFalse:[self signalPrefixCannotHaveEmptySpaces].
 	
 	sentencesWithPrefixesCollection:=OrderedCollection new.
 	
@@ -542,6 +567,11 @@ signalPrefixCannotBeEmpty
 
 	self error: self class prefixCannotBeEmptyErrorMessage ! !
 
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 18:53:46'!
+signalPrefixCannotHaveEmptySpaces
+
+	self error: self class prefixCannotHaveEmptySpacesErrorMessage ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'SentenceFinderByPrefix class' category: #'Stack-Exercise'!
@@ -551,3 +581,7 @@ SentenceFinderByPrefix class
 !SentenceFinderByPrefix class methodsFor: 'mensajes de error' stamp: 'cl 9/18/2019 12:59:22'!
 prefixCannotBeEmptyErrorMessage
 	^'No se puede realizar la busqueda con un prefijo vacio'! !
+
+!SentenceFinderByPrefix class methodsFor: 'mensajes de error' stamp: 'cl 9/18/2019 18:54:48'!
+prefixCannotHaveEmptySpacesErrorMessage
+	^'No se puede realizar la busqueda con un prefijo con espacios en blanco'! !
