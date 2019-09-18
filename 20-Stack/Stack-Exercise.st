@@ -221,8 +221,8 @@ test04CollectionOfFoundSentencesKeepsTheSameOrderThanInStack
 	
 	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 10:40:35'!
-test05FinderDoesNotDestroyStack
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:02:46'!
+test05FinderDoesNotModifyStack
 
 	| stack prefix sentenceFinder foundCollectionFirstSearch foundCollectionSecondSearch firstPushedObject secondPushedObject  thirdPushedObject |
 	
@@ -246,11 +246,16 @@ test05FinderDoesNotDestroyStack
 	
 	foundCollectionSecondSearch _ sentenceFinder find:prefix inStack: stack.
 	
-	self assert: foundCollectionFirstSearch = foundCollectionSecondSearch.! !
+	self assert: foundCollectionFirstSearch = foundCollectionSecondSearch.
+	self assert: stack pop = thirdPushedObject.
+	self assert: stack pop = secondPushedObject.
+	self assert: stack pop = firstPushedObject.
+	self assert: stack isEmpty 
+	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 11:12:30'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:04:11'!
 test06IfSentenceIsNotInStackFinderReturnsEmptyCollection
-	"Todavia no esta implementado"
+	
 	| stack prefix sentenceFinder firstPushedObject secondPushedObject |
 	
 	stack := OOStack new.
@@ -314,6 +319,26 @@ test08CannotFindSentencesWithEmptyPrefix
 		
 	
 		! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:07:00'!
+test09IfPrefixIsLongerThanAnySentenceInStackFinderReturnsEmptyCollection
+	
+	| stack prefix sentenceFinder firstPushedObject secondPushedObject |
+	
+	stack := OOStack new.
+	firstPushedObject:= 'ho'. 
+	secondPushedObject:='hola'.
+	stack push: firstPushedObject.
+	stack push: secondPushedObject.
+	
+	sentenceFinder:= SentenceFinderByPrefix new.
+		
+	prefix:= 'holala'.
+	
+	self assert: (sentenceFinder find:prefix inStack: stack) = OrderedCollection new.
+
+	
+	! !
 
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
