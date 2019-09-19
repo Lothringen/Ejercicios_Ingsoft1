@@ -144,7 +144,7 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 17:50:39'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/17/2019 17:50:39'!
 test01EmptyStackReturnsEmptyCollection
 
 	| stack string sentenceFinder|
@@ -156,7 +156,7 @@ test01EmptyStackReturnsEmptyCollection
 	
 	self assert: (sentenceFinder find:string inStack: stack) = OrderedCollection new.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 12:18:15'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 12:18:15'!
 test02AtMostOneWordIsFoundInAStackWithOneElement
 	
 	| stack prefixOne prefixTwo sentenceFinder firstPushedObject |
@@ -175,7 +175,7 @@ test02AtMostOneWordIsFoundInAStackWithOneElement
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:42:44'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/17/2019 18:42:44'!
 test03FinderIsCaseSensitive
 
 	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject|
@@ -198,7 +198,7 @@ test03FinderIsCaseSensitive
 	
 	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/17/2019 18:52:05'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/17/2019 18:52:05'!
 test04CollectionOfFoundSentencesKeepsTheSameOrderThanInStack
 
 	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject |
@@ -221,7 +221,7 @@ test04CollectionOfFoundSentencesKeepsTheSameOrderThanInStack
 	
 	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:02:46'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 15:02:46'!
 test05FinderDoesNotModifyStack
 
 	| stack prefix sentenceFinder foundCollectionFirstSearch foundCollectionSecondSearch firstPushedObject secondPushedObject  thirdPushedObject |
@@ -253,7 +253,7 @@ test05FinderDoesNotModifyStack
 	self assert: stack isEmpty 
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:04:11'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 15:04:11'!
 test06IfSentenceIsNotInStackFinderReturnsEmptyCollection
 	
 	| stack prefix sentenceFinder firstPushedObject secondPushedObject |
@@ -273,7 +273,7 @@ test06IfSentenceIsNotInStackFinderReturnsEmptyCollection
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 12:00:06'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 12:00:06'!
 test07SentenceFinderPerformsWellWithOneCharacterPrefix
 
 	| stack prefix sentenceFinder foundCollection firstPushedObject secondPushedObject  thirdPushedObject |
@@ -296,7 +296,7 @@ test07SentenceFinderPerformsWellWithOneCharacterPrefix
 	
 	self assert: (sentenceFinder find:prefix inStack: stack) = foundCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 13:08:09'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 13:08:09'!
 test08CannotFindSentencesWithEmptyPrefix
 	
 	| stack emptyPrefix sentenceFinder firstPushedObject secondPushedObject|
@@ -320,7 +320,7 @@ test08CannotFindSentencesWithEmptyPrefix
 	
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 15:07:00'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 15:07:00'!
 test09IfPrefixIsLongerThanAnySentenceInStackFinderReturnsEmptyCollection
 	
 	| stack prefix sentenceFinder firstPushedObject secondPushedObject |
@@ -340,7 +340,7 @@ test09IfPrefixIsLongerThanAnySentenceInStackFinderReturnsEmptyCollection
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'cl 9/18/2019 18:58:00'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'cl 9/18/2019 18:58:00'!
 test10CannotFindSentencesWithAPrefixContainingBlanckSpaces
 	
 	| stack prefixWithBlancks sentenceFinder firstPushedObject secondPushedObject|
@@ -372,50 +372,44 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 13:25:32'!
-SentenceFinderByPrefix: aPrefix
-
-
-	^orderedCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 09:58:12'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 09:58:12'!
 initialize
 
 	orderedCollection := OrderedCollection new.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 11:02:24'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 11:02:24'!
 isEmpty
 
 	^orderedCollection isEmpty! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:31:58'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 10:31:58'!
 pop
 
 	^(OOStackState with: self) pop: self! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cl 9/16/2019 21:47:49'!
+!OOStack methodsFor: 'stack operations' stamp: 'cl 9/16/2019 21:47:49'!
 push: aString
 
 	orderedCollection add: aString.
 	^self
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:04:42'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 10:04:42'!
 safePop
 
 	^orderedCollection removeLast! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:35:18'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 10:35:18'!
 safeTop
 
 	^orderedCollection last! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'cl 9/16/2019 19:57:41'!
+!OOStack methodsFor: 'stack operations' stamp: 'cl 9/16/2019 19:57:41'!
 size
 
 	^orderedCollection size! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:35:46'!
+!OOStack methodsFor: 'stack operations' stamp: 'mn 9/17/2019 10:35:46'!
 top
 
 	^(OOStackState with: self) top: self! !
@@ -461,17 +455,18 @@ OOStackState subclass: #EmptyState
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!EmptyState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 13:09:52'!
+!EmptyState methodsFor: 'auxiliary operations' stamp: 'mn 9/17/2019 13:09:52'!
 obtainValuesFromStack: aStack andPutThemIn: sentencesWithPrefixesCollection
 
 	^sentencesWithPrefixesCollection! !
 
-!EmptyState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:31:29'!
+
+!EmptyState methodsFor: 'emptyState methods' stamp: 'mn 9/17/2019 10:31:29'!
 pop: aStack
 
 	Error signal: OOStack stackEmptyErrorDescription! !
 
-!EmptyState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:34:10'!
+!EmptyState methodsFor: 'emptyState methods' stamp: 'mn 9/17/2019 10:34:10'!
 top: aStack
 
 	Error signal: OOStack stackEmptyErrorDescription! !
@@ -482,7 +477,7 @@ top: aStack
 EmptyState class
 	instanceVariableNames: ''!
 
-!EmptyState class methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 09:57:12'!
+!EmptyState class methodsFor: 'state definer' stamp: 'mn 9/17/2019 09:57:12'!
 isStackInMyState: aStack
 
 	^aStack size = 0! !
@@ -495,7 +490,18 @@ OOStackState subclass: #OccupiedState
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OccupiedState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 13:19:15'!
+!OccupiedState methodsFor: 'occupiedState methods' stamp: 'mn 9/17/2019 10:34:26'!
+pop: aStack
+
+	^aStack safePop! !
+
+!OccupiedState methodsFor: 'occupiedState methods' stamp: 'mn 9/17/2019 10:34:54'!
+top: aStack
+
+	^aStack safeTop! !
+
+
+!OccupiedState methodsFor: 'auxiliary operations' stamp: 'mn 9/17/2019 13:19:15'!
 obtainValuesFromStack: aStack andPutThemIn: sentencesWithPrefixesCollection
 
 	|aSentence retournableSentencesWithPrefixesCollection|
@@ -506,23 +512,13 @@ obtainValuesFromStack: aStack andPutThemIn: sentencesWithPrefixesCollection
 	aStack push: aSentence.
 	^retournableSentencesWithPrefixesCollection! !
 
-!OccupiedState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:34:26'!
-pop: aStack
-
-	^aStack safePop! !
-
-!OccupiedState methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 10:34:54'!
-top: aStack
-
-	^aStack safeTop! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'OccupiedState class' category: #'Stack-Exercise'!
 OccupiedState class
 	instanceVariableNames: ''!
 
-!OccupiedState class methodsFor: 'as yet unclassified' stamp: 'mn 9/17/2019 09:56:59'!
+!OccupiedState class methodsFor: 'state definer' stamp: 'mn 9/17/2019 09:56:59'!
 isStackInMyState: aStack
 
 	^aStack size > 0! !
@@ -535,19 +531,7 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'mn 9/17/2019 13:26:05'!
-find: aPrefix
-
-	|sentencesWithPrefixesCollection retournableSentencesWithPrefixesCollection|
-	
-	sentencesWithPrefixesCollection:=OrderedCollection new.
-	
-	retournableSentencesWithPrefixesCollection :=
-		(OOStackState with: stack) obtainValuesFromStack: stack andPutThemIn: sentencesWithPrefixesCollection.
-		
-	^retournableSentencesWithPrefixesCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
-
-!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 18:54:13'!
+!SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 23:58:36'!
 find: aPrefix inStack: aStack
 	
 	|sentencesWithPrefixesCollection retournableSentencesWithPrefixesCollection|
@@ -560,7 +544,7 @@ find: aPrefix inStack: aStack
 	retournableSentencesWithPrefixesCollection :=
 		(OOStackState with: aStack) obtainValuesFromStack: aStack andPutThemIn: sentencesWithPrefixesCollection.
 		
-	^retournableSentencesWithPrefixesCollection select: [:aString | (aString copyFrom: 1 to: aPrefix size) = aPrefix].! !
+	^retournableSentencesWithPrefixesCollection select: [:aString | aString beginsWith:aPrefix].! !
 
 !SentenceFinderByPrefix methodsFor: 'finder operations' stamp: 'cl 9/18/2019 12:58:52'!
 signalPrefixCannotBeEmpty 
@@ -578,10 +562,10 @@ signalPrefixCannotHaveEmptySpaces
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
-!SentenceFinderByPrefix class methodsFor: 'mensajes de error' stamp: 'cl 9/18/2019 12:59:22'!
+!SentenceFinderByPrefix class methodsFor: 'error messages' stamp: 'cl 9/18/2019 12:59:22'!
 prefixCannotBeEmptyErrorMessage
 	^'No se puede realizar la busqueda con un prefijo vacio'! !
 
-!SentenceFinderByPrefix class methodsFor: 'mensajes de error' stamp: 'cl 9/18/2019 18:54:48'!
+!SentenceFinderByPrefix class methodsFor: 'error messages' stamp: 'cl 9/18/2019 18:54:48'!
 prefixCannotHaveEmptySpacesErrorMessage
 	^'No se puede realizar la busqueda con un prefijo con espacios en blanco'! !
