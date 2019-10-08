@@ -5,87 +5,192 @@ TestCase subclass: #Tests
 	poolDictionaries: ''
 	category: 'Mars Rover'!
 
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:08:20'!
-test01InitialPositionAndDirection
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 10:56:26'!
+test01InitialPosition
 
 	|aRover |
 	aRover := MarsRover inPosition: 1@1 andDirection: 'S'. 
 	self assert: aRover position equals: 1@1.
 	self assert: aRover direction equals: 'S'.  ! !
 
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:08:25'!
-test02DifferentInitialPositionAndDirection
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:01:17'!
+test02AnotherInitialPosition
 
 	|aRover |
-	aRover := MarsRover inPosition: 1@2 andDirection: 'E'. 
-	self assert: aRover position equals: 1@2.
-	self assert: aRover direction equals: 'E'.  ! !
-
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:09:03'!
-test03ForwardMoveMarsRover
-
-	|aRover |
-	aRover := MarsRover inPosition: 1@1 andDirection: 'O'. 
-	
-	aRover move: 'f'.
-	
-	self assert: aRover position equals: 0@1.
-	self assert: aRover direction equals: 'O'.  ! !
-
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:09:15'!
-test04AnotherForwardMoveMarsRover
-
-	|aRover |
-	aRover := MarsRover inPosition: 2@3 andDirection: 'N'. 
-	
-	aRover move: 'f'.
-	
-	self assert: aRover position equals: 2@4.
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	self assert: aRover position equals: 3@2.
 	self assert: aRover direction equals: 'N'.  ! !
 
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:09:36'!
-test05BackwardMoveMarsRover
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:09:56'!
+test03MoveForwardPointingNorth
 
 	|aRover |
-	aRover := MarsRover inPosition: 4@3 andDirection: 'N'. 
-	
-	aRover move: 'b'.
-	
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	aRover movement: 'f'.
+	self assert: aRover position equals: 3@3.
+	self assert: aRover direction equals: 'N'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:16:18'!
+test04MoveForwardPointingNorthFromAnotherStartingPosition
+
+	|aRover |
+	aRover := MarsRover inPosition: 5@3 andDirection: 'N'. 
+	aRover movement: 'f'.
+	self assert: aRover position equals: 5@4.
+	self assert: aRover direction equals: 'N'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:14:47'!
+test05MoveForwardPointingSouth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'S'. 
+	aRover movement: 'f'.
+	self assert: aRover position equals: 3@1.
+	self assert: aRover direction equals: 'S'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:22:48'!
+test06MoveForwardPointingEast
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'E'. 
+	aRover movement: 'f'.
 	self assert: aRover position equals: 4@2.
-	self assert: aRover direction equals: 'N'.! !
+	self assert: aRover direction equals: 'E'.  ! !
 
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:23:32'!
-test06RotateMarsRoverLeft
-
-	|aRover |
-	aRover := MarsRover inPosition: 4@3 andDirection: 'N'. 
-	
-	aRover rotate: 'l'.
-	
-	self assert: aRover position equals: 4@3.
-	self assert: aRover direction equals: 'O'.! !
-
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:22:59'!
-test07RotateMarsRoverRight
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:25:24'!
+test07MoveForwardPointingWest
 
 	|aRover |
-	aRover := MarsRover inPosition: 4@3 andDirection: 'N'. 
-	
-	aRover rotate: 'r'.
-	
-	self assert: aRover position equals: 4@3.
-	self assert: aRover direction equals: 'E'.! !
-
-!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:57:14'!
-test08RotateSeveralTimes
-
-	|aRover |
-	aRover := MarsRover inPosition: 4@3 andDirection: 'N'. 
-	
-	aRover movement: 'rbrflb'.
-	
+	aRover := MarsRover inPosition: 3@2 andDirection: 'O'. 
+	aRover movement: 'f'.
 	self assert: aRover position equals: 2@2.
-	self assert: aRover direction equals: 'E'.! !
+	self assert: aRover direction equals: 'O'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:28:02'!
+test08MoveBackwardsPointingNorth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	aRover movement: 'b'.
+	self assert: aRover position equals: 3@1.
+	self assert: aRover direction equals: 'N'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:33:28'!
+test09MoveBackwardsPointingSouth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'S'. 
+	aRover movement: 'b'.
+	self assert: aRover position equals: 3@3.
+	self assert: aRover direction equals: 'S'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:35:39'!
+test10MoveBackwardsPointingEast
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'E'. 
+	aRover movement: 'b'.
+	self assert: aRover position equals: 2@2.
+	self assert: aRover direction equals: 'E'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:37:16'!
+test11MoveBackwardsPointingWest
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'O'. 
+	aRover movement: 'b'.
+	self assert: aRover position equals: 4@2.
+	self assert: aRover direction equals: 'O'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:39:21'!
+test12RotateLeftPointingNorth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	aRover movement: 'l'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'O'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:43:03'!
+test13RotateLeftPointingSouth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'S'. 
+	aRover movement: 'l'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'E'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:45:06'!
+test14RotateLeftPointingEast
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'E'. 
+	aRover movement: 'l'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'N'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:20:04'!
+test15RotateLeftPointingWest
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'O'. 
+	aRover movement: 'l'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'S'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:23:08'!
+test16RotateRightPointingNorth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	aRover movement: 'r'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'E'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:25:26'!
+test17RotateRightPointingSouth
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'S'. 
+	aRover movement: 'r'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'O'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:28:22'!
+test18RotateRightPointingEast
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'E'. 
+	aRover movement: 'r'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'S'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:30:28'!
+test19RotateRightPointingWest
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'O'. 
+	aRover movement: 'r'.
+	self assert: aRover position equals: 3@2.
+	self assert: aRover direction equals: 'N'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:37:29'!
+test20SeveralMovements
+
+	|aRover |
+	aRover := MarsRover inPosition: 3@2 andDirection: 'N'. 
+	aRover movement: 'frffllb'.
+	self assert: aRover position equals: 6@3.
+	self assert: aRover direction equals: 'O'.  ! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:10:20'!
+test21InvalidInitializationReturnsErrorMessage 
+	
+	self 
+		should: [MarsRover inPosition: 3@2 andDirection: ''] 
+		raise: Error 
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = MarsRover cannotBeInvalidDirectionErrorMessage ]! !
 
 
 !classDefinition: #MarsRover category: #'Mars Rover'!
@@ -95,88 +200,62 @@ Object subclass: #MarsRover
 	poolDictionaries: ''
 	category: 'Mars Rover'!
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 15:44:48'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:06:50'!
 direction
-	^direction ! !
+	^direction! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 15:43:39'!
-initializeInPosition: aStartingPosition andDirection: aDirectionToPointTo
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:27:50'!
+initializeInPosition: aPosition andDirection: aDirection
+	
+	position := aPosition.
+	direction := aDirection. 
+	! !
 
-	position := aStartingPosition.
-	direction := aDirectionToPointTo. ! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:53:18'!
-move: aString 
-	aString = 'f' ifTrue:[ 
-	direction='N' ifTrue:[position:=(position x)@(position y + 1)].
-	direction='S' ifTrue:[position:=(position x)@(position y - 1)].
-	direction='E' ifTrue:[position:=(position x + 1)@(position y)].
-	direction='O' ifTrue:[position:=(position x - 1)@(position y)].
-	].
-	aString = 'b' ifTrue:[
-	direction='N' ifTrue:[position:=(position x)@(position y - 1)].
-	direction='S' ifTrue:[position:=(position x)@(position y + 1)].
-	direction='E' ifTrue:[position:=(position x - 1)@(position y)].
-	direction='O' ifTrue:[position:=(position x + 1)@(position y)].	
-	]
-
-! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:54:32'!
-movement: aString 
-	|aStringSubstring|
-	aStringSubstring := aString.
-	[aStringSubstring size = 0] whileFalse:[
-		self singleMovement: (aStringSubstring at: 1).
-		aStringSubstring := aStringSubstring copyFrom: 2 to: aStringSubstring size
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:47:19'!
+movement: aSeriesOfMovements
+	|movementsLeftToPerform|
+	movementsLeftToPerform := aSeriesOfMovements.
+	[movementsLeftToPerform size = 0] whileFalse:[
+		self singleMovement: (movementsLeftToPerform at: 1).
+		movementsLeftToPerform := movementsLeftToPerform copyFrom: 2 to: movementsLeftToPerform size
 		]! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 15:44:58'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 11:06:31'!
 position
 	^position! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:52:57'!
-rotate: aString 
-		aString = 'l' ifTrue:[ 
-	direction='N' ifTrue:[direction:='O'].
-	direction='S' ifTrue:[direction:='E'].
-	direction='E' ifTrue:[direction:='N'].
-	direction='O' ifTrue:[direction:='S'].
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:48:13'!
+singleMovement: aMovement
+	aMovement = $f ifTrue:[
+		direction = 'N' ifTrue:[position _ position x @ (position y + 1)].
+		direction = 'S' ifTrue:[position _ position x @ (position y - 1)].
+		direction = 'E' ifTrue:[position _ position x +1 @ position y].
+		direction = 'O' ifTrue:[position _ position x -1 @ position y]
 	].
-	aString = 'r' ifTrue:[
-	direction='N' ifTrue:[direction := 'E'].
-	direction='S' ifTrue:[direction:='O'].
-	direction='E' ifTrue:[direction:='S'].
-	direction='O' ifTrue:[direction:='N'].
-	]
-! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 17:00:31'!
-singleMovement: aOneCharacterString
-	aOneCharacterString = $l ifTrue:[ 
-	direction='N' ifTrue:[direction:='O'].
-	direction='S' ifTrue:[direction:='E'].
-	direction='E' ifTrue:[direction:='N'].
-	direction='O' ifTrue:[direction:='S'].
+	aMovement = $b ifTrue:[
+		direction = 'N' ifTrue:[position _ position x @ (position y - 1)].
+		direction = 'S' ifTrue:[position _ position x @ (position y + 1)].
+		direction = 'E' ifTrue:[position _ position x -1 @ position y].
+		direction = 'O' ifTrue:[position _ position x +1 @ position y].
 	].
-	aOneCharacterString = $r ifTrue:[
-	direction='N' ifTrue:[direction := 'E'].
-	direction='S' ifTrue:[direction:='O'].
-	direction='E' ifTrue:[direction:='S'].
-	direction='O' ifTrue:[direction:='N'].
+	aMovement = $l ifTrue:[
+		direction = 'N' 
+		ifTrue:[direction _ 'O'] 
+		ifFalse:[direction = 'S' 
+				ifTrue:[direction _ 'E'] 
+				ifFalse:[direction = 'E' 
+						ifTrue:[direction _ 'N']
+						ifFalse:[direction = 'O' 
+								ifTrue:[direction _ 'S']]]].
 	].
-	aOneCharacterString = $f ifTrue:[ 
-	direction='N' ifTrue:[position:=(position x)@(position y + 1)].
-	direction='S' ifTrue:[position:=(position x)@(position y - 1)].
-	direction='E' ifTrue:[position:=(position x + 1)@(position y)].
-	direction='O' ifTrue:[position:=(position x - 1)@(position y)].
-	].
-	aOneCharacterString = $b ifTrue:[
-	direction='N' ifTrue:[position:=(position x)@(position y - 1)].
-	direction='S' ifTrue:[position:=(position x)@(position y + 1)].
-	direction='E' ifTrue:[position:=(position x - 1)@(position y)].
-	direction='O' ifTrue:[position:=(position x + 1)@(position y)].	
-	]! !
+	aMovement = $r ifTrue:[direction = 'N' 
+							ifTrue: [direction _ 'E'] 
+							ifFalse:[direction = 'S' 
+									ifTrue:[direction _ 'O']
+									ifFalse: [direction = 'E' 
+											ifTrue:[direction _ 'S'] 
+											ifFalse:[direction = 'O' 
+													ifTrue: [direction _ 'N']]]]]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -184,8 +263,16 @@ singleMovement: aOneCharacterString
 MarsRover class
 	instanceVariableNames: ''!
 
-!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/7/2019 16:07:35'!
-inPosition: aStartingPosition andDirection: aDirectionToPointTo
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:14:58'!
+cannotBeInvalidDirectionErrorMessage 
 
-	^self new initializeInPosition: aStartingPosition andDirection: aDirectionToPointTo 
-	! !
+	^'La direccion ingresada es invalida'! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:41:42'!
+inPosition: aPosition andDirection: aDirection 
+	|validDirections|
+	validDirections _ #('N' 'S' 'E' 'O').	
+	
+	(validDirections includes: aDirection) ifFalse: [ self error: self cannotBeInvalidDirectionErrorMessage].
+	
+	^self new initializeInPosition: aPosition andDirection: aDirection! !
