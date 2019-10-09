@@ -1,9 +1,17 @@
 !classDefinition: #Tests category: #'Mars Rover'!
 TestCase subclass: #Tests
-	instanceVariableNames: ''
+	instanceVariableNames: 'north south east west'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Mars Rover'!
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:57:17'!
+setUp
+
+	north := MarsRoverDirectionNorth new.
+	south := MarsRoverDirectionSouth new.
+	east := MarsRoverDirectionEast new.
+	west := MarsRoverDirectionWest new.! !
 
 !Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 10:56:26'!
 test01InitialPosition
@@ -192,6 +200,26 @@ test21InvalidInitializationReturnsErrorMessage
 		withExceptionDo: [ :anError | 
 			self assert: anError messageText = MarsRover cannotBeInvalidDirectionErrorMessage ]! !
 
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:30:10'!
+test22EmptyMovementReturnsErrorMessage 
+	|aRover|
+	aRover _ MarsRover inPosition: 3@2 andDirection: 'N'.
+	self 
+		should: [aRover movement: ''] 
+		raise: Error 
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = MarsRover cannotPerformEmptyMovementErrorMessage ]! !
+
+!Tests methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:31:55'!
+test23InvalidMovementReturnsErrorMessage 
+	|aRover|
+	aRover _ MarsRover inPosition: 3@2 andDirection: 'N'.
+	self 
+		should: [aRover movement: 'fruta'] 
+		raise: Error 
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = MarsRover cannotPerformInvalidMovementErrorMessage ]! !
+
 
 !classDefinition: #MarsRover category: #'Mars Rover'!
 Object subclass: #MarsRover
@@ -211,9 +239,10 @@ initializeInPosition: aPosition andDirection: aDirection
 	direction := aDirection. 
 	! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:47:19'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:30:48'!
 movement: aSeriesOfMovements
 	|movementsLeftToPerform|
+	aSeriesOfMovements = '' ifTrue:[self error: self class cannotPerformEmptyMovementErrorMessage ].
 	movementsLeftToPerform := aSeriesOfMovements.
 	[movementsLeftToPerform size = 0] whileFalse:[
 		self singleMovement: (movementsLeftToPerform at: 1).
@@ -224,8 +253,9 @@ movement: aSeriesOfMovements
 position
 	^position! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 12:48:13'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:56:20'!
 singleMovement: aMovement
+	self validMovementCheck: aMovement.
 	aMovement = $f ifTrue:[
 		direction = 'N' ifTrue:[position _ position x @ (position y + 1)].
 		direction = 'S' ifTrue:[position _ position x @ (position y - 1)].
@@ -257,22 +287,153 @@ singleMovement: aMovement
 											ifFalse:[direction = 'O' 
 													ifTrue: [direction _ 'N']]]]]! !
 
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:55:57'!
+validMovementCheck: aMovement
+	(self class possibleMovements includes: aMovement ) ifFalse:[self error: self class cannotPerformInvalidMovementErrorMessage]! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'MarsRover class' category: #'Mars Rover'!
 MarsRover class
-	instanceVariableNames: ''!
+	instanceVariableNames: 'possibleMovements validDirections'!
 
 !MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:14:58'!
 cannotBeInvalidDirectionErrorMessage 
 
 	^'La direccion ingresada es invalida'! !
 
-!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/8/2019 13:41:42'!
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:30:26'!
+cannotPerformEmptyMovementErrorMessage  
+
+	^'No se pueden efectuar movimientos nulos'! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:32:20'!
+cannotPerformInvalidMovementErrorMessage
+
+	^'No se pueden efectuar movimientos invalidos'! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:57:33'!
 inPosition: aPosition andDirection: aDirection 
-	|validDirections|
-	validDirections _ #('N' 'S' 'E' 'O').	
+		
 	
-	(validDirections includes: aDirection) ifFalse: [ self error: self cannotBeInvalidDirectionErrorMessage].
+	self validDirectionCheck: aDirection.
 	
 	^self new initializeInPosition: aPosition andDirection: aDirection! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:49:59'!
+initialize
+
+	possibleMovements := #($f $b $l $r).
+	validDirections := #('N' 'S' 'E' 'O')! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:54:55'!
+possibleMovements
+
+	^possibleMovements! !
+
+!MarsRover class methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 15:57:08'!
+validDirectionCheck: aDirection 
+	
+	(validDirections includes: aDirection) ifFalse: [ self error: self cannotBeInvalidDirectionErrorMessage].! !
+
+
+!classDefinition: #MarsRoverDirections category: #'Mars Rover'!
+Object subclass: #MarsRoverDirections
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+!MarsRoverDirections methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:13:10'!
+singleMovement: aMovement
+
+	^self subclassResponsibility 
+
+	! !
+
+
+!classDefinition: #MarsRoverDirectionEast category: #'Mars Rover'!
+MarsRoverDirections subclass: #MarsRoverDirectionEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+!MarsRoverDirectionEast methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:14:56'!
+singleMovement: aMovement
+! !
+
+
+!classDefinition: #MarsRoverDirectionNorth category: #'Mars Rover'!
+MarsRoverDirections subclass: #MarsRoverDirectionNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+!MarsRoverDirectionNorth methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:13:31'!
+singleMovement: aMovement! !
+
+
+!classDefinition: #MarsRoverDirectionSouth category: #'Mars Rover'!
+MarsRoverDirections subclass: #MarsRoverDirectionSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+!MarsRoverDirectionSouth methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:13:36'!
+singleMovement: aMovement! !
+
+
+!classDefinition: #MarsRoverDirectionWest category: #'Mars Rover'!
+MarsRoverDirections subclass: #MarsRoverDirectionWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+!MarsRoverDirectionWest methodsFor: 'as yet unclassified' stamp: 'cl 10/9/2019 16:13:42'!
+singleMovement: aMovement! !
+
+
+!classDefinition: #MarsRoverMovements category: #'Mars Rover'!
+Object subclass: #MarsRoverMovements
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+
+!classDefinition: #MarsRoverMovementBackward category: #'Mars Rover'!
+MarsRoverMovements subclass: #MarsRoverMovementBackward
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+
+!classDefinition: #MarsRoverMovementForward category: #'Mars Rover'!
+MarsRoverMovements subclass: #MarsRoverMovementForward
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+
+!classDefinition: #MarsRoverMovementLeft category: #'Mars Rover'!
+MarsRoverMovements subclass: #MarsRoverMovementLeft
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+
+!classDefinition: #MarsRoverMovementRight category: #'Mars Rover'!
+MarsRoverMovements subclass: #MarsRoverMovementRight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Mars Rover'!
+
+MarsRover initialize!
