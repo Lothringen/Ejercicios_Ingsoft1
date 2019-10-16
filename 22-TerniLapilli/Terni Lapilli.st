@@ -342,8 +342,8 @@ test22XPlayerWinsIfCompletesLowerHorizontalLineAfterPlacingItsStones
 	self assert: aGame gameIsOver.
 	! !
 
-!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 20:41:28'!
-test23OPlayerCanNotPlayIfGameIsOver
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:14:07'!
+test23OPlayerCanNotPutStoneIfGameIsOver
 
 	|aGame|
 	
@@ -679,8 +679,8 @@ test39XPlayerCanNotMoveToAnOccupiedPosition
 	
 	! !
 
-!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:00:23'!
-test40XPlayerCanNotPlayIfGameIsOver
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:16:57'!
+test40XPlayerCanNotMoveIfGameIsOver
 
 	|aGame|
 	
@@ -871,6 +871,81 @@ test47OPlayerCanNotMoveToAnOccupiedPosition
 	
 	! !
 
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:30:03'!
+test48XPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	self should: [aGame moveXFrom: center to: rightCenter]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones.
+			self assert: aGame isPlayingX.
+			self deny: (aGame isOccupiedByX: rightCenter).]! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:30:12'!
+test49OPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: center.
+	self should: [aGame moveOFrom: upperRightCorner to: upperCenter]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones.
+			self assert: aGame isPlayingO.
+			self deny: (aGame isOccupiedByO: upperCenter).]! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:18:03'!
+test50XPlayerCanNotPutAStoneIfGameIsOver
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: lowerLeftCorner.
+	aGame putOAt: upperCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: rightCenter.
+	aGame putOAt: upperLeftCorner.
+	
+	self should: [aGame putXAt: lowerRightCorner]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlayIfTheGameIsOver.
+			self deny: aGame hasPlayerXWon.
+			self assert: aGame hasPlayerOWon.
+			self assert: aGame gameIsOver.].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 18:19:35'!
+test51OPlayerCanNotMoveIfGameIsOver
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: lowerLeftCorner.
+	aGame putOAt: upperCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: lowerRightCorner.
+	
+	self should: [aGame moveXFrom: upperCenter to: upperLeftCorner]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlayIfTheGameIsOver.
+			self assert: aGame hasPlayerXWon.
+			self assert: aGame gameIsOver.].
+	
+	
+	
+	! !
+
 
 !classDefinition: #TerniLapilli category: #'Terni Lapilli'!
 Object subclass: #TerniLapilli
@@ -879,160 +954,54 @@ Object subclass: #TerniLapilli
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:46:40'!
-aPlayerCannotPlaceMoreThanThreeStonesError
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 18:35:41'!
+checkMoveErrorsFrom:aPositionToMoveFrom to:aPositionToMoveTo
 
-	self error: self class aPlayerCannotPlaceMoreThanThreeStones! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:47:07'!
-aPlayerCannotPlaceStoneInAnOccupiedPositionError
-
-	self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:47:46'!
-aPlayerCannotPlaceStoneOutOfBoardError
-
-	self error: self class aPlayerCannotPlaceStoneOutOfBoard! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:44:55'!
-aPlayerCannotPlayIfTheGameIsOverError
-
-	self error: self class aPlayerCannotPlayIfTheGameIsOver! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:46:10'!
-aPlayerCannotPlayTwoConsecutiveTurnsError
 	
-	self error: self class aPlayerCannotPlayTwoConsecutiveTurns! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 18:45:42'!
-boardIsEmpty
-	^isBoardEmpty! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 20:49:25'!
-gameIsOver
-	^self hasPlayerXWon or: self hasPlayerOWon. ! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 20:46:32'!
-hasPlayerOWon
-	^(oOccupied size = 3)
-	and: ((oOccupied allSatisfy: [:a | a x = a y]) 
-		or: (oOccupied allSatisfy: [:a | a x + a y = 4]) 
-		or: ((oOccupied allSatisfy: [:a | a x = 1]) or: (oOccupied allSatisfy: [:a | a x = 2]) or: (oOccupied allSatisfy: [:a | a x = 3]))
-		or: ((oOccupied allSatisfy: [:a | a y = 1]) or: (oOccupied allSatisfy: [:a | a y = 2]) or: (oOccupied allSatisfy: [:a | a y = 3])))! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 20:37:47'!
-hasPlayerXWon
-	^(xOccupied size = 3)
-	and: ((xOccupied allSatisfy: [:a | a x = a y]) 
-		or: (xOccupied allSatisfy: [:a | a x + a y = 4]) 
-		or: ((xOccupied allSatisfy: [:a | a x = 1]) or: (xOccupied allSatisfy: [:a | a x = 2]) or: (xOccupied allSatisfy: [:a | a x = 3]))
-		or: ((xOccupied allSatisfy: [:a | a y = 1]) or: (xOccupied allSatisfy: [:a | a y = 2]) or: (xOccupied allSatisfy: [:a | a y = 3])))! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 18:17:45'!
-isOccupied: aPosition
-	^(self isOccupiedByO: aPosition) or: (self isOccupiedByX: aPosition).! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 18:28:36'!
-isOccupiedByO: aPosition
-
-	^oOccupied includes: aPosition. ! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 18:09:39'!
-isOccupiedByX: aPosition
-
-	^xOccupied includes: aPosition.! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 18:41:28'!
-isPlayingO
-
-	^xPlays not ! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 17:49:08'!
-isPlayingX
-
-	^xPlays! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 14:18:07'!
-moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo
-
-	|xOccupiedMoveFromIndex|
-	
-	self gameIsOver ifTrue:[self error: self class aPlayerCannotPlayIfTheGameIsOver].
-	
-	xOccupiedMoveFromIndex := oOccupied indexOf: aPositionToMoveFrom
-									ifAbsent:[self error: self class aPlayerShouldOnlyMoveItsOwnStones].
-	(self class isInsideBoard: aPositionToMoveTo) ifFalse:[self error: self class aPlayerCanNotMoveStoneOutOfBoard].
+	(self class isInsideBoard: aPositionToMoveTo) ifFalse:[self aPlayerCanNotMoveStoneOutOfBoardError ].
 	
 	 (self class isGameMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo) 
-									ifFalse:[ self error: self class aPlayerCanOnlyMoveStoneToANeighborPosition ].
+									ifFalse:[ self aPlayerCanOnlyMoveStoneToANeighborPositionError ].
 	
 	(self isOccupied: aPositionToMoveTo)
-									ifTrue:[ self error: self class aPlayerCanNotMoveToAnOccupiedPosition ].
+									ifTrue:[ self aPlayerCanNotMoveToAnOccupiedPositionError ].
 									
-	oOccupied at: xOccupiedMoveFromIndex put: aPositionToMoveTo.
-	xPlays := true.! !
+	! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:59:22'!
-moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 18:36:47'!
+safeMoveOFrom: aPositionToMoveFrom to: aPositionToMoveTo
 
 	|xOccupiedMoveFromIndex|
 	
-	self gameIsOver ifTrue:[self error: self class aPlayerCannotPlayIfTheGameIsOver].
+	xOccupiedMoveFromIndex := oOccupied indexOf: aPositionToMoveFrom
+									ifAbsent:[self aPlayerShouldOnlyMoveItsOwnStonesError ].
+	self checkMoveErrorsFrom:aPositionToMoveFrom  to: aPositionToMoveTo.
+									
+	oOccupied at: xOccupiedMoveFromIndex put: aPositionToMoveTo.
+	xPlays := true.
+	state updateState: self.! !
+
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 18:37:00'!
+safeMoveXFrom: aPositionToMoveFrom to: aPositionToMoveTo
+
+	|xOccupiedMoveFromIndex|
 	
 	xOccupiedMoveFromIndex := xOccupied indexOf: aPositionToMoveFrom
-									ifAbsent:[self error: self class aPlayerShouldOnlyMoveItsOwnStones].
-	(self class isInsideBoard: aPositionToMoveTo) ifFalse:[self error: self class aPlayerCanNotMoveStoneOutOfBoard].
-	
-	 (aPositionToMoveFrom eightNeighbors includes: aPositionToMoveTo) 
-									ifFalse:[ self error: self class aPlayerCanOnlyMoveStoneToANeighborPosition ].
-	
-	(self isOccupied: aPositionToMoveTo)
-									ifTrue:[ self error: self class aPlayerCanNotMoveToAnOccupiedPosition ].
+									ifAbsent:[self aPlayerShouldOnlyMoveItsOwnStonesError ].
+	self checkMoveErrorsFrom:aPositionToMoveFrom  to: aPositionToMoveTo.
 									
 	xOccupied at: xOccupiedMoveFromIndex put: aPositionToMoveTo.
-	xPlays := false.! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:44:04'!
-oPlayerCannotBeginGameError
-
-	self error: self class oPlayerCannotBeginGame.
-	! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:58:10'!
-putOAt: aPosition
-	
-	state putOAt: aPosition in: self.
-	"self boardIsEmpty ifTrue:[self error: self class oPlayerCannotBeginGame].
-	self gameIsOver ifTrue:[self error: self class aPlayerCannotPlayIfTheGameIsOver].
-	self isPlayingX ifTrue:[self error: self class aPlayerCannotPlayTwoConsecutiveTurns]. 
-	(oOccupied size = 3) ifTrue:[self error: self class aPlayerCannotPlaceMoreThanThreeStones].
-	(self isOccupied: aPosition) ifTrue:[self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition].
-	(self class isInsideBoard: aPosition) ifFalse:[self error: self class aPlayerCannotPlaceStoneOutOfBoard].
-	
-	oOccupied addLast: aPosition; yourself.
-	xPlays := true.
-	isBoardEmpty:=false"! !
-
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:12:55'!
-putXAt: aPosition
-	
-	state putXAt: aPosition in: self.
-	"self isPlayingX ifFalse:[self error: self class aPlayerCannotPlayTwoConsecutiveTurns].
-	(self isOccupied: aPosition) ifTrue:[self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition].
-	(xOccupied size = 3) ifTrue:[self error: self class aPlayerCannotPlaceMoreThanThreeStones].
-	(self class isInsideBoard: aPosition) ifFalse:[self error: self class aPlayerCannotPlaceStoneOutOfBoard].
-	
-	xOccupied addLast: aPosition; yourself.
 	xPlays := false.
-	isBoardEmpty:=false"! !
+	state updateState: self.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:13:27'!
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 17:25:39'!
 safePutOAt: aPosition
 	
 	oOccupied addLast: aPosition; yourself.
-	xPlays := true.! !
+	xPlays := true.
+	state updateState: self.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:17:33'!
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 16:17:33'!
 safePutXAt: aPosition
 	
 	xOccupied addLast: aPosition; yourself.
@@ -1040,7 +1009,7 @@ safePutXAt: aPosition
 	isBoardEmpty:=false.
 	state updateState: self.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 17:03:18'!
+!TerniLapilli methodsFor: 'private' stamp: 'cl 10/16/2019 17:03:18'!
 updateStateTo: aStateToUpdateTo
 
 	state := (self class states) at: aStateToUpdateTo! !
@@ -1054,65 +1023,151 @@ initialize
 	isBoardEmpty := true.
 	state := (self class states) at: #XPlayerPutsFirst.! !
 
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 17:56:46'!
+aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError
+
+	self error: self class aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 18:10:08'!
+aPlayerCanNotMoveStoneOutOfBoardError
+
+	self error: self class aPlayerCanNotMoveStoneOutOfBoard! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 18:11:52'!
+aPlayerCanNotMoveToAnOccupiedPositionError
+
+	self error: self class aPlayerCanNotMoveToAnOccupiedPosition! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 18:11:06'!
+aPlayerCanOnlyMoveStoneToANeighborPositionError
+
+	self error: self class aPlayerCanOnlyMoveStoneToANeighborPosition! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:46:40'!
+aPlayerCannotPlaceMoreThanThreeStonesError
+
+	self error: self class aPlayerCannotPlaceMoreThanThreeStones! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:47:07'!
+aPlayerCannotPlaceStoneInAnOccupiedPositionError
+
+	self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:47:46'!
+aPlayerCannotPlaceStoneOutOfBoardError
+
+	self error: self class aPlayerCannotPlaceStoneOutOfBoard! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:44:55'!
+aPlayerCannotPlayIfTheGameIsOverError
+
+	self error: self class aPlayerCannotPlayIfTheGameIsOver! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:46:10'!
+aPlayerCannotPlayTwoConsecutiveTurnsError
+	
+	self error: self class aPlayerCannotPlayTwoConsecutiveTurns! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 18:09:27'!
+aPlayerShouldOnlyMoveItsOwnStonesError
+
+	self error: self class aPlayerShouldOnlyMoveItsOwnStones! !
+
+!TerniLapilli methodsFor: 'error messages' stamp: 'cl 10/16/2019 15:44:04'!
+oPlayerCannotBeginGameError
+
+	self error: self class oPlayerCannotBeginGame.
+	! !
+
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/10/2019 18:45:42'!
+boardIsEmpty
+	^isBoardEmpty! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/16/2019 18:41:41'!
+gameIsOver
+	^state gameIsOver! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/16/2019 17:25:18'!
+hasPlayerOWon
+	^(oOccupied size = 3)
+	and: ((oOccupied allSatisfy: [:a | a x = a y]) 
+		or: (oOccupied allSatisfy: [:a | a x + a y = 4]) 
+		or: ((oOccupied allSatisfy: [:a | a x = 1]) or: (oOccupied allSatisfy: [:a | a x = 2]) or: (oOccupied allSatisfy: [:a | a x = 3]))
+		or: ((oOccupied allSatisfy: [:a | a y = 1]) or: (oOccupied allSatisfy: [:a | a y = 2]) or: (oOccupied allSatisfy: [:a | a y = 3])))! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/11/2019 20:37:47'!
+hasPlayerXWon
+	^(xOccupied size = 3)
+	and: ((xOccupied allSatisfy: [:a | a x = a y]) 
+		or: (xOccupied allSatisfy: [:a | a x + a y = 4]) 
+		or: ((xOccupied allSatisfy: [:a | a x = 1]) or: (xOccupied allSatisfy: [:a | a x = 2]) or: (xOccupied allSatisfy: [:a | a x = 3]))
+		or: ((xOccupied allSatisfy: [:a | a y = 1]) or: (xOccupied allSatisfy: [:a | a y = 2]) or: (xOccupied allSatisfy: [:a | a y = 3])))! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/11/2019 18:17:45'!
+isOccupied: aPosition
+	^(self isOccupiedByO: aPosition) or: (self isOccupiedByX: aPosition).! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/11/2019 18:28:36'!
+isOccupiedByO: aPosition
+
+	^oOccupied includes: aPosition. ! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/11/2019 18:09:39'!
+isOccupiedByX: aPosition
+
+	^xOccupied includes: aPosition.! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/10/2019 18:41:28'!
+isPlayingO
+
+	^xPlays not ! !
+
+!TerniLapilli methodsFor: 'access' stamp: 'cl 10/10/2019 17:49:08'!
+isPlayingX
+
+	^xPlays! !
+
+
+!TerniLapilli methodsFor: 'play' stamp: 'cl 10/16/2019 18:06:51'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo
+
+	state moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: self! !
+
+!TerniLapilli methodsFor: 'play' stamp: 'cl 10/16/2019 18:21:21'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo
+
+	state moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: self! !
+
+!TerniLapilli methodsFor: 'play' stamp: 'cl 10/16/2019 17:41:48'!
+putOAt: aPosition
+	
+	(self isOccupied: aPosition) ifTrue:[self aPlayerCannotPlaceStoneInAnOccupiedPositionError ].
+	(self class isInsideBoard: aPosition) ifFalse:[self aPlayerCannotPlaceStoneOutOfBoardError ].
+	
+	state putOAt: aPosition in: self.! !
+
+!TerniLapilli methodsFor: 'play' stamp: 'cl 10/16/2019 17:41:32'!
+putXAt: aPosition
+	
+	(self class isInsideBoard: aPosition) ifFalse:[self aPlayerCannotPlaceStoneOutOfBoardError].
+	(self isOccupied: aPosition) ifTrue:[self aPlayerCannotPlaceStoneInAnOccupiedPositionError].
+	
+	state putXAt: aPosition in: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'TerniLapilli class' category: #'Terni Lapilli'!
 TerniLapilli class
 	instanceVariableNames: 'states'!
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:13:06'!
-aPlayerCanNotMoveStoneOutOfBoard
- 	^'Movimiento invalido, fuera de tablero'
-		! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:39:35'!
-aPlayerCanNotMoveToAnOccupiedPosition
-	^'un jugador no puede mover hacia una posicion ya ocupada por una piedra del xPlayer'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:26:03'!
-aPlayerCanOnlyMoveStoneToANeighborPosition
-
-	^'El jugador solo puede mover a posiciones vecinas'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 21:09:48'!
-aPlayerCannotPlaceMoreThanThreeStones
-	^'No se pueden agregar mas de tres piedras'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 20:34:43'!
-aPlayerCannotPlaceStoneInAnOccupiedPosition
-
-	^'No se puede colocar una piedra en una posicion ocupada'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:28:05'!
-aPlayerCannotPlaceStoneOutOfBoard
-
-	^'No se puede poner una piedra fuera del tablero'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 19:53:47'!
-aPlayerCannotPlayIfTheGameIsOver
-
-	^'No se puede continuar jugando, el juego ha terminado'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 19:02:39'!
-aPlayerCannotPlayTwoConsecutiveTurns
-	^'Un jugador no puede jugar dos veces seguidas'! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:02:58'!
-aPlayerShouldOnlyMoveItsOwnStones
- 	^'El jugador solo puede mover desde una posicion en la que tenga una piedra'
-		! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:38:34'!
-centerOfBoard
-
-	^2@2! !
-
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:01:13'!
+!TerniLapilli class methodsFor: 'initialization' stamp: 'cl 10/16/2019 16:01:13'!
 initialize
 	
 	self initializeStates! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:54:50'!
+!TerniLapilli class methodsFor: 'initialization' stamp: 'cl 10/16/2019 16:54:50'!
 initializeStates
 
 	states := Dictionary new.
@@ -1128,12 +1183,18 @@ initializeStates
 	states at: #XPlayerWon put: (XPlayerWon new).
 	states at: #OPlayerWon put: (OPlayerWon new).! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 14:19:44'!
+
+!TerniLapilli class methodsFor: 'private' stamp: 'cl 10/16/2019 11:38:34'!
+centerOfBoard
+
+	^2@2! !
+
+!TerniLapilli class methodsFor: 'private' stamp: 'cl 10/16/2019 14:19:44'!
 isCornerOfBoard: aPositionToMoveFrom
 
 	^(aPositionToMoveFrom x = self centerOfBoard x) not and: (aPositionToMoveFrom y = self centerOfBoard y) not! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 14:27:03'!
+!TerniLapilli class methodsFor: 'private' stamp: 'cl 10/16/2019 14:27:03'!
 isGameMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo
 
 	^(aPositionToMoveFrom eightNeighbors includes: aPositionToMoveTo)
@@ -1144,12 +1205,12 @@ isGameMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo
 			or:(self isOneDirectionMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo )
 			)! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:40:22'!
+!TerniLapilli class methodsFor: 'private' stamp: 'cl 10/16/2019 11:40:22'!
 isInsideBoard:aPosition
 
 	^(aPosition = self centerOfBoard) or: ((self centerOfBoard eightNeighbors ) includes: aPosition)! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 14:22:15'!
+!TerniLapilli class methodsFor: 'private' stamp: 'cl 10/16/2019 14:22:15'!
 isOneDirectionMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo
 	|aMovementVector|
 
@@ -1157,11 +1218,60 @@ isOneDirectionMovementFrom: aPositionToMoveFrom to: aPositionToMoveTo
 	
 	^(aMovementVector x = 0) or: (aMovementVector y = 0) ! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 17:48:00'!
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 17:56:14'!
+aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStones
+ 	^'No se pueden realizar movimientos sin haber colocado las tres piedras en el tablero'
+		! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 12:13:06'!
+aPlayerCanNotMoveStoneOutOfBoard
+ 	^'Movimiento invalido, fuera de tablero'
+		! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 12:39:35'!
+aPlayerCanNotMoveToAnOccupiedPosition
+	^'un jugador no puede mover hacia una posicion ya ocupada por una piedra del xPlayer'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 12:26:03'!
+aPlayerCanOnlyMoveStoneToANeighborPosition
+
+	^'El jugador solo puede mover a posiciones vecinas'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/11/2019 21:09:48'!
+aPlayerCannotPlaceMoreThanThreeStones
+	^'No se pueden agregar mas de tres piedras'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/10/2019 20:34:43'!
+aPlayerCannotPlaceStoneInAnOccupiedPosition
+
+	^'No se puede colocar una piedra en una posicion ocupada'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 11:28:05'!
+aPlayerCannotPlaceStoneOutOfBoard
+
+	^'No se puede poner una piedra fuera del tablero'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/11/2019 19:53:47'!
+aPlayerCannotPlayIfTheGameIsOver
+
+	^'No se puede continuar jugando, el juego ha terminado'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/10/2019 19:02:39'!
+aPlayerCannotPlayTwoConsecutiveTurns
+	^'Un jugador no puede jugar dos veces seguidas'! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/16/2019 12:02:58'!
+aPlayerShouldOnlyMoveItsOwnStones
+ 	^'El jugador solo puede mover desde una posicion en la que tenga una piedra'
+		! !
+
+!TerniLapilli class methodsFor: 'error messagges' stamp: 'cl 10/11/2019 17:48:00'!
 oPlayerCannotBeginGame
 	^'El jugador O no puede jugar en el turno de X'! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:02:24'!
+
+!TerniLapilli class methodsFor: 'accessing' stamp: 'cl 10/16/2019 16:02:24'!
 states
 
 	^states! !
@@ -1174,17 +1284,34 @@ Object subclass: #TerniLapilliStates
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!TerniLapilliStates methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:50:21'!
+!TerniLapilliStates methodsFor: 'play' stamp: 'cl 10/16/2019 17:42:55'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	self subclassResponsibility ! !
+
+!TerniLapilliStates methodsFor: 'play' stamp: 'cl 10/16/2019 18:23:00'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	self subclassResponsibility ! !
+
+!TerniLapilliStates methodsFor: 'play' stamp: 'cl 10/16/2019 15:50:21'!
 putOAt: aPosition in: aGame
 
 	self subclassResponsibility ! !
 
-!TerniLapilliStates methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:18:46'!
+!TerniLapilliStates methodsFor: 'play' stamp: 'cl 10/16/2019 16:18:46'!
 putXAt: aPosition in: aGame
 
 	self subclassResponsibility ! !
 
-!TerniLapilliStates methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:18:17'!
+
+!TerniLapilliStates methodsFor: 'access' stamp: 'cl 10/16/2019 18:41:56'!
+gameIsOver
+
+	self subclassResponsibility ! !
+
+
+!TerniLapilliStates methodsFor: 'private' stamp: 'cl 10/16/2019 16:18:17'!
 updateState: aGame
 
 	self subclassResponsibility ! !
@@ -1197,21 +1324,38 @@ TerniLapilliStates subclass: #OPlayerMoves
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!OPlayerMoves methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:50:08'!
+!OPlayerMoves methodsFor: 'private' stamp: 'cl 10/16/2019 17:21:36'!
+updateState: aGame
+
+	aGame hasPlayerOWon ifTrue:[aGame updateStateTo: #OPlayerWon]
+								ifFalse:[aGame updateStateTo: #XPlayerMoves].! !
+
+
+!OPlayerMoves methodsFor: 'access' stamp: 'cl 10/16/2019 18:42:20'!
+gameIsOver
+
+	^false! !
+
+
+!OPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 17:43:48'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame safeMoveOFrom: aPositionToMoveFrom to: aPositionToMoveTo! !
+
+!OPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 18:24:12'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError ! !
+
+!OPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 17:36:24'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlaceMoreThanThreeStonesError ! !
 
-!OPlayerMoves methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:09:55'!
+!OPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 16:09:55'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
-
-!OPlayerMoves methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 17:05:28'!
-updateState: aGame
-
-	
-	aGame updateStateTo: #XPlayerMoves! !
 
 
 !classDefinition: #OPlayerPutsFirst category: #'Terni Lapilli'!
@@ -1221,20 +1365,37 @@ TerniLapilliStates subclass: #OPlayerPutsFirst
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!OPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:51:55'!
+!OPlayerPutsFirst methodsFor: 'private' stamp: 'cl 10/16/2019 16:57:57'!
+updateState: aGame
+
+	aGame updateStateTo: #XPlayerPutsSecond! !
+
+
+!OPlayerPutsFirst methodsFor: 'access' stamp: 'cl 10/16/2019 18:42:27'!
+gameIsOver
+
+	^false! !
+
+
+!OPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 17:58:03'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError.! !
+
+!OPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 18:25:39'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError ! !
+
+!OPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 15:51:55'!
 putOAt: aPosition in: aGame
 	
 	aGame safePutOAt: aPosition! !
 
-!OPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:10:23'!
+!OPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 16:10:23'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
-
-!OPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:57:57'!
-updateState: aGame
-
-	aGame updateStateTo: #XPlayerPutsSecond! !
 
 
 !classDefinition: #OPlayerPutsSecond category: #'Terni Lapilli'!
@@ -1244,17 +1405,34 @@ TerniLapilliStates subclass: #OPlayerPutsSecond
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!OPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:52:43'!
+!OPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 17:58:28'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError.! !
+
+!OPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 18:25:43'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError ! !
+
+!OPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 15:52:43'!
 putOAt: aPosition in: aGame
 	
 	aGame safePutOAt: aPosition ! !
 
-!OPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:10:35'!
+!OPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 16:10:35'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
 
-!OPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:58:21'!
+
+!OPlayerPutsSecond methodsFor: 'access' stamp: 'cl 10/16/2019 18:42:32'!
+gameIsOver
+
+	^false! !
+
+
+!OPlayerPutsSecond methodsFor: 'private' stamp: 'cl 10/16/2019 16:58:21'!
 updateState: aGame
 
 	aGame updateStateTo: #XPlayerPutsThird! !
@@ -1267,15 +1445,38 @@ TerniLapilliStates subclass: #OPlayerPutsThird
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!OPlayerPutsThird methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:53:23'!
+!OPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 17:58:36'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError.! !
+
+!OPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 18:25:48'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError ! !
+
+!OPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 15:53:23'!
 putOAt: aPosition in: aGame
 	
 	aGame safePutOAt: aPosition ! !
 
-!OPlayerPutsThird methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:10:48'!
+!OPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 16:10:48'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
+
+
+!OPlayerPutsThird methodsFor: 'private' stamp: 'cl 10/16/2019 17:22:40'!
+updateState: aGame
+
+	aGame hasPlayerOWon ifTrue:[aGame updateStateTo: #OPlayerWon]
+								ifFalse:[aGame updateStateTo: #XPlayerMoves].! !
+
+
+!OPlayerPutsThird methodsFor: 'access' stamp: 'cl 10/16/2019 18:42:36'!
+gameIsOver
+
+	^false! !
 
 
 !classDefinition: #OPlayerWon category: #'Terni Lapilli'!
@@ -1285,17 +1486,34 @@ TerniLapilliStates subclass: #OPlayerWon
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!OPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:54:43'!
+!OPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 17:59:04'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayIfTheGameIsOverError.! !
+
+!OPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 18:26:16'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayIfTheGameIsOverError ! !
+
+!OPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 15:54:43'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayIfTheGameIsOverError! !
 
-!OPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:09:14'!
+!OPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 16:09:14'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayIfTheGameIsOverError! !
 
-!OPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 17:00:29'!
+
+!OPlayerWon methodsFor: 'access' stamp: 'cl 10/16/2019 18:42:45'!
+gameIsOver
+
+	^true! !
+
+
+!OPlayerWon methodsFor: 'private' stamp: 'cl 10/16/2019 17:00:29'!
 updateState: aGame
 
 	self shouldNotImplement! !
@@ -1308,15 +1526,33 @@ TerniLapilliStates subclass: #XPlayerMoves
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!XPlayerMoves methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:56:17'!
+!XPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 18:26:58'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame safeMoveXFrom: aPositionToMoveFrom to: aPositionToMoveTo ! !
+
+!XPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 15:56:17'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
 
-!XPlayerMoves methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:11:53'!
+!XPlayerMoves methodsFor: 'play' stamp: 'cl 10/16/2019 16:11:53'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlaceMoreThanThreeStonesError ! !
+
+
+!XPlayerMoves methodsFor: 'private' stamp: 'cl 10/16/2019 17:22:11'!
+updateState: aGame
+
+	aGame hasPlayerXWon ifTrue:[aGame updateStateTo: #XPlayerWon]
+								ifFalse:[aGame updateStateTo: #OPlayerMoves].! !
+
+
+!XPlayerMoves methodsFor: 'access' stamp: 'cl 10/16/2019 18:43:03'!
+gameIsOver
+
+	^false! !
 
 
 !classDefinition: #XPlayerPutsFirst category: #'Terni Lapilli'!
@@ -1326,17 +1562,34 @@ TerniLapilliStates subclass: #XPlayerPutsFirst
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!XPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:57:48'!
+!XPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 18:01:32'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame oPlayerCannotBeginGameError! !
+
+!XPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 18:27:49'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError ! !
+
+!XPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 15:57:48'!
 putOAt: aPosition in: aGame
 
 	aGame oPlayerCannotBeginGameError! !
 
-!XPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:11:15'!
+!XPlayerPutsFirst methodsFor: 'play' stamp: 'cl 10/16/2019 16:11:15'!
 putXAt: aPosition in: aGame
 	
 	aGame safePutXAt: aPosition ! !
 
-!XPlayerPutsFirst methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:59:03'!
+
+!XPlayerPutsFirst methodsFor: 'access' stamp: 'cl 10/16/2019 18:43:09'!
+gameIsOver
+
+	^false! !
+
+
+!XPlayerPutsFirst methodsFor: 'private' stamp: 'cl 10/16/2019 16:59:03'!
 updateState: aGame
 
 	aGame updateStateTo: #OPlayerPutsFirst! !
@@ -1349,17 +1602,34 @@ TerniLapilliStates subclass: #XPlayerPutsSecond
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!XPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:56:47'!
+!XPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 18:01:14'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
+
+!XPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 18:28:21'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError ! !
+
+!XPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 15:56:47'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
 
-!XPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:11:23'!
+!XPlayerPutsSecond methodsFor: 'play' stamp: 'cl 10/16/2019 16:11:23'!
 putXAt: aPosition in: aGame
 	
 	aGame safePutXAt: aPosition ! !
 
-!XPlayerPutsSecond methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:59:21'!
+
+!XPlayerPutsSecond methodsFor: 'access' stamp: 'cl 10/16/2019 18:43:14'!
+gameIsOver
+
+	^false! !
+
+
+!XPlayerPutsSecond methodsFor: 'private' stamp: 'cl 10/16/2019 16:59:21'!
 updateState: aGame
 
 	aGame updateStateTo: #OPlayerPutsSecond! !
@@ -1372,15 +1642,38 @@ TerniLapilliStates subclass: #XPlayerPutsThird
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!XPlayerPutsThird methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:56:52'!
+!XPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 18:01:45'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
+
+!XPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 18:28:25'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCanNotMoveAStoneIfItHasNotPlacedAllThreeStonesError ! !
+
+!XPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 15:56:52'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayTwoConsecutiveTurnsError! !
 
-!XPlayerPutsThird methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:11:30'!
+!XPlayerPutsThird methodsFor: 'play' stamp: 'cl 10/16/2019 16:11:30'!
 putXAt: aPosition in: aGame
 	
 	aGame safePutXAt: aPosition ! !
+
+
+!XPlayerPutsThird methodsFor: 'private' stamp: 'cl 10/16/2019 17:34:49'!
+updateState: aGame
+
+	aGame hasPlayerXWon ifTrue:[aGame updateStateTo: #XPlayerWon]
+								ifFalse:[aGame updateStateTo: #OPlayerPutsThird].! !
+
+
+!XPlayerPutsThird methodsFor: 'access' stamp: 'cl 10/16/2019 18:43:19'!
+gameIsOver
+
+	^false! !
 
 
 !classDefinition: #XPlayerWon category: #'Terni Lapilli'!
@@ -1390,17 +1683,34 @@ TerniLapilliStates subclass: #XPlayerWon
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!XPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 15:56:34'!
+!XPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 18:01:57'!
+moveOFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayIfTheGameIsOverError.! !
+
+!XPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 18:26:31'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo in: aGame
+
+	aGame aPlayerCannotPlayIfTheGameIsOverError ! !
+
+!XPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 15:56:34'!
 putOAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayIfTheGameIsOverError! !
 
-!XPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 16:09:23'!
+!XPlayerWon methodsFor: 'play' stamp: 'cl 10/16/2019 16:09:23'!
 putXAt: aPosition in: aGame
 	
 	aGame aPlayerCannotPlayIfTheGameIsOverError! !
 
-!XPlayerWon methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 17:00:14'!
+
+!XPlayerWon methodsFor: 'access' stamp: 'cl 10/16/2019 18:43:27'!
+gameIsOver
+
+	^true! !
+
+
+!XPlayerWon methodsFor: 'private' stamp: 'cl 10/16/2019 17:00:14'!
 updateState: aGame
 
 	self shouldNotImplement ! !
