@@ -1,11 +1,11 @@
 !classDefinition: #Test category: #'Terni Lapilli'!
 TestCase subclass: #Test
-	instanceVariableNames: 'center upperRightCorner upperLeftCorner upperCenter lowerLeftCorner lowerRightCorner leftCenter lowerCenter rightCenter'
+	instanceVariableNames: 'center upperRightCorner upperLeftCorner upperCenter lowerLeftCorner lowerRightCorner leftCenter lowerCenter rightCenter outOfBoard'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 19:37:08'!
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:23:46'!
 setUp
 
 	center := 2@2.
@@ -16,7 +16,8 @@ setUp
 	lowerRightCorner := 3@1.
 	leftCenter := 1@2.
 	lowerCenter := 2@1.
-	rightCenter := 3@2.! !
+	rightCenter := 3@2.
+	outOfBoard:= 0@0.! !
 
 !Test methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 18:35:36'!
 test01XPlayerBeginsAndBoardIsEmpty
@@ -542,6 +543,211 @@ test33XPlayerCanNotPutAFourthStone
 	
 	! !
 
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:27:17'!
+test34XPlayerCanNotPlaceStoneOutOfBoard
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	
+	self should: [aGame putXAt: outOfBoard]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlaceStoneOutOfBoard.
+			self assert: aGame isPlayingX.
+			self assert: aGame boardIsEmpty].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:48:31'!
+test35XPlayerMovesCorrectly
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: center.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	aGame moveXFrom: center to: rightCenter.
+	
+	self assert: (aGame isOccupiedByX: rightCenter).
+	self deny: (aGame isOccupiedByX: center).
+	self assert: (aGame isPlayingO).
+	self deny: (aGame gameIsOver).! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:06:35'!
+test36XPlayerShouldOnlyMoveItsOwnStones
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: center.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	self should: [aGame moveXFrom: leftCenter to: rightCenter.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerShouldOnlyMoveItsOwnStones.
+			self assert: aGame isPlayingX.
+			self deny: (aGame isOccupiedByX: rightCenter)].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:12:26'!
+test37XPlayerCanNotMoveStoneOutOfBoard
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: upperRightCorner.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: center.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	self should: [aGame moveXFrom: lowerRightCorner to: outOfBoard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCanNotMoveStoneOutOfBoard.
+			self assert: aGame isPlayingX.
+			self assert: (aGame isOccupiedByX: lowerRightCorner)].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:25:21'!
+test38XPlayerCanOnlyMoveStoneToANeighborPosition
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: upperRightCorner.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: center.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	self should: [aGame moveXFrom: lowerRightCorner to: upperLeftCorner.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCanOnlyMoveStoneToANeighborPosition.
+			self assert: aGame isPlayingX.
+			self assert: (aGame isOccupiedByX: lowerRightCorner).
+			self deny: (aGame isOccupiedByX: upperLeftCorner)].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:00:07'!
+test39XPlayerCanNotMoveToAnOccupiedPosition
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: upperRightCorner.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: center.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	self should: [aGame moveXFrom: lowerRightCorner to: lowerCenter.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCanNotMoveToAnOccupiedPosition.
+			self assert: aGame isPlayingX.
+			self assert: (aGame isOccupiedByX: lowerRightCorner).
+			self assert: (aGame isOccupiedByX: lowerCenter)].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:00:23'!
+test40XPlayerCanNotPlayIfGameIsOver
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: lowerLeftCorner.
+	aGame putOAt: upperCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: rightCenter.
+	aGame putOAt: upperLeftCorner.
+	
+	self should: [aGame moveXFrom: rightCenter to: lowerRightCorner]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlayIfTheGameIsOver.
+			self deny: aGame hasPlayerXWon.
+			self assert: aGame hasPlayerOWon.
+			self assert: aGame gameIsOver.].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:06:16'!
+test41OPlayerCanNotPutAFourthStone
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: center.
+	aGame putOAt: leftCenter.
+	aGame putXAt: lowerCenter.
+	aGame putOAt: upperRightCorner.
+	aGame putXAt: lowerRightCorner.
+	aGame putOAt: lowerLeftCorner.
+	
+	aGame moveXFrom:center  to:upperLeftCorner. 
+		
+	self should: [aGame putOAt: center]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlaceMoreThanThreeStones.
+			self deny: aGame hasPlayerOWon.
+			self deny: (aGame isOccupiedByO: center)].
+	
+	
+	
+	! !
+
+!Test methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:08:41'!
+test42OPlayerCanNotPlaceStoneOutOfBoard
+
+	|aGame|
+	
+	aGame := TerniLapilli new.
+	aGame putXAt: center.
+	
+	self should: [aGame putOAt: outOfBoard]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = TerniLapilli aPlayerCannotPlaceStoneOutOfBoard.
+			self assert: aGame isPlayingO.].
+	
+	
+	
+	! !
+
 
 !classDefinition: #TerniLapilli category: #'Terni Lapilli'!
 Object subclass: #TerniLapilli
@@ -598,25 +804,47 @@ isPlayingX
 
 	^xPlays! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 20:15:56'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:59:22'!
+moveXFrom: aPositionToMoveFrom to: aPositionToMoveTo
+
+	|xOccupiedMoveFromIndex|
+	
+	self gameIsOver ifTrue:[self error: self class aPlayerCannotPlayIfTheGameIsOver].
+	
+	xOccupiedMoveFromIndex := xOccupied indexOf: aPositionToMoveFrom
+									ifAbsent:[self error: self class aPlayerShouldOnlyMoveItsOwnStones].
+	(self class isInsideBoard: aPositionToMoveTo) ifFalse:[self error: self class aPlayerCanNotMoveStoneOutOfBoard].
+	
+	 (aPositionToMoveFrom eightNeighbors includes: aPositionToMoveTo) 
+									ifFalse:[ self error: self class aPlayerCanOnlyMoveStoneToANeighborPosition ].
+	
+	(self isOccupied: aPositionToMoveTo)
+									ifTrue:[ self error: self class aPlayerCanNotMoveToAnOccupiedPosition ].
+									
+	xOccupied at: xOccupiedMoveFromIndex put: aPositionToMoveTo.
+	xPlays := false.! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 13:10:42'!
 putOAt: aPosition
 	
 	self boardIsEmpty ifTrue:[self error: self class oPlayerCannotBeginGame].
 	self gameIsOver ifTrue:[self error: self class aPlayerCannotPlayIfTheGameIsOver].
 	self isPlayingX ifTrue:[self error: self class aPlayerCannotPlayTwoConsecutiveTurns]. 
+	(oOccupied size = 3) ifTrue:[self error: self class aPlayerCannotPlaceMoreThanThreeStones].
 	(self isOccupied: aPosition) ifTrue:[self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition].
-	
+	(self class isInsideBoard: aPosition) ifFalse:[self error: self class aPlayerCannotPlaceStoneOutOfBoard].
 	
 	oOccupied addLast: aPosition; yourself.
 	xPlays := true.
 	isBoardEmpty:=false! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 21:12:09'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:41:18'!
 putXAt: aPosition
 	
 	self isPlayingX ifFalse:[self error: self class aPlayerCannotPlayTwoConsecutiveTurns].
 	(self isOccupied: aPosition) ifTrue:[self error: self class aPlayerCannotPlaceStoneInAnOccupiedPosition].
 	(xOccupied size = 3) ifTrue:[self error: self class aPlayerCannotPlaceMoreThanThreeStones].
+	(self class isInsideBoard: aPosition) ifFalse:[self error: self class aPlayerCannotPlaceStoneOutOfBoard].
 	
 	xOccupied addLast: aPosition; yourself.
 	xPlays := false.
@@ -636,6 +864,20 @@ initialize
 TerniLapilli class
 	instanceVariableNames: ''!
 
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:13:06'!
+aPlayerCanNotMoveStoneOutOfBoard
+ 	^'Movimiento invalido, fuera de tablero'
+		! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:39:35'!
+aPlayerCanNotMoveToAnOccupiedPosition
+	^'un jugador no puede mover hacia una posicion ya ocupada por una piedra del xPlayer'! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:26:03'!
+aPlayerCanOnlyMoveStoneToANeighborPosition
+
+	^'El jugador solo puede mover a posiciones vecinas'! !
+
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 21:09:48'!
 aPlayerCannotPlaceMoreThanThreeStones
 	^'No se pueden agregar mas de tres piedras'! !
@@ -645,6 +887,11 @@ aPlayerCannotPlaceStoneInAnOccupiedPosition
 
 	^'No se puede colocar una piedra en una posicion ocupada'! !
 
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:28:05'!
+aPlayerCannotPlaceStoneOutOfBoard
+
+	^'No se puede poner una piedra fuera del tablero'! !
+
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 19:53:47'!
 aPlayerCannotPlayIfTheGameIsOver
 
@@ -653,6 +900,21 @@ aPlayerCannotPlayIfTheGameIsOver
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/10/2019 19:02:39'!
 aPlayerCannotPlayTwoConsecutiveTurns
 	^'Un jugador no puede jugar dos veces seguidas'! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 12:02:58'!
+aPlayerShouldOnlyMoveItsOwnStones
+ 	^'El jugador solo puede mover desde una posicion en la que tenga una piedra'
+		! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:38:34'!
+centerOfBoard
+
+	^2@2! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/16/2019 11:40:22'!
+isInsideBoard:aPosition
+
+	^(aPosition = self centerOfBoard) or: ((self centerOfBoard eightNeighbors ) includes: aPosition)! !
 
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'cl 10/11/2019 17:48:00'!
 oPlayerCannotBeginGame
