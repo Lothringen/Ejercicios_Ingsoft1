@@ -5,8 +5,8 @@ TestCase subclass: #PortfolioTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 19:05:41'!
-test01PortfolioHasZeroAsBalanceWhenCreated 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:53:57'!
+test01aPortfolioHasZeroAsBalanceWhenCreated 
 
 	| portfolio |
 	
@@ -43,8 +43,8 @@ test03DepositInMultipleAccountsIncreasesBalanceOnTransactionValue
 		
 	self assert: 150 equals: portfolio balance .! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:07:57'!
-test04PortfolioKnowsRegisteredTransactions 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:54:07'!
+test04aPortfolioKnowsRegisteredTransactions 
 
 	| firstAccount secondAccount deposit withdraw portfolio |
 	
@@ -62,8 +62,8 @@ test04PortfolioKnowsRegisteredTransactions
 	self assert: (portfolio hasRegistered: withdraw).
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:08:09'!
-test05PortfolioDoesNotKnowNonRegisteredTransactions 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:54:16'!
+test05aPortfolioDoesNotKnowNonRegisteredTransactions 
 
 	| firstAccount deposit withdraw portfolio |
 	
@@ -78,8 +78,8 @@ test05PortfolioDoesNotKnowNonRegisteredTransactions
 	self deny: (portfolio hasRegistered: withdraw).
 ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:23:23'!
-test06PortfolioKnowsItsTransactions 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:54:22'!
+test06aPortfolioKnowsItsTransactions 
 
 	| firstAccount deposit portfolio |
 	
@@ -91,32 +91,20 @@ test06PortfolioKnowsItsTransactions
 	self assert: 1 equals: portfolio transactions size .
 	self assert: (portfolio transactions includes: deposit).! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 21:14:36'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:05:43'!
 test07aPortfolioCanHaveAChildPortfolio
 
 	| childPortfolio portfolio |
 	
 	portfolio := Portfolio new.
 	childPortfolio := ReceptiveAccount  new.
-	portfolio addPortfolio: childPortfolio.
+	portfolio addAccount: childPortfolio.
 	
 
-	self assert: portfolio amountOfDirectAccounts equals:1. ! !
+	self assert: portfolio amountOfDirectProtoAccounts equals:1. ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:48:12'!
-test07aPortfolioCanHaveAPortfolioWithin
-
-	| childPortfolio portfolio |
-	
-	portfolio := Portfolio new.
-	childPortfolio := ReceptiveAccount  new.
-	portfolio addPortfolio: childPortfolio.
-	
-
-	self assert: portfolio amountOfDirectPortfolios equals:1. ! !
-
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:48:24'!
-test08PortfolioCanNotHaveASingleAccountMultipleTimes
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:11'!
+test08aPortfolioCanNotHaveASingleProtoAccountMultipleTimes
 
 	| account portfolio |
 	
@@ -128,7 +116,73 @@ test08PortfolioCanNotHaveASingleAccountMultipleTimes
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError | 
 			self assert: anError messageText = Portfolio aPortfolioCanNotHaveASingleAccountMultipleTimes.
-			self assert: portfolio amountOfDirectAccounts equals: 1]! !
+			self assert: portfolio amountOfDirectProtoAccounts equals: 1]! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:23'!
+test09aPortfolioChildCanNotHaveSameAccountAsParentPortfolio
+
+	| account portfolioParent portfolioChild |
+	
+	portfolioParent := Portfolio new.
+	portfolioChild := Portfolio new.
+	account := ReceptiveAccount  new.
+	portfolioParent addAccount: account.
+	portfolioParent addAccount: portfolioChild.
+	
+	self should: [portfolioChild addAccount: account.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Portfolio aPortfolioChildCanNotHaveSameAccountAsParentPortfolio.
+			self assert: portfolioParent amountOfDirectProtoAccounts equals: 2]! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:11:46'!
+test10aPortfolioParentCanNotHaveSameAccountAsChildPortfolio
+
+	| account portfolioParent portfolioChild |
+	
+	portfolioParent := Portfolio new.
+	portfolioChild := Portfolio new.
+	account := ReceptiveAccount  new.
+	portfolioParent addAccount: portfolioChild.
+	portfolioChild addAccount: account.
+	
+	self should: [portfolioParent addAccount: account.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Portfolio aPortfolioCanNotHaveASingleAccountMultipleTimes.
+			self assert: portfolioParent amountOfDirectProtoAccounts equals: 1]! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:13:59'!
+test11aPortfolioCanNotHaveItselfAsAChild
+
+	| portfolio |
+	
+	portfolio := Portfolio new.
+	
+	self should: [portfolio addAccount: portfolio.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Portfolio aPortfolioCanNotHaveItselfAsAChild.
+			self assert: portfolio amountOfDirectProtoAccounts equals: 0]! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:21:41'!
+test12aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio
+
+	| account portfolioParent portfolio portfolioChild |
+	
+	portfolioParent := Portfolio new.
+	portfolioChild := Portfolio new.
+	portfolio := Portfolio new.
+	account := ReceptiveAccount  new.
+	portfolioParent addAccount: account.
+	portfolioParent addAccount: portfolio.
+	portfolioChild addAccount: account.
+	
+	self should: [portfolio addAccount: portfolioChild.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Portfolio aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio.
+			self assert: portfolio amountOfDirectProtoAccounts equals: 0]! !
 
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
@@ -328,52 +382,90 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
-	instanceVariableNames: 'accounts'
+!classDefinition: #ProtoAccount category: #'Portfolio-Ejercicio'!
+Object subclass: #ProtoAccount
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'balance' stamp: 'cl 10/17/2019 19:37:29'!
+!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:34:53'!
 balance
-	^accounts sum:[:anAccount | anAccount balance] ifEmpty:[0]! !
+	self subclassResponsibility ! !
+
+!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:33:25'!
+hasRegistered: anAccountTransaction
+	self subclassResponsibility ! !
+
+!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:34:32'!
+manages: aReceptiveAccount
+	self subclassResponsibility ! !
+
+!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:35:02'!
+transactions
+	self subclassResponsibility ! !
+
+
+!classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
+ProtoAccount subclass: #Portfolio
+	instanceVariableNames: 'parentPortfolios ManagedProtoAccounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!Portfolio methodsFor: 'balance' stamp: 'cl 10/21/2019 12:43:45'!
+balance
+	^ManagedProtoAccounts sum:[:anAccount | anAccount balance] ifEmpty:[0]! !
 
 
-!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/17/2019 19:40:43'!
-addAccount: aReceptiveAccount
+!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 13:17:06'!
+addAccount: aProtoAccount
 
-	(accounts includes: aReceptiveAccount)  
+	(self manages: aProtoAccount)  
 						ifTrue:[self error: self class aPortfolioCanNotHaveASingleAccountMultipleTimes].
+	(self = aProtoAccount)
+						ifTrue:[self error: self class aPortfolioCanNotHaveItselfAsAChild].
+	
+	(parentPortfolios anySatisfy: [:protoAccount | protoAccount manages: aProtoAccount] )
+						ifTrue:[self error: self class aPortfolioChildCanNotHaveSameAccountAsParentPortfolio].
 
-	accounts addLast: aReceptiveAccount! !
+	ManagedProtoAccounts addLast: aProtoAccount.
+	aProtoAccount newParent: self.! !
+
+!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 13:32:00'!
+manages: aProtoAccount
+
+	^ManagedProtoAccounts anySatisfy:[:account | account manages: aProtoAccount]! !
+
+!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 12:55:28'!
+newParent: aPortfolio
+
+	parentPortfolios addLast: aPortfolio! !
 
 
-!Portfolio methodsFor: 'initialization' stamp: 'cl 10/17/2019 19:37:29'!
+!Portfolio methodsFor: 'initialization' stamp: 'cl 10/21/2019 12:43:45'!
 initialize
 
-	accounts := OrderedCollection new! !
+	ManagedProtoAccounts := OrderedCollection new.
+	parentPortfolios := OrderedCollection new.! !
 
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:55:17'!
-addPortfolio: aPortfolio
-	accounts addLast: aPortfolio! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:05:43'!
+amountOfDirectProtoAccounts
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 19:37:29'!
-amountOfDirectAccounts
+	^ManagedProtoAccounts size! !
 
-	^accounts size! !
-
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:19:58'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 12:44:36'!
 hasRegistered: aTransaction
-	^accounts anySatisfy: [:account | account hasRegistered: aTransaction]! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 20:41:31'!
+	^ManagedProtoAccounts anySatisfy: [:account | account hasRegistered: aTransaction]! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 12:43:45'!
 transactions
 	|portfolioTransactions|
 	
 	portfolioTransactions := OrderedCollection new.
-	accounts do:[:account | portfolioTransactions  addAll: account transactions ].
+	ManagedProtoAccounts do:[:account | portfolioTransactions  addAll: account transactions ].
 	^portfolioTransactions ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -382,14 +474,34 @@ transactions
 Portfolio class
 	instanceVariableNames: ''!
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/17/2019 19:41:28'!
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:11'!
 aPortfolioCanNotHaveASingleAccountMultipleTimes
 
 	^'No se puede agregar una cuenta ya registrada en el portfolio'! !
 
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:14:44'!
+aPortfolioCanNotHaveItselfAsAChild
+
+	^'Un portfolio no puede manejarse a si mismo'! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:22:48'!
+aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio
+
+	^'No se puede agregar un portfolio con una cuenta manejada por un portfolio padre'! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:23'!
+aPortfolioChildCanNotHaveSameAccountAsParentPortfolio
+
+	^'No se puede agregar una cuenta registrada en el portfolio padre a un portfolio hijo'! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:09:03'!
+aPortfolioParentCanNotHaveSameAccountAsChildPortfolio
+
+	^'No se puede agregar una cuenta registrada en un portfolio hijo al portfolio padre'! !
+
 
 !classDefinition: #ReceptiveAccount category: #'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+ProtoAccount subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -400,6 +512,14 @@ initialize
 
 	transactions := OrderedCollection new.! !
 
+
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'cl 10/21/2019 12:41:04'!
+manages:  aProtoAccount
+
+	^ aProtoAccount = self! !
+
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'cl 10/21/2019 12:56:47'!
+newParent: aPortfolio! !
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
 register: aTransaction
