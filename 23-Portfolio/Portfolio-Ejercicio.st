@@ -103,7 +103,7 @@ test07aPortfolioCanHaveAChildPortfolio
 
 	self assert: portfolio amountOfDirectProtoAccounts equals:1. ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:11'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 15:00:51'!
 test08aPortfolioCanNotHaveASingleProtoAccountMultipleTimes
 
 	| account portfolio |
@@ -115,7 +115,7 @@ test08aPortfolioCanNotHaveASingleProtoAccountMultipleTimes
 	self should: [portfolio addAccount: account.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError | 
-			self assert: anError messageText = Portfolio aPortfolioCanNotHaveASingleAccountMultipleTimes.
+			self assert: anError messageText = Portfolio aPortfolioCanNotAddAPortfolioThatSharesManagedAccounts.
 			self assert: portfolio amountOfDirectProtoAccounts equals: 1]! !
 
 !PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:23'!
@@ -135,7 +135,7 @@ test09aPortfolioChildCanNotHaveSameAccountAsParentPortfolio
 			self assert: anError messageText = Portfolio aPortfolioChildCanNotHaveSameAccountAsParentPortfolio.
 			self assert: portfolioParent amountOfDirectProtoAccounts equals: 2]! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:11:46'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 15:01:03'!
 test10aPortfolioParentCanNotHaveSameAccountAsChildPortfolio
 
 	| account portfolioParent portfolioChild |
@@ -149,7 +149,7 @@ test10aPortfolioParentCanNotHaveSameAccountAsChildPortfolio
 	self should: [portfolioParent addAccount: account.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError | 
-			self assert: anError messageText = Portfolio aPortfolioCanNotHaveASingleAccountMultipleTimes.
+			self assert: anError messageText = Portfolio aPortfolioCanNotAddAPortfolioThatSharesManagedAccounts.
 			self assert: portfolioParent amountOfDirectProtoAccounts equals: 1]! !
 
 !PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:13:59'!
@@ -165,7 +165,7 @@ test11aPortfolioCanNotHaveItselfAsAChild
 			self assert: anError messageText = Portfolio aPortfolioCanNotHaveItselfAsAChild.
 			self assert: portfolio amountOfDirectProtoAccounts equals: 0]! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:21:41'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 15:06:05'!
 test12aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio
 
 	| account portfolioParent portfolio portfolioChild |
@@ -181,8 +181,27 @@ test12aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio
 	self should: [portfolio addAccount: portfolioChild.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError | 
-			self assert: anError messageText = Portfolio aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio.
+			self assert: anError messageText = Portfolio aPortfolioChildCanNotHaveSameAccountAsParentPortfolio.
 			self assert: portfolio amountOfDirectProtoAccounts equals: 0]! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 15:33:33'!
+test13aPortfolioShouldUpdateItsRoots
+
+	| account portfolioParent portfolio portfolioChild |
+	
+	portfolioParent := Portfolio new.
+	portfolioChild := Portfolio new.
+	portfolio := Portfolio new.
+	account := ReceptiveAccount  new.
+	portfolio addAccount: portfolioChild.
+	portfolioParent addAccount: account.
+	portfolioParent addAccount: portfolio.
+	
+	self should: [portfolioChild addAccount: account.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Portfolio aPortfolioChildCanNotHaveSameAccountAsParentPortfolio.
+			self assert: portfolio amountOfDirectProtoAccounts equals: 1]! !
 
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
@@ -389,84 +408,125 @@ Object subclass: #ProtoAccount
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:34:53'!
+!ProtoAccount methodsFor: 'balance' stamp: 'cl 10/21/2019 11:34:53'!
 balance
 	self subclassResponsibility ! !
 
-!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:33:25'!
+
+!ProtoAccount methodsFor: 'transactions' stamp: 'cl 10/21/2019 11:35:02'!
+transactions
+	self subclassResponsibility ! !
+
+
+!ProtoAccount methodsFor: 'testing' stamp: 'cl 10/21/2019 11:33:25'!
 hasRegistered: anAccountTransaction
 	self subclassResponsibility ! !
 
-!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:34:32'!
-manages: aReceptiveAccount
+
+!ProtoAccount methodsFor: 'private' stamp: 'cl 10/21/2019 15:42:03'!
+allManagedAccountsAndPortfolios
 	self subclassResponsibility ! !
 
-!ProtoAccount methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 11:35:02'!
-transactions
+!ProtoAccount methodsFor: 'private' stamp: 'cl 10/21/2019 15:42:23'!
+newRoots: aGroupOfRootPortfolios andRemoveOld: anOldRootPortfolioToRemove
 	self subclassResponsibility ! !
 
 
 !classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
 ProtoAccount subclass: #Portfolio
-	instanceVariableNames: 'parentPortfolios ManagedProtoAccounts'
+	instanceVariableNames: 'directlyManagedProtoAccounts rootPortfolios'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'balance' stamp: 'cl 10/21/2019 12:43:45'!
+!Portfolio methodsFor: 'balance' stamp: 'cl 10/21/2019 14:26:28'!
 balance
-	^ManagedProtoAccounts sum:[:anAccount | anAccount balance] ifEmpty:[0]! !
+	^directlyManagedProtoAccounts sum:[:anAccount | anAccount balance] ifEmpty:[0]! !
 
 
-!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 13:17:06'!
+!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 15:40:03'!
 addAccount: aProtoAccount
 
-	(self manages: aProtoAccount)  
-						ifTrue:[self error: self class aPortfolioCanNotHaveASingleAccountMultipleTimes].
+	|aProtoAccountManagedAccounts|
+
 	(self = aProtoAccount)
 						ifTrue:[self error: self class aPortfolioCanNotHaveItselfAsAChild].
 	
-	(parentPortfolios anySatisfy: [:protoAccount | protoAccount manages: aProtoAccount] )
+	aProtoAccountManagedAccounts := aProtoAccount allManagedAccountsAndPortfolios.
+			
+	(self rootPortfoliosShareAccountsWith: aProtoAccountManagedAccounts)
 						ifTrue:[self error: self class aPortfolioChildCanNotHaveSameAccountAsParentPortfolio].
+						
+	(self isRootAndSharesAccountWith: aProtoAccountManagedAccounts)
+						ifTrue:[self error: self class aPortfolioCanNotAddAPortfolioThatSharesManagedAccounts].
 
-	ManagedProtoAccounts addLast: aProtoAccount.
-	aProtoAccount newParent: self.! !
-
-!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 13:32:00'!
-manages: aProtoAccount
-
-	^ManagedProtoAccounts anySatisfy:[:account | account manages: aProtoAccount]! !
-
-!Portfolio methodsFor: 'manage accounts' stamp: 'cl 10/21/2019 12:55:28'!
-newParent: aPortfolio
-
-	parentPortfolios addLast: aPortfolio! !
+	directlyManagedProtoAccounts addLast: aProtoAccount.
+	
+	(rootPortfolios isEmpty)
+					ifTrue:[aProtoAccount newRoots: (OrderedCollection with: self) andRemoveOld: aProtoAccount.]
+					ifFalse: [aProtoAccount newRoots: rootPortfolios andRemoveOld: aProtoAccount].! !
 
 
-!Portfolio methodsFor: 'initialization' stamp: 'cl 10/21/2019 12:43:45'!
+!Portfolio methodsFor: 'initialization' stamp: 'cl 10/21/2019 15:39:22'!
 initialize
 
-	ManagedProtoAccounts := OrderedCollection new.
-	parentPortfolios := OrderedCollection new.! !
+	directlyManagedProtoAccounts := OrderedCollection new.
+	rootPortfolios := OrderedCollection new.! !
 
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:05:43'!
-amountOfDirectProtoAccounts
+!Portfolio methodsFor: 'private' stamp: 'cl 10/21/2019 14:55:26'!
+allManagedAccountsAndPortfolios
+	|managedAccountsAndPortfolios|
+	managedAccountsAndPortfolios := OrderedCollection new.
+	managedAccountsAndPortfolios addLast: self.
+	directlyManagedProtoAccounts
+		do:[:protoAccount | managedAccountsAndPortfolios addAll: protoAccount allManagedAccountsAndPortfolios].
+	^managedAccountsAndPortfolios! !
 
-	^ManagedProtoAccounts size! !
+!Portfolio methodsFor: 'private' stamp: 'cl 10/21/2019 15:39:22'!
+isRootAndSharesAccountWith: aProtoAccountManagedAccounts
+						
+	^rootPortfolios isEmpty and:[self sharesAccountsWith: aProtoAccountManagedAccounts]! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 12:44:36'!
-hasRegistered: aTransaction
+!Portfolio methodsFor: 'private' stamp: 'cl 10/21/2019 15:40:03'!
+newRoots: aGroupOfRootPortfolios andRemoveOld: anOldRootPortfolioToRemove
 
-	^ManagedProtoAccounts anySatisfy: [:account | account hasRegistered: aTransaction]! !
+	rootPortfolios addAll: aGroupOfRootPortfolios.
+	rootPortfolios remove: anOldRootPortfolioToRemove ifAbsent: [].
+	directlyManagedProtoAccounts
+			do:[:account | account newRoots: aGroupOfRootPortfolios andRemoveOld: anOldRootPortfolioToRemove.]! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 12:43:45'!
+!Portfolio methodsFor: 'private' stamp: 'cl 10/21/2019 15:39:22'!
+rootPortfoliosShareAccountsWith: aProtoAccountManagedAccounts
+
+	^rootPortfolios anySatisfy: [:protoAccount | protoAccount sharesAccountsWith: aProtoAccountManagedAccounts]! !
+
+!Portfolio methodsFor: 'private' stamp: 'cl 10/21/2019 14:49:10'!
+sharesAccountsWith: aProtoAccountManagedAccounts
+	
+	^self allManagedAccountsAndPortfolios anySatisfy:[:account | aProtoAccountManagedAccounts includes: account ].
+	
+	! !
+
+
+!Portfolio methodsFor: 'transactions' stamp: 'cl 10/21/2019 14:26:28'!
 transactions
 	|portfolioTransactions|
 	
 	portfolioTransactions := OrderedCollection new.
-	ManagedProtoAccounts do:[:account | portfolioTransactions  addAll: account transactions ].
+	directlyManagedProtoAccounts do:[:account | portfolioTransactions  addAll: account transactions ].
 	^portfolioTransactions ! !
+
+
+!Portfolio methodsFor: 'testing' stamp: 'cl 10/21/2019 14:26:28'!
+amountOfDirectProtoAccounts
+
+	^directlyManagedProtoAccounts size! !
+
+!Portfolio methodsFor: 'testing' stamp: 'cl 10/21/2019 14:26:28'!
+hasRegistered: aTransaction
+
+	^directlyManagedProtoAccounts anySatisfy: [:account | account hasRegistered: aTransaction]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -474,27 +534,22 @@ transactions
 Portfolio class
 	instanceVariableNames: ''!
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:11'!
-aPortfolioCanNotHaveASingleAccountMultipleTimes
+!Portfolio class methodsFor: 'error messages' stamp: 'cl 10/21/2019 14:39:00'!
+aPortfolioCanNotAddAPortfolioThatSharesManagedAccounts
 
-	^'No se puede agregar una cuenta ya registrada en el portfolio'! !
+	^'No se puede agregar a un portfolio otro que comparta con este cuentas o portfolios'! !
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:14:44'!
+!Portfolio class methodsFor: 'error messages' stamp: 'cl 10/21/2019 13:14:44'!
 aPortfolioCanNotHaveItselfAsAChild
 
 	^'Un portfolio no puede manejarse a si mismo'! !
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:22:48'!
-aPortfolioChildCanNotAddAPortfolioWithSameAccountAsParentPortfolio
-
-	^'No se puede agregar un portfolio con una cuenta manejada por un portfolio padre'! !
-
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:08:23'!
+!Portfolio class methodsFor: 'error messages' stamp: 'cl 10/21/2019 13:08:23'!
 aPortfolioChildCanNotHaveSameAccountAsParentPortfolio
 
 	^'No se puede agregar una cuenta registrada en el portfolio padre a un portfolio hijo'! !
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 13:09:03'!
+!Portfolio class methodsFor: 'error messages' stamp: 'cl 10/21/2019 13:09:03'!
 aPortfolioParentCanNotHaveSameAccountAsChildPortfolio
 
 	^'No se puede agregar una cuenta registrada en un portfolio hijo al portfolio padre'! !
@@ -513,14 +568,6 @@ initialize
 	transactions := OrderedCollection new.! !
 
 
-!ReceptiveAccount methodsFor: 'transactions' stamp: 'cl 10/21/2019 12:41:04'!
-manages:  aProtoAccount
-
-	^ aProtoAccount = self! !
-
-!ReceptiveAccount methodsFor: 'transactions' stamp: 'cl 10/21/2019 12:56:47'!
-newParent: aPortfolio! !
-
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
 register: aTransaction
 
@@ -533,10 +580,18 @@ transactions
 	^ transactions copy! !
 
 
+!ReceptiveAccount methodsFor: 'balance' stamp: 'cl 10/21/2019 14:56:44'!
+allManagedAccountsAndPortfolios
+
+	^OrderedCollection with: self.! !
+
 !ReceptiveAccount methodsFor: 'balance' stamp: 'cl 10/17/2019 20:18:30'!
 balance
 	
 	^transactions inject: 0 into: [:balanceValue :aTransaction | aTransaction addToBalance: balanceValue ].! !
+
+!ReceptiveAccount methodsFor: 'balance' stamp: 'cl 10/21/2019 15:40:43'!
+newRoots: aGroupOfRootPortfolios andRemoveOld: anOldRootPortfolioToRemove! !
 
 
 !ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
