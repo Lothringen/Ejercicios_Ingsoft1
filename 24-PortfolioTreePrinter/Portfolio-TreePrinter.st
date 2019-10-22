@@ -335,6 +335,26 @@ test02AccountSummaryRecognizesSeveralTransactions
 	self assert: (AccountSummary with:senderAccount) equals: 'Deposito por 50. Extraccion por 10. Salida por transferencia de 20. Entrada por transferencia de 10. Balance = 30'.
 	! !
 
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 15:50:10'!
+test03TransferNetRecognizesSeveralTransactions
+
+	|receptiveAccount|
+
+	receptiveAccount := ReceptiveAccount new.
+	self assert: (TransferNet with:receptiveAccount) equals: 0.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 15:33:42'!
+test04TransferNetRecognizesSeveralTransactions
+
+	|senderAccount receiverAccount|
+
+	senderAccount := ReceptiveAccount new.
+	receiverAccount := ReceptiveAccount new.
+	Deposit register:50  on: senderAccount. 
+	Transfer register: 20 from: senderAccount  to: receiverAccount. 
+	Transfer register: 10 from: receiverAccount  to: senderAccount. 
+	self assert: (TransferNet with:senderAccount) equals: -10.! !
+
 
 !classDefinition: #TransfersTest category: #'Portfolio-TreePrinter'!
 TestCase subclass: #TransfersTest
@@ -672,10 +692,11 @@ affectBalance: aBalance
 	^aBalance + value ! !
 
 
-!Deposit methodsFor: 'report' stamp: 'cl 10/21/2019 21:35:56'!
-stringToReport
 
-	^'Deposito por ' , value asString , '. '! !
+!Deposit methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:24:36'!
+prepareForReport: aReport
+
+	^aReport prepareForReportADeposit: self value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -757,10 +778,10 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
 
-!TransferDeposit methodsFor: 'report' stamp: 'cl 10/21/2019 21:36:10'!
-stringToReport
+!TransferDeposit methodsFor: 'report' stamp: 'cl 10/22/2019 16:25:07'!
+prepareForReport: aReport
 
-	^'Entrada por transferencia de ' , self value asString, '. '! !
+	^aReport prepareForReportATransferDeposit: self value.! !
 
 
 !TransferDeposit methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 20:36:04'!
@@ -797,11 +818,6 @@ AccountTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
 
-!TransferWithdraw methodsFor: 'report' stamp: 'cl 10/21/2019 21:36:20'!
-stringToReport
-
-	^'Salida por transferencia de ' , self value asString , '. '! !
-
 
 !TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 20:36:17'!
 affectBalance: aBalance
@@ -812,6 +828,11 @@ affectBalance: aBalance
 initializeFor: aTransfer
 
 	transfer:= aTransfer.! !
+
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:25:56'!
+prepareForReport: aReport
+
+	^aReport prepareForReportATransferWithdraw: self value.! !
 
 !TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 20:35:11'!
 value
@@ -855,10 +876,11 @@ affectBalance: aBalance
 	^aBalance - value! !
 
 
-!Withdraw methodsFor: 'report' stamp: 'cl 10/21/2019 21:36:50'!
-stringToReport
 
-	^'Extraccion por ' , value asString , '. '! !
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:26:16'!
+prepareForReport: aReport
+
+	^aReport prepareForReportAWithdraw: self value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -882,7 +904,7 @@ Object subclass: #Report
 
 !classDefinition: #AccountSummary category: #'Portfolio-TreePrinter'!
 Report subclass: #AccountSummary
-	instanceVariableNames: 'account'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
@@ -893,8 +915,47 @@ Report subclass: #AccountSummary
 AccountSummary class
 	instanceVariableNames: ''!
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/21/2019 21:42:00'!
-with: aReceptiveAccount 
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:33:55'!
+prepareForReportADeposit: aValue
+
+	^'Deposito por ' , aValue asString , '. '! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:34:05'!
+prepareForReportATransferDeposit: aValue
+
+	^'Entrada por transferencia de ' , aValue asString, '. '! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:37:58'!
+prepareForReportATransferWithdraw: aValue
+
+	^'Salida por transferencia de ' , aValue asString , '. '! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:34:19'!
+prepareForReportAWithdraw: aValue
+
+	^'Extraccion por ' , aValue asString , '. '! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:36:12'!
+with: anAccount 
 	|totalSummary|
-	totalSummary := aReceptiveAccount transactions inject: '' into:[:string :transaction| string , transaction stringToReport].
-	^totalSummary := totalSummary , 'Balance = ' , aReceptiveAccount balance asString.! !
+	totalSummary := anAccount transactions inject: '' into:[:string :transaction| string , (transaction prepareForReport: self)].
+	^totalSummary := totalSummary , 'Balance = ' , anAccount balance asString.! !
+
+
+!classDefinition: #TransferNet category: #'Portfolio-TreePrinter'!
+Report subclass: #TransferNet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-TreePrinter'!
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TransferNet class' category: #'Portfolio-TreePrinter'!
+TransferNet class
+	instanceVariableNames: ''!
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:04:49'!
+with: anAccount 
+	^anAccount transactions inject: 0 into:[:netTransfer :transaction| (transaction isKindOf: TransferDeposit) ifTrue: [netTransfer + transaction value].
+		(transaction isKindOf: TransferWithdraw) ifTrue:[netTransfer - (transaction value)]].! !
