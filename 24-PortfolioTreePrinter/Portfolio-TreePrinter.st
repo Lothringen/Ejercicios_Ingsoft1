@@ -343,17 +343,39 @@ test03TransferNetRecognizesSeveralTransactions
 	receptiveAccount := ReceptiveAccount new.
 	self assert: (TransferNet with:receptiveAccount) equals: 0.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 15:33:42'!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:41:04'!
 test04TransferNetRecognizesSeveralTransactions
 
 	|senderAccount receiverAccount|
 
 	senderAccount := ReceptiveAccount new.
 	receiverAccount := ReceptiveAccount new.
-	Deposit register:50  on: senderAccount. 
+	"Deposit register:50  on: senderAccount."
 	Transfer register: 20 from: senderAccount  to: receiverAccount. 
 	Transfer register: 10 from: receiverAccount  to: senderAccount. 
 	self assert: (TransferNet with:senderAccount) equals: -10.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 20:24:23'!
+test05ANamedReceptiveAccountKnowsItsName  
+
+	|anAccount |
+
+	anAccount := ReceptiveAccount named: 'Una Cuenta'.
+	self assert: (anAccount accountName) equals: 'Una Cuenta'.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 20:52:21'!
+test06ANamedPortfolioKnowsItsName  
+
+	|aPortfolioOne aPortfolioTwo aPortfolioThree anAccountOne anAccountTwo|
+
+	aPortfolioOne := Portfolio named: 'Un Portfolio'.
+	anAccountOne := ReceptiveAccount new.
+	anAccountTwo := ReceptiveAccount new.
+	aPortfolioTwo :=  Portfolio named: 'Un Segundo Portfolio' with: anAccountOne.
+	aPortfolioThree :=  Portfolio named: 'Un Tercer Portfolio' with: anAccountTwo with:aPortfolioTwo.
+	self assert: (aPortfolioOne accountName) equals: 'Un Portfolio'.
+	self assert: (aPortfolioTwo accountName) equals: 'Un Segundo Portfolio'.
+	self assert: (aPortfolioThree accountName) equals: 'Un Tercer Portfolio'. ! !
 
 
 !classDefinition: #TransfersTest category: #'Portfolio-TreePrinter'!
@@ -434,7 +456,7 @@ addedTo: aPortfolio
 
 !classDefinition: #Portfolio category: #'Portfolio-TreePrinter'!
 Account subclass: #Portfolio
-	instanceVariableNames: 'accounts parents'
+	instanceVariableNames: 'accounts parents name'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
@@ -479,6 +501,11 @@ initialize
 
 	accounts := OrderedCollection new.
 	parents := OrderedCollection new.! !
+
+!Portfolio methodsFor: 'initialization' stamp: 'cl 10/22/2019 20:33:54'!
+initializeWithName: aName
+
+	name := aName.! !
 
 
 !Portfolio methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:19:36'!
@@ -543,6 +570,11 @@ signalCanNotAddAccount
 	
 	self error: self class canNotAddAccountErrorMessage! !
 
+
+!Portfolio methodsFor: 'accessing' stamp: 'cl 10/22/2019 20:34:24'!
+accountName
+	^name! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Portfolio class' category: #'Portfolio-TreePrinter'!
@@ -569,10 +601,25 @@ with: anAccount with: anotherAccount
 		add: anotherAccount;
 		yourself! !
 
+
+!Portfolio class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 20:32:55'!
+named: aName
+
+	^self new initializeWithName: aName. 
+	! !
+
+!Portfolio class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 20:53:04'!
+named: aName with: anAccount 
+	^(self with: anAccount) initializeWithName:aName.! !
+
+!Portfolio class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 20:51:58'!
+named: aName with: anAccount with: anotherAccount 
+	^(self with: anAccount with: anotherAccount) initializeWithName: aName.! !
+
 
 !classDefinition: #ReceptiveAccount category: #'Portfolio-TreePrinter'!
 Account subclass: #ReceptiveAccount
-	instanceVariableNames: 'transactions'
+	instanceVariableNames: 'transactions name'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
@@ -582,6 +629,10 @@ initialize
 
 	super initialize.
 	transactions := OrderedCollection new.! !
+
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'cl 10/22/2019 20:23:32'!
+initializeWithName: aName
+	name := aName. ! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52'!
@@ -625,6 +676,22 @@ isComposedBy: anAccount
 addedTo: aPortfolio 
 	
 	! !
+
+
+!ReceptiveAccount methodsFor: 'accessing' stamp: 'cl 10/22/2019 20:24:52'!
+accountName
+	^name! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'ReceptiveAccount class' category: #'Portfolio-TreePrinter'!
+ReceptiveAccount class
+	instanceVariableNames: ''!
+
+!ReceptiveAccount class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 20:20:50'!
+named: aString
+
+	^self new initializeWithName: aString. ! !
 
 
 !classDefinition: #AccountTransaction category: #'Portfolio-TreePrinter'!
@@ -693,7 +760,7 @@ affectBalance: aBalance
 
 
 
-!Deposit methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:24:36'!
+!Deposit methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:39:10'!
 prepareForReport: aReport
 
 	^aReport prepareForReportADeposit: self value.! !
@@ -778,7 +845,7 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
 
-!TransferDeposit methodsFor: 'report' stamp: 'cl 10/22/2019 16:25:07'!
+!TransferDeposit methodsFor: 'report' stamp: 'cl 10/22/2019 19:38:59'!
 prepareForReport: aReport
 
 	^aReport prepareForReportATransferDeposit: self value.! !
@@ -955,7 +1022,27 @@ Report subclass: #TransferNet
 TransferNet class
 	instanceVariableNames: ''!
 
-!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 16:04:49'!
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:29:02'!
+prepareForReportADeposit: aValue
+
+	^0! !
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:28:37'!
+prepareForReportATransferDeposit: aValue
+
+	^aValue! !
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:48:52'!
+prepareForReportATransferWithdraw: aValue
+
+	^aValue negated! !
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:29:16'!
+prepareForReportAWithdraw: aValue
+
+	^0! !
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 19:44:00'!
 with: anAccount 
-	^anAccount transactions inject: 0 into:[:netTransfer :transaction| (transaction isKindOf: TransferDeposit) ifTrue: [netTransfer + transaction value].
-		(transaction isKindOf: TransferWithdraw) ifTrue:[netTransfer - (transaction value)]].! !
+
+	^anAccount transactions inject: 0 into:[:netTransfer :transaction| netTransfer + (transaction prepareForReport: self) ].! !
