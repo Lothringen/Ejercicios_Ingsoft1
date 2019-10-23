@@ -403,35 +403,7 @@ test08TreeReportPrintsAnotherAccountCorrectly
 	Deposito por 50
 	Balance = 50'! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 15:44:44'!
-test08TreeReportPrintsCorrectly  
-
-	| angiesAccount childrenPortfolio familyPortfolio johnsAccount myAccount |
-
-	"johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
-	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
-	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
-	myAccount := ReceptiveAccount named: 'Cuenta mia'.
-	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
-	
-	self assert: (TreeReport with: familyPortfolio ) equals: 
-'Portfolio de la familia
-	Cuenta Mia
-		Depósito por xxx
-		Extracción por yyy
-		Balance = bbb
-	Portfolio de hijos
-		Cuenta de Juan
-			Depósito por zzz
-			Extracción por nnn
-			Balance = bbb
-		Cuenta de Angeles
-			Salida por extracción de qqq
-			Balance = bbb
-		Balance = bbb
-	Balance = bbb'"! !
-
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 16:44:12'!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:43:09'!
 test09TreeReportPrintsPortfolioCorrectly  
 
 	| angiesAccount childrenPortfolio familyPortfolio johnsAccount myAccount |
@@ -439,7 +411,7 @@ test09TreeReportPrintsPortfolioCorrectly
 	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
 	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
 	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
-	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	myAccount := ReceptiveAccount named: 'Cuenta Mia'.
 	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
 	
 	self assert: (TreeReport with: familyPortfolio ) equals: 
@@ -537,11 +509,6 @@ Account subclass: #Portfolio
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
-
-!Portfolio methodsFor: 'accounts management' stamp: 'cl 10/23/2019 16:51:45'!
-accounts
-	
-	^ accounts copy! !
 
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
 accountsIncludes: anAccount
@@ -657,6 +624,11 @@ signalCanNotAddAccount
 accountName
 	^name! !
 
+!Portfolio methodsFor: 'accessing' stamp: 'cl 10/23/2019 16:51:45'!
+accounts
+	
+	^ accounts copy! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Portfolio class' category: #'Portfolio-TreePrinter'!
@@ -763,6 +735,10 @@ addedTo: aPortfolio
 !ReceptiveAccount methodsFor: 'accessing' stamp: 'cl 10/22/2019 20:24:52'!
 accountName
 	^name! !
+
+!ReceptiveAccount methodsFor: 'accessing' stamp: 'cl 10/23/2019 17:21:28'!
+accounts
+	^OrderedCollection new! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1089,9 +1065,9 @@ prepareForReportAWithdraw: aValue
 
 	^'Extraccion por ' , aValue asString! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:32:28'!
-prepareForTreeReportWith: unconcludedReport andTransaction: aTransaction andTabs: aStringComposedOfTabs
-	^unconcludedReport , aStringComposedOfTabs , (aTransaction prepareForReport: self) , '
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 17:14:53'!
+prepareForTreeReportWith: unconcludedReport andTransaction: aTransaction andTabs: aStringOfTabs
+	^unconcludedReport , aStringOfTabs , (aTransaction prepareForReport: self) , '
 '! !
 
 !AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:35:33'!
@@ -1100,11 +1076,12 @@ with: anAccount
 	totalSummary := anAccount transactions inject: '' into:[:report :transaction| self prepareForAccountSummaryWith: report andTransactions: transaction].
 	^totalSummary := totalSummary , 'Balance = ' , anAccount balance asString.! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:37:04'!
-with: anAccount andTabs: aStringComposedOfTabs
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 17:32:27'!
+with: anAccount andTabs: aStringOfTabs
 	|totalSummary|
-	totalSummary := anAccount transactions inject: '' into:[:report :transaction| self prepareForTreeReportWith: report andTransaction: transaction andTabs: aStringComposedOfTabs].
-	^totalSummary := totalSummary , aStringComposedOfTabs , 'Balance = ' , anAccount balance asString.! !
+	totalSummary := anAccount transactions inject: '' into:[:report :transaction| self prepareForTreeReportWith: report andTransaction: transaction andTabs: aStringOfTabs].
+	^totalSummary := totalSummary , aStringOfTabs , 'Balance = ' , anAccount balance asString , '
+'.! !
 
 
 !classDefinition: #TransferNet category: #'Portfolio-TreePrinter'!
@@ -1159,24 +1136,28 @@ Report subclass: #TreeReport
 TreeReport class
 	instanceVariableNames: ''!
 
-!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:01:19'!
-prepareForTreeReport: aReport
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:30:47'!
+prepareForTreeReportWith: aReport andAccount: anAccount andTabs: aStringOfTabs
 
-	"^report , (self with: account andTabs:  '	')].
-	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	')."! !
+	^aReport , (self with: anAccount andTabs:  aStringOfTabs)! !
 
-!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:00:10'!
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:38:37'!
 with: anAccount 
 	|treeReport|
 
 	treeReport := anAccount accountName , '
-' , anAccount accounts inject: '' into: [:report :account | report , (self with: account andTabs:  '	')].
-	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	').! !
+' , (anAccount accounts inject: '' into: [:report :account | (self
+											prepareForTreeReportWith: report andAccount: account andTabs: '	')]).
+	treeReport :=  treeReport , ((AccountSummary with: anAccount andTabs: '	')withoutSuffix: '
+').
+	^treeReport! !
 
-!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 16:59:53'!
-with: anAccount andTabs: aStringComposedOfTabs
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:42:09'!
+with: anAccount andTabs: aStringOfTabs
 	|treeReport|
 
-	treeReport := anAccount accountName , '
-' , anAccount accounts inject: '' into: [:report :account | report , (self with: account andTabs: (aStringComposedOfTabs , '	'))].
-	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	').! !
+	treeReport := aStringOfTabs , anAccount accountName , '
+' , (anAccount accounts inject: '' into: [:report :account | (self
+										prepareForTreeReportWith: report andAccount: account andTabs: (aStringOfTabs , '	'))]).
+	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: (aStringOfTabs , '	')).
+	^treeReport! !
