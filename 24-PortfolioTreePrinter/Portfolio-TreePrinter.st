@@ -321,7 +321,7 @@ test01NewAccountSummaryReturnsBalanceEqualsCero
 	self assert: (AccountSummary with:account) equals: 'Balance = 0'.
 	! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/21/2019 21:49:10'!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 15:56:12'!
 test02AccountSummaryRecognizesSeveralTransactions
 
 	|senderAccount receiverAccount|
@@ -332,8 +332,12 @@ test02AccountSummaryRecognizesSeveralTransactions
 	Withdraw register: 10 on: senderAccount.
 	Transfer register: 20 from: senderAccount  to: receiverAccount. 
 	Transfer register: 10 from: receiverAccount  to: senderAccount. 
-	self assert: (AccountSummary with:senderAccount) equals: 'Deposito por 50. Extraccion por 10. Salida por transferencia de 20. Entrada por transferencia de 10. Balance = 30'.
-	! !
+	self assert: (AccountSummary with:senderAccount) equals:
+'Deposito por 50.
+Extraccion por 10.
+Salida por transferencia de 20.
+Entrada por transferencia de 10.
+Balance = 30'.! !
 
 !ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/22/2019 15:50:10'!
 test03TransferNetRecognizesSeveralTransactions
@@ -376,6 +380,79 @@ test06ANamedPortfolioKnowsItsName
 	self assert: (aPortfolioOne accountName) equals: 'Un Portfolio'.
 	self assert: (aPortfolioTwo accountName) equals: 'Un Segundo Portfolio'.
 	self assert: (aPortfolioThree accountName) equals: 'Un Tercer Portfolio'. ! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 15:47:53'!
+test07TreeReportPrintsAnEmptyAccountCorrectly  
+
+	| myAccount |
+
+	myAccount := ReceptiveAccount named: 'R2D2'.
+	self assert: (TreeReport with:myAccount) equals:
+'R2D2
+	Balance = 0'! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 15:50:56'!
+test08TreeReportPrintsAnotherAccountCorrectly  
+
+	| myAccount |
+
+	myAccount := ReceptiveAccount named: '3CPO'.
+	Deposit register: 50 on: myAccount. 
+	self assert: (TreeReport with:myAccount) equals:
+'3CPO
+	Deposito por 50
+	Balance = 50'! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 15:44:44'!
+test08TreeReportPrintsCorrectly  
+
+	| angiesAccount childrenPortfolio familyPortfolio johnsAccount myAccount |
+
+	"johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	self assert: (TreeReport with: familyPortfolio ) equals: 
+'Portfolio de la familia
+	Cuenta Mia
+		Depósito por xxx
+		Extracción por yyy
+		Balance = bbb
+	Portfolio de hijos
+		Cuenta de Juan
+			Depósito por zzz
+			Extracción por nnn
+			Balance = bbb
+		Cuenta de Angeles
+			Salida por extracción de qqq
+			Balance = bbb
+		Balance = bbb
+	Balance = bbb'"! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 16:44:12'!
+test09TreeReportPrintsPortfolioCorrectly  
+
+	| angiesAccount childrenPortfolio familyPortfolio johnsAccount myAccount |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	self assert: (TreeReport with: familyPortfolio ) equals: 
+'Portfolio de la familia
+	Cuenta Mia
+		Balance = 0
+	Portfolio de hijos
+		Cuenta de Juan
+			Balance = 0
+		Cuenta de Angeles
+			Balance = 0
+		Balance = 0
+	Balance = 0'! !
 
 
 !classDefinition: #TransfersTest category: #'Portfolio-TreePrinter'!
@@ -460,6 +537,11 @@ Account subclass: #Portfolio
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
+
+!Portfolio methodsFor: 'accounts management' stamp: 'cl 10/23/2019 16:51:45'!
+accounts
+	
+	^ accounts copy! !
 
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
 accountsIncludes: anAccount
@@ -845,7 +927,7 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-TreePrinter'!
 
-!TransferDeposit methodsFor: 'report' stamp: 'cl 10/22/2019 19:38:59'!
+!TransferDeposit methodsFor: 'report' stamp: 'cl 10/23/2019 16:00:13'!
 prepareForReport: aReport
 
 	^aReport prepareForReportATransferDeposit: self value.! !
@@ -982,31 +1064,47 @@ Report subclass: #AccountSummary
 AccountSummary class
 	instanceVariableNames: ''!
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:33:55'!
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:35:33'!
+prepareForAccountSummaryWith: unconcludedReport andTransactions: aTransaction
+	^unconcludedReport , (aTransaction prepareForReport: self) , '.
+'! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:26:18'!
 prepareForReportADeposit: aValue
 
-	^'Deposito por ' , aValue asString , '. '! !
+	^'Deposito por ' , aValue asString! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:34:05'!
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:26:36'!
 prepareForReportATransferDeposit: aValue
 
-	^'Entrada por transferencia de ' , aValue asString, '. '! !
+	^'Entrada por transferencia de ' , aValue asString! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:37:58'!
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:26:42'!
 prepareForReportATransferWithdraw: aValue
 
-	^'Salida por transferencia de ' , aValue asString , '. '! !
+	^'Salida por transferencia de ' , aValue asString! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:34:19'!
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:26:46'!
 prepareForReportAWithdraw: aValue
 
-	^'Extraccion por ' , aValue asString , '. '! !
+	^'Extraccion por ' , aValue asString! !
 
-!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/22/2019 16:36:12'!
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:32:28'!
+prepareForTreeReportWith: unconcludedReport andTransaction: aTransaction andTabs: aStringComposedOfTabs
+	^unconcludedReport , aStringComposedOfTabs , (aTransaction prepareForReport: self) , '
+'! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:35:33'!
 with: anAccount 
 	|totalSummary|
-	totalSummary := anAccount transactions inject: '' into:[:string :transaction| string , (transaction prepareForReport: self)].
+	totalSummary := anAccount transactions inject: '' into:[:report :transaction| self prepareForAccountSummaryWith: report andTransactions: transaction].
 	^totalSummary := totalSummary , 'Balance = ' , anAccount balance asString.! !
+
+!AccountSummary class methodsFor: 'instance creation' stamp: 'cl 10/23/2019 16:37:04'!
+with: anAccount andTabs: aStringComposedOfTabs
+	|totalSummary|
+	totalSummary := anAccount transactions inject: '' into:[:report :transaction| self prepareForTreeReportWith: report andTransaction: transaction andTabs: aStringComposedOfTabs].
+	^totalSummary := totalSummary , aStringComposedOfTabs , 'Balance = ' , anAccount balance asString.! !
 
 
 !classDefinition: #TransferNet category: #'Portfolio-TreePrinter'!
@@ -1046,3 +1144,39 @@ prepareForReportAWithdraw: aValue
 with: anAccount 
 
 	^anAccount transactions inject: 0 into:[:netTransfer :transaction| netTransfer + (transaction prepareForReport: self) ].! !
+
+
+!classDefinition: #TreeReport category: #'Portfolio-TreePrinter'!
+Report subclass: #TreeReport
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-TreePrinter'!
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TreeReport class' category: #'Portfolio-TreePrinter'!
+TreeReport class
+	instanceVariableNames: ''!
+
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:01:19'!
+prepareForTreeReport: aReport
+
+	"^report , (self with: account andTabs:  '	')].
+	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	')."! !
+
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 17:00:10'!
+with: anAccount 
+	|treeReport|
+
+	treeReport := anAccount accountName , '
+' , anAccount accounts inject: '' into: [:report :account | report , (self with: account andTabs:  '	')].
+	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	').! !
+
+!TreeReport class methodsFor: 'as yet unclassified' stamp: 'cl 10/23/2019 16:59:53'!
+with: anAccount andTabs: aStringComposedOfTabs
+	|treeReport|
+
+	treeReport := anAccount accountName , '
+' , anAccount accounts inject: '' into: [:report :account | report , (self with: account andTabs: (aStringComposedOfTabs , '	'))].
+	treeReport :=  treeReport , (AccountSummary with: anAccount andTabs: '	').! !
