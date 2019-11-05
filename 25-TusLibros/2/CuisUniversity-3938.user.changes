@@ -1,0 +1,2383 @@
+
+
+----STARTUP---- (30 October 2019 15:03:37) as /home/cliberman/Descargas/linux64/CuisUniversity-3938.image!
+
+
+TestCase subclass: #TestsCarrito
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+
+!classDefinition: #TestsCarrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:14:24'!
+TestCase subclass: #TestsCarrito
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:17:23'!
+Object subclass: #Carrito
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!TestsCarrito methodsFor: 'nil' stamp: 'CL 10/30/2019 15:17:15'!
+test01NewCartIsEmpty
+
+	self assert: Carrito new isEmpty.! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmpty stamp: 'CL 10/30/2019 15:17:30'!
+ERROR!
+!Carrito methodsFor: 'evaluating' stamp: 'CL 10/30/2019 15:18:23'!
+isEmpty
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'evaluating' stamp: 'CL 10/30/2019 15:18:33' prior: 50777385!
+isEmpty
+	^true! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmpty stamp: 'CL 10/30/2019 15:18:35'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmpty stamp: 'CL 10/30/2019 15:18:35'!
+PASSED!
+
+!classDefinition: #TestsCarrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:31:23'!
+TestCase subclass: #TestsCarrito
+	instanceVariableNames: 'aBookFromTheEditorial'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:31:19'!
+test02ACartKnowsAddedProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: 1.
+	aCart addToCart: aBookFromTheEditorial. 
+
+	self deny: aCart isEmpty.
+	self assert: aCart totalAmountOfBooks equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1. ! !
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:31:44'!
+ERROR!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:33:58'!
+test01NewCartIsEmptyAndKnowsItsID
+
+	|aCart|
+	
+	aCart := Carrito createCart: 1.
+	
+
+	self assert: aCart isEmpty.
+	self assert: aCart id equals: 1. ! !
+
+!methodRemoval: TestsCarrito #test01NewCartIsEmpty stamp: 'CL 10/30/2019 15:34:09'!
+test01NewCartIsEmpty
+
+	self assert: Carrito new isEmpty.!
+
+!classDefinition: #TestsCarrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:34:50'!
+TestCase subclass: #TestsCarrito
+	instanceVariableNames: 'aBookFromTheEditorial aCartID'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:34:45' prior: 50777421!
+test01NewCartIsEmptyAndKnowsItsID
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+
+	self assert: aCart isEmpty.
+	self assert: aCart id equals: aCartID. ! !
+!TestsCarrito methodsFor: 'nil' stamp: 'CL 10/30/2019 15:35:45'!
+setUp
+
+	aCartID := 1.
+	aBookFromTheEditorial := 'Odisea'! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:36:06'!
+ERROR!
+!Carrito class methodsFor: 'instance creation' stamp: 'CL 10/30/2019 15:36:26'!
+createCart: aSmallInteger 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeCreateCart: aSmallInteger ! !
+!Carrito class methodsFor: 'instance creation' stamp: 'CL 10/30/2019 15:37:35' prior: 50777458!
+createCart: anID 
+	
+	^self new initializeWithID: anID ! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:37:40'!
+ERROR!
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:38:11'!
+Object subclass: #Carrito
+	instanceVariableNames: 'iD'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!Carrito methodsFor: 'initialization' stamp: 'CL 10/30/2019 15:38:11'!
+initializeWithID: anID 
+	self shouldBeImplemented.
+	iD := anID.! !
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:38:49'!
+Object subclass: #Carrito
+	instanceVariableNames: 'iD cartID'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!Carrito methodsFor: 'initialization' stamp: 'CL 10/30/2019 15:38:44' prior: 50777481!
+initializeWithID: anID 
+	
+	cartID := anID.! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:38:53'!
+ERROR!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:39:06'!
+id
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:39:14' prior: 50777500!
+id
+	^cartID! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:39:22'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:39:22'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:39:22'!
+ERROR!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:39:22'!
+ERROR!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:39:56'!
+addToCart: aString 
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:40:36' prior: 50777520!
+addToCart: aBook 
+	| product |
+	product:= aBook. ! !
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 15:41:36'!
+Object subclass: #Carrito
+	instanceVariableNames: 'iD cartID cartProduct'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:41:34' prior: 50777525!
+addToCart: aBook 
+
+	cartProduct:= aBook. ! !
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:41:40'!
+FAILURE!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:42:11'!
+FAILURE!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:42:41'!
+FAILURE!
+!Carrito methodsFor: 'evaluating' stamp: 'CL 10/30/2019 15:44:43' prior: 50777389!
+isEmpty
+	^cartProduct isNil. ! !
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:44:51'!
+ERROR!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:45:16'!
+totalAmountOfBooks
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:45:25' prior: 50777558!
+totalAmountOfBooks
+	^1! !
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:45:29'!
+ERROR!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:45:38'!
+amountOfThisProduct: aString 
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 15:46:04' prior: 50777569!
+amountOfThisProduct: aBook
+	^1
+	! !
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:46:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 15:46:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 15:46:06'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:50:46'!
+test03ACartCanHaveMultipleBooks
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: aBookFromTheEditorial.
+	aCart addToCart: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:51:13'!
+test03ACartCanHaveMultipleCopiesOfTheSameBook
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: aBookFromTheEditorial.
+	aCart addToCart: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+
+!methodRemoval: TestsCarrito #test03ACartCanHaveMultipleBooks stamp: 'CL 10/30/2019 15:51:13'!
+test03ACartCanHaveMultipleBooks
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: aBookFromTheEditorial.
+	aCart addToCart: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 15:51:32' prior: 50777406!
+test02ACartKnowsAddedProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: aBookFromTheEditorial. 
+
+	self deny: aCart isEmpty.
+	self assert: aCart totalAmountOfBooks equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1. ! !
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 15:53:08'!
+FAILURE!
+
+----End fileIn of /home/cliberman/Descargas/linux64/Packages/TerseGuide.pck.st----!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:02:00' prior: 50777537!
+addToCart: aBook 
+
+	cartProduct at: aBook put: ((cartProduct at: aBook ifAbsent: [0]) + 1).! !
+
+Object subclass: #Carrito
+	instanceVariableNames: 'cartID cartProduct'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 16:02:36'!
+Object subclass: #Carrito
+	instanceVariableNames: 'cartID cartProduct'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+
+!classDefinition: #Carrito category: #'TusLibros.com' stamp: 'CL 10/30/2019 16:03:01'!
+Object subclass: #Carrito
+	instanceVariableNames: 'cartID cartProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros.com'!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:03:01' prior: 50780650!
+addToCart: aBook 
+
+	cartProducts at: aBook put: ((cartProducts at: aBook ifAbsent: [0]) + 1).! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:03:01' prior: 50777551!
+isEmpty
+	^cartProducts isNil. ! !
+!Carrito methodsFor: 'initialization' stamp: 'CL 10/30/2019 16:03:29' prior: 50777493!
+initializeWithID: anID 
+	
+	cartID := anID.
+	cartProducts := Dictionary new.! !
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:03:44'!
+FAILURE!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 16:04:29' prior: 50777563!
+totalAmountOfBooks
+	^cartProducts size! !
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 16:05:07' prior: 50777574!
+amountOfThisProduct: aBook
+	^cartProducts at:aBook. ! !
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:05:17'!
+FAILURE!
+
+(cartProducts at: aBook ifAbsent: [0])!
+
+((cartProducts at: aBook ifAbsent: [0]) + 1)!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 16:10:24' prior: 50780694!
+totalAmountOfBooks
+	^cartProducts inject: 0 into: [:totalAmountOfBooks :amountOfABook | totalAmountOfBooks + amountOfABook].! !
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:10:28'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:10:28'!
+FAILURE!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:10:28'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:10:28'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:10:28'!
+FAILURE!
+!Carrito methodsFor: 'evaluating' stamp: 'CL 10/30/2019 16:10:51' prior: 50780681!
+isEmpty
+	^cartProducts isEmpty. ! !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:10:53'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:11:00'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:11:00'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:11:00'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:18:42'!
+test04CanAddToCartMultipleCopiesOfABookAtTheSameTime
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 5 copiesOf: aBookFromTheEditorial.   
+
+	self assert: aCart totalAmountOfBooks equals: 5.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 5. ! !
+
+!testRun: #TestsCarrito #test04CanAddToCartMultipleCopiesOfABookAtTheSameTime stamp: 'CL 10/30/2019 16:18:44'!
+ERROR!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:18:54'!
+addToCart: aSmallInteger copiesOf: aString 
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:19:38' prior: 50780766!
+addToCart: anAmountOfBooks copiesOf: aBook 
+	
+	cartProducts at: aBook put: ((cartProducts at: aBook ifAbsent: [0]) + anAmountOfBooks).! !
+
+!testRun: #TestsCarrito #test04CanAddToCartMultipleCopiesOfABookAtTheSameTime stamp: 'CL 10/30/2019 16:20:01'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:20:01'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:20:01'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:20:01'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanAddToCartMultipleCopiesOfABookAtTheSameTime stamp: 'CL 10/30/2019 16:20:01'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:20:30' prior: 50777599!
+test03ACartCanHaveMultipleCopiesOfTheSameBook
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:21:00' prior: 50780797!
+test03ACartCanHaveMultipleCopiesOfTheSameBook
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 2 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:21:07' prior: 50777624!
+test02ACartKnowsAddedProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial. 
+
+	self deny: aCart isEmpty.
+	self assert: aCart totalAmountOfBooks equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1. ! !
+
+!methodRemoval: TestsCarrito #test04CanAddToCartMultipleCopiesOfABookAtTheSameTime stamp: 'CL 10/30/2019 16:21:23'!
+test04CanAddToCartMultipleCopiesOfABookAtTheSameTime
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 5 copiesOf: aBookFromTheEditorial.   
+
+	self assert: aCart totalAmountOfBooks equals: 5.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 5. !
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:21:33'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:21:33'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:21:33'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:23:39'!
+test04CanNotAddNegativeAmountsOfBooksToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: -1 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+
+----End fileIn of /home/cliberman/Descargas/Numero-Solution-1.st----!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:26:45' prior: 50780858!
+test04CanNotAddNegativeAmountsOfBooksToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2.].
+
+	! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:28:50' prior: 50781522!
+test04CanNotAddNegativeAmountsOfBooksToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfBooksToCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2.].
+
+	! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:29:09' prior: 50781537!
+test04CanNotAddNegativeAmountsOfBooksToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfBooksToCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:29:10'!
+FAILURE!
+!Carrito class methodsFor: 'nil' stamp: 'CL 10/30/2019 16:29:58'!
+canNotAddNegativeAmountsOfBooksToCartErrorDescription
+
+	^'No se pueden agregar cantidades negativas del libro al carrito'! !
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:30:21'!
+FAILURE!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:32:04' prior: 50780772!
+addToCart: anAmountOfBooks copiesOf: aBook 
+	
+	anAmountOfBooks negative ifTrue:[self error: self class canNotAddNegativeAmountsOfBooksToCartErrorDescription].
+	cartProducts at: aBook put: ((cartProducts at: aBook ifAbsent: [0]) + anAmountOfBooks).! !
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:32:06'!
+ERROR!
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 16:32:40' prior: 50780698!
+amountOfThisProduct: aBook
+	^cartProducts at:aBook ifAbsent:[0]. ! !
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:32:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:32:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:32:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:32:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:32:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:32:52'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:32:52'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:32:52'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:32:52'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:32:52'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:34:20'!
+test03ACartCanHaveMultipleCopiesOfTheSameProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 2 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+
+!methodRemoval: TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameBook stamp: 'CL 10/30/2019 16:34:20'!
+test03ACartCanHaveMultipleCopiesOfTheSameBook
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 2 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:34:34'!
+test04CanNotAddNegativeAmountsOfProductsToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfBooksToCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+
+!methodRemoval: TestsCarrito #test04CanNotAddNegativeAmountsOfBooksToCart stamp: 'CL 10/30/2019 16:34:34'!
+test04CanNotAddNegativeAmountsOfBooksToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfBooksToCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:35:52'!
+test05CanRemoveProductsFromCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+	aCart removeFromCart: 1 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0. ! !
+
+!testRun: #TestsCarrito #test05CanRemoveProductsFromCart stamp: 'CL 10/30/2019 16:35:56'!
+ERROR!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:36:06'!
+removeFromCart: aSmallInteger copiesOf: aString 
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:37:20' prior: 50781587!
+addToCart: anAmountOfProducts copiesOf: aProduct 
+	
+	anAmountOfProducts negative ifTrue:[self error: self class canNotAddNegativeAmountsOfBooksToCartErrorDescription].
+	cartProducts at: aProduct put: ((cartProducts at: aProduct ifAbsent: [0]) + anAmountOfProducts).! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:37:38' prior: 50781715!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+
+	cartProducts at: aProduct put: ((cartProducts at: aProduct ifAbsent: [0]) - anAmountOfProducts). 
+	! !
+
+!testRun: #TestsCarrito #test05CanRemoveProductsFromCart stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameProduct stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfProductsToCart stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+
+!testRun: #TestsCarrito #test05CanRemoveProductsFromCart stamp: 'CL 10/30/2019 16:37:42'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:39:18'!
+test06CanNotRemoveProductsThatAreNotInCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart removeFromCart: 1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotRemoveProductsThatAreNotInCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:39:56'!
+FAILURE!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:44:36' prior: 50781733!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+	|oldAmountOfProduct|
+	
+	oldAmountOfProduct := (cartProducts at: aProduct ifAbsent: [0]).
+
+	(oldAmountOfProduct >= anAmountOfProducts) ifTrue: [self error: self class ].
+
+	cartProducts at: aProduct put: (oldAmountOfProduct - anAmountOfProducts). 
+	! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:44:45' prior: 50781783!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+	|oldAmountOfProduct|
+	
+	oldAmountOfProduct := (cartProducts at: aProduct ifAbsent: [0]).
+
+	(oldAmountOfProduct >= anAmountOfProducts) ifTrue: [self error: self class canNotRemoveProductsThatAreNotInCartErrorDescription].
+
+	cartProducts at: aProduct put: (oldAmountOfProduct - anAmountOfProducts). 
+	! !
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:44:47'!
+FAILURE!
+!Carrito class methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:46:48'!
+canNotRemoveProductsThatAreNotInCartErrorDescription
+
+	^'No se puede quitar mas productos de un tipo de los que hay en el carrito'! !
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:47:07'!
+FAILURE!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:48:17' prior: 50781796!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+	|oldAmountOfProduct|
+	
+	oldAmountOfProduct := (cartProducts at: aProduct ifAbsent: [0]).
+
+	(oldAmountOfProduct < anAmountOfProducts) ifTrue: [self error: self class canNotRemoveProductsThatAreNotInCartErrorDescription].
+
+	cartProducts at: aProduct put: (oldAmountOfProduct - anAmountOfProducts). 
+	! !
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameProduct stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfProductsToCart stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test05CanRemoveProductsFromCart stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:48:19'!
+PASSED!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:49:55'!
+test07CanNotRemoveNegativeAmountsOfAProductFromCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+	
+	self 
+		should: [aCart removeFromCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotRemoveNegativeAmountsOfAProductFromCart.
+	self assert: aCart totalAmountOfBooks equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1.].
+
+	! !
+
+!testRun: #TestsCarrito #test07CanNotRemoveNegativeAmountsOfAProductFromCart stamp: 'CL 10/30/2019 16:50:01'!
+FAILURE!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:50:53' prior: 50781825!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+	|oldAmountOfProduct|
+	
+	anAmountOfProducts negative ifTrue:[self error: self class canNotAddNegativeAmountsOfBooksToCartErrorDescription].
+	
+	oldAmountOfProduct := (cartProducts at: aProduct ifAbsent: [0]).
+
+	(oldAmountOfProduct < anAmountOfProducts) ifTrue: [self error: self class canNotRemoveProductsThatAreNotInCartErrorDescription].
+
+	cartProducts at: aProduct put: (oldAmountOfProduct - anAmountOfProducts). 
+	! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:51:05' prior: 50781886!
+removeFromCart: anAmountOfProducts copiesOf: aProduct
+	|oldAmountOfProduct|
+	
+	anAmountOfProducts negative ifTrue:[self error: self class canNotRemoveNegativeAmountsOfAProductFromCart].
+	
+	oldAmountOfProduct := (cartProducts at: aProduct ifAbsent: [0]).
+
+	(oldAmountOfProduct < anAmountOfProducts) ifTrue: [self error: self class canNotRemoveProductsThatAreNotInCartErrorDescription].
+
+	cartProducts at: aProduct put: (oldAmountOfProduct - anAmountOfProducts). 
+	! !
+
+self class canNotRemoveNegativeAmountsOfAProductFromCart!
+!Carrito class methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:51:26'!
+canNotRemoveNegativeAmountsOfAProductFromCart
+	self shouldBeImplemented.! !
+!Carrito class methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:51:58' prior: 50781923!
+canNotRemoveNegativeAmountsOfAProductFromCart
+	^'No se quitar cantidades negativas del producto del carrito'! !
+
+!testRun: #TestsCarrito #test07CanNotRemoveNegativeAmountsOfAProductFromCart stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test01NewCartIsEmptyAndKnowsItsID stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test02ACartKnowsAddedProduct stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test03ACartCanHaveMultipleCopiesOfTheSameProduct stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test04CanNotAddNegativeAmountsOfProductsToCart stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test05CanRemoveProductsFromCart stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test06CanNotRemoveProductsThatAreNotInCart stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!testRun: #TestsCarrito #test07CanNotRemoveNegativeAmountsOfAProductFromCart stamp: 'CL 10/30/2019 16:52:06'!
+PASSED!
+
+!methodRemoval: Carrito #addToCart: stamp: 'CL 10/30/2019 16:52:25'!
+addToCart: aBook 
+
+	cartProducts at: aBook put: ((cartProducts at: aBook ifAbsent: [0]) + 1).!
+!Carrito class methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:52:57'!
+canNotAddNegativeAmountsOfProductToCartErrorDescription
+
+	^'No se pueden agregar cantidades negativas del libro al carrito'! !
+!Carrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:52:57' prior: 50781721!
+addToCart: anAmountOfProducts copiesOf: aProduct 
+	
+	anAmountOfProducts negative ifTrue:[self error: self class canNotAddNegativeAmountsOfProductToCartErrorDescription].
+	cartProducts at: aProduct put: ((cartProducts at: aProduct ifAbsent: [0]) + anAmountOfProducts).! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:52:57' prior: 50781663!
+test04CanNotAddNegativeAmountsOfProductsToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfProductToCartErrorDescription.
+	self assert: aCart totalAmountOfBooks equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+
+!methodRemoval: Carrito class #canNotAddNegativeAmountsOfBooksToCartErrorDescription stamp: 'CL 10/30/2019 16:52:57'!
+canNotAddNegativeAmountsOfBooksToCartErrorDescription
+
+	^'No se pueden agregar cantidades negativas del libro al carrito'!
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:54:59' prior: 50777450!
+setUp
+
+	aCartID := 1.
+	aBookFromTheEditorial := 'Odiseo'! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:55:12' prior: 50782013!
+setUp
+
+	aCartID := 1.
+	aBookFromTheEditorial := 'La Odisea'! !
+!Carrito methodsFor: 'accessing' stamp: 'CL 10/30/2019 16:57:27'!
+totalAmountOfProducts
+	^cartProducts inject: 0 into: [:totalAmountOfBooks :amountOfABook | totalAmountOfBooks + amountOfABook].! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50781987!
+test04CanNotAddNegativeAmountsOfProductsToCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart addToCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotAddNegativeAmountsOfProductToCartErrorDescription.
+	self assert: aCart totalAmountOfProducts equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50781862!
+test07CanNotRemoveNegativeAmountsOfAProductFromCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+	
+	self 
+		should: [aCart removeFromCart: -1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotRemoveNegativeAmountsOfAProductFromCart.
+	self assert: aCart totalAmountOfProducts equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1.].
+
+	! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50781699!
+test05CanRemoveProductsFromCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial.
+	aCart removeFromCart: 1 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfProducts equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50780823!
+test02ACartKnowsAddedProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 1 copiesOf: aBookFromTheEditorial. 
+
+	self deny: aCart isEmpty.
+	self assert: aCart totalAmountOfProducts equals: 1.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 1. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50781639!
+test03ACartCanHaveMultipleCopiesOfTheSameProduct
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	aCart addToCart: 2 copiesOf: aBookFromTheEditorial.
+
+	self assert: aCart totalAmountOfProducts equals: 2.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 2. ! !
+!TestsCarrito methodsFor: 'as yet unclassified' stamp: 'CL 10/30/2019 16:57:27' prior: 50781761!
+test06CanNotRemoveProductsThatAreNotInCart
+
+	|aCart|
+	
+	aCart := Carrito createCart: aCartID.
+	
+	self 
+		should: [aCart removeFromCart: 1 copiesOf: aBookFromTheEditorial]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Carrito canNotRemoveProductsThatAreNotInCartErrorDescription.
+	self assert: aCart totalAmountOfProducts equals: 0.
+	self assert: (aCart amountOfThisProduct: aBookFromTheEditorial) equals: 0.].
+
+	! !
+
+!methodRemoval: Carrito #totalAmountOfBooks stamp: 'CL 10/30/2019 16:57:27'!
+totalAmountOfBooks
+	^cartProducts inject: 0 into: [:totalAmountOfBooks :amountOfABook | totalAmountOfBooks + amountOfABook].!
+
+----QUIT----(30 October 2019 17:01:09) CuisUniversity-3938.image priorSource: 14319118!
+
+----STARTUP---- (30 October 2019 17:16:09) as /home/cliberman/Descargas/linux64/CuisUniversity-3938.image!
+
+
+----End fileIn of /home/cliberman/Descargas/DesignPatterns-Adapter.st----!
+
+----QUIT----(30 October 2019 18:24:10) CuisUniversity-3938.image priorSource: 14415436!
+
+----STARTUP---- (31 October 2019 20:58:35) as /home/cliberman/Descargas/linux64/CuisUniversity-3938.image!
+
+
+!classRemoval: #Carrito stamp: 'CL 10/31/2019 21:02:30'!
+Object subclass: #Carrito
+	instanceVariableNames: 'cartID cartProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #TestsCarrito stamp: 'CL 10/31/2019 21:02:31'!
+TestCase subclass: #TestsCarrito
+	instanceVariableNames: 'aBookFromTheEditorial aCartID'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----End fileIn of /home/cliberman/Descargas/TusLibros.st----!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CL 10/31/2019 21:02:55'!
+PASSED!
+!Cart methodsFor: 'initialization' stamp: 'CL 10/31/2019 21:03:37' prior: 50782426!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := Bag new.! !
+!Cart methodsFor: 'adding' stamp: 'CL 10/31/2019 21:05:02' prior: 50782444!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items add: anItem withOccurrences: aQuantity ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'CL 10/31/2019 21:05:06'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'CL 10/31/2019 21:05:07'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'CL 10/31/2019 21:05:07'!
+PASSED!
+!Cart methodsFor: 'adding' stamp: 'CL 10/31/2019 21:05:27' prior: 50782607!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items add: anItem withOccurrences: aQuantity! !
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'CL 10/31/2019 21:07:07'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'nil' stamp: 'CL 10/31/2019 21:09:07'!
+test01CashierCalculatesTotalPriceCorrectly! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:09:24'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:09:37'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+
+!methodRemoval: CashierTest #defaultCatalog stamp: 'CL 10/31/2019 21:09:45'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore!
+
+!methodRemoval: CashierTest #createCart stamp: 'CL 10/31/2019 21:09:50'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:12:21' prior: 50782658!
+test01CashierCalculatesTotalPriceCorrectly! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:13:31'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:13:40'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:13:52'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:16:03' prior: 50782681!
+test01CashierCalculatesTotalPriceCorrectly
+
+	| aCart |
+	aCart := self createCart.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:16:39' prior: 50782700!
+test01CashierCalculatesTotalPriceCorrectly
+
+	| aCart |
+	aCart := self createCart.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:21:39' prior: 50782706!
+test01CashierCalculatesTotalPriceCorrectly
+
+	| aCart aCashier amount |
+	amount := 2.
+	aCart := self createCart.
+	aCart add: amount of: self itemSellByTheStore.
+	aCashier := self createCashier.
+	self assert: (aCashier finalPrice: aCart) equals: (self priceList at: self itemSellByTheStore  * amount)	! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:22:05'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:25:16'!
+createCashier
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 10/31/2019 21:29:07'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:28:59' prior: 50782728!
+createCashier
+	^Cashier withPriceList: self priceList.! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:29:16'!
+ERROR!
+!CashierTest methodsFor: 'accessing' stamp: 'CL 10/31/2019 21:29:28'!
+priceList
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'accessing' stamp: 'CL 10/31/2019 21:33:04' prior: 50782747!
+priceList
+	^Dictionary with: self itemSellByTheStore -> 20! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:33:40'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'CL 10/31/2019 21:33:52'!
+withPriceList: aDictionary 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithPriceList: aDictionary ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'CL 10/31/2019 21:34:12' prior: 50782759!
+withPriceList: aPricelist
+	^self new initializeWithPriceList: aPricelist ! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:34:14'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 10/31/2019 21:34:50'!
+Object subclass: #Cashier
+	instanceVariableNames: 'pricelist'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'CL 10/31/2019 21:34:50'!
+initializeWithPriceList: aPricelist 
+	self shouldBeImplemented.
+	pricelist := aPricelist.! !
+!Cashier methodsFor: 'initialization' stamp: 'CL 10/31/2019 21:35:44' prior: 50782783!
+initializeWithPriceList: aPricelist
+	pricelist := aPricelist.! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:35:48'!
+ERROR!
+!Cashier methodsFor: 'evaluating' stamp: 'CL 10/31/2019 21:36:04'!
+finalPrice: aCart 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'evaluating' stamp: 'CL 10/31/2019 21:46:43' prior: 50782797!
+finalPrice: aCart 
+	^aCart obtainTotalPriceBy: self! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:47:19'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:47:48'!
+obtainTotalPriceBy: aCashier 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:54:29' prior: 50782810!
+obtainTotalPriceBy: aCashier 
+	^items inject: 0 into:[:totalPrice :item| totalPrice + aCashier obtainPriceOf: (items at: item) ofThisItem: item].! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:54:33'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:55:05' prior: 50782815!
+obtainTotalPriceBy: aCashier 
+	^items inject: 0 into:[:totalPrice :item| totalPrice + (aCashier obtainPriceOf: (items at: item) ofThisItem: item)].! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:55:07'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:56:11' prior: 50782826!
+obtainTotalPriceBy: aCashier 
+	^items inject: 0 into:[:totalPrice :item| totalPrice + (aCashier obtainPriceOf: (items occurrencesOf: item) ofThisItem: item)].! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:56:13'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:56:21'!
+obtainPriceOf: aSmallInteger ofThisItem: aString 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:57:25' prior: 50782848!
+obtainPriceOf: aQuantity ofThisItem: anItem 
+	^(pricelist at: anItem) * aQuantity ! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:57:27'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 21:57:44' prior: 50782712!
+test01CashierCalculatesTotalPriceCorrectly
+
+	| aCart aCashier amount |
+	amount := 2.
+	aCart := self createCart.
+	aCart add: amount of: self itemSellByTheStore.
+	aCashier := self createCashier.
+	self assert: (aCashier finalPrice: aCart) equals: ((self priceList at: self itemSellByTheStore)  * amount)	! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 21:57:46'!
+FAILURE!
+
+self priceList at: self itemSellByTheStore!
+
+ ((self priceList at: self itemSellByTheStore)  * amount)!
+
+(aCashier finalPrice: aCart)!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 22:00:12' prior: 50782837!
+obtainTotalPriceBy: aCashier 
+	^items inject: 0 into:[:totalPrice :item| totalPrice + (aCashier obtainPriceOf: item)].! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 22:00:18'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 22:00:26'!
+obtainPriceOf: aString 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 10/31/2019 22:00:52' prior: 50782894!
+obtainPriceOf: anItem 
+	^pricelist at: anItem! !
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 22:00:53'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 10/31/2019 22:00:53'!
+PASSED!
+
+----QUIT----(31 October 2019 22:01:18) CuisUniversity-3938.image priorSource: 14423113!
+
+----STARTUP---- (4 November 2019 17:03:34) as /home/cliberman/Descargas/linux64/CuisUniversity-3938.image!
+
+
+!methodRemoval: CashierTest #test01CashierCalculatesTotalPriceCorrectly stamp: 'CL 11/4/2019 18:46:09'!
+test01CashierCalculatesTotalPriceCorrectly
+
+	| aCart aCashier amount |
+	amount := 2.
+	aCart := self createCart.
+	aCart add: amount of: self itemSellByTheStore.
+	aCashier := self createCashier.
+	self assert: (aCashier finalPrice: aCart) equals: ((self priceList at: self itemSellByTheStore)  * amount)	!
+
+!methodRemoval: CashierTest #createCashier stamp: 'CL 11/4/2019 18:46:59'!
+createCashier
+	^Cashier withPriceList: self priceList.!
+
+!classRemoval: #Cashier stamp: 'CL 11/4/2019 18:47:08'!
+Object subclass: #Cashier
+	instanceVariableNames: 'pricelist'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!methodRemoval: CashierTest #priceList stamp: 'CL 11/4/2019 18:47:23'!
+priceList
+	^Dictionary with: self itemSellByTheStore -> 20!
+
+!methodRemoval: CashierTest #itemSellByTheStore stamp: 'CL 11/4/2019 18:47:30'!
+itemSellByTheStore
+	
+	^ 'validBook'!
+
+!methodRemoval: CashierTest #defaultCatalog stamp: 'CL 11/4/2019 18:47:36'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore!
+
+Date today!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/4/2019 19:09:59'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:09:35'!
+test01AnEmptyCartCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCard.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := Date today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:10:10'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:11:14' prior: 50782560!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultPriceList! !
+!CartTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:12:12'!
+defaultPriceList
+	
+	^ Dictionary with: self itemSellByTheStore -> self defaultPrice! !
+!CartTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:12:27'!
+defaultPrice
+
+	^20! !
+
+!methodRemoval: CartTest #defaultCatalog stamp: 'CL 11/4/2019 19:13:24'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:34' prior: 50782685!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultPriceList! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:46'!
+defaultPrice
+
+	^20! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:57'!
+defaultPriceList
+	
+	^ Dictionary with: self itemSellByTheStore -> self defaultPrice! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:14:13'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:14:18'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:14:33'!
+createCreditCard
+	self shouldBeImplemented.! !
+
+December/2019!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/4/2019 19:25:38'!
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:25:33' prior: 50783020!
+createCreditCard
+	^CreditCard withNumber: 1 withOwner: 'defaultOwnerName' withExpDate: self defaultDate.! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:25:52'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:26:02'!
+defaultDate
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:26:12' prior: 50783041!
+defaultDate
+	^(GregorianMonthOfYear yearNumber: 2019 month: December)! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:26:23' prior: 50783046!
+defaultDate
+	^(GregorianMonthOfYear yearNumber: 2019 monthNumber: 12)! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:26:25'!
+ERROR!
+!CreditCard class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:28:03'!
+withNumber: aSmallInteger withOwner: aString withExpDate: aGregorianMonthOfYear 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithNumber: aSmallInteger withOwner: aString withExpDate: aGregorianMonthOfYear ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:28:16' prior: 50783060!
+withNumber: aSmallInteger withOwner: aString withExpDate: aGregorianMonthOfYear 
+
+	^self new initializeWithNumber: aSmallInteger withOwner: aString withExpDate: aGregorianMonthOfYear ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:29:48' prior: 50783072!
+withNumber: anID withOwner: anOwnerName withExpDate: anExpirationDate 
+
+	^self new initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate ! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:29:53'!
+ERROR!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/4/2019 19:30:22'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'iD'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/4/2019 19:30:22'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'iD ownerName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/4/2019 19:30:22'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'iD ownerName expirationDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'CL 11/4/2019 19:30:22'!
+initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate 
+	self shouldBeImplemented.
+	iD := anID.
+	ownerName := anOwnerName.
+	expirationDate := anExpirationDate.! !
+!CreditCard methodsFor: 'initialization' stamp: 'CL 11/4/2019 19:30:33' prior: 50783113!
+initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate
+	iD := anID.
+	ownerName := anOwnerName.
+	expirationDate := anExpirationDate.! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:30:36'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:30:51'!
+createSalesBook
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:31:13' prior: 50783133!
+createSalesBook
+	^OrderedCollection new.! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:31:18'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:31:44'!
+createCashierWith: anOrderedCollection 
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:32:33' prior: 50783145!
+createCashierWith: aSalesBook
+	^Cashier with: aSalesBook. 
+	! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:32:35'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:32:49'!
+with: anOrderedCollection 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: anOrderedCollection ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:33:09' prior: 50783159!
+with: aSalesBook 
+	
+	^self new initializeWith: aSalesBook. ! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:33:10'!
+ERROR!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/4/2019 19:33:27'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'CL 11/4/2019 19:33:27'!
+initializeWith: aSalesBook 
+	self shouldBeImplemented.
+	salesBook := aSalesBook.! !
+!Cashier methodsFor: 'initialization' stamp: 'CL 11/4/2019 19:33:38' prior: 50783182!
+initializeWith: aSalesBook 
+	salesBook := aSalesBook.! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:33:40'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:34:08'!
+checksumOf: aCart withCC: aCreditCard andDate: aDate 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:36:36' prior: 50783196!
+checksumOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	^self error: self class anEmptyCartCanNotCheckoutErrorDescription ! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:36:38'!
+ERROR!
+!Cashier class methodsFor: 'errors' stamp: 'CL 11/4/2019 19:36:55'!
+anEmptyCartCanNotCheckoutErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'errors' stamp: 'CL 11/4/2019 19:37:31' prior: 50783212!
+anEmptyCartCanNotCheckoutErrorDescription
+	^'No se puede cobrar a un carrito vacio'! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:37:33'!
+PASSED!
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:37:33'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:39:30'!
+test02CashierCheckoutsCartWithOneElementCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCard.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self defaultDate.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:39:52'!
+defaultMonthOfYear
+	^(GregorianMonthOfYear yearNumber: 2019 monthNumber: 12)! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:41:31' prior: 50783052!
+defaultDate
+	^FixedGregorianDate today! !
+
+FixedGregorianDate today!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:42:18' prior: 50783255!
+defaultDate
+	^FixedGregorianDate today! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:42:25' prior: 50783249!
+defaultMonthOfYear
+	^FixedGregorianDate today monthOfYear! !
+
+FixedGregorianDate today monthOfYear!
+
+FixedGregorianDate today monthOfYear next !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:43:33' prior: 50783266!
+defaultMonthOfYear
+	^FixedGregorianDate today monthOfYear next! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:43:53'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:44:30'!
+today
+	^FixedGregorianDate today! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:44:30' prior: 50783229!
+test02CashierCheckoutsCartWithOneElementCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCard.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:44:30' prior: 50783032!
+createCreditCard
+	^CreditCard withNumber: 1 withOwner: 'defaultOwnerName' withExpDate: self today.! !
+
+!methodRemoval: CashierTest #defaultDate stamp: 'CL 11/4/2019 19:44:30'!
+defaultDate
+	^FixedGregorianDate today!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:45:02'!
+NextMonthOfYearFromToday
+	^FixedGregorianDate today monthOfYear next! !
+
+!methodRemoval: CashierTest #defaultMonthOfYear stamp: 'CL 11/4/2019 19:45:02'!
+defaultMonthOfYear
+	^FixedGregorianDate today monthOfYear next!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:45:49'!
+validExpirationDateFromToday
+	^FixedGregorianDate today monthOfYear next! !
+
+!methodRemoval: CashierTest #NextMonthOfYearFromToday stamp: 'CL 11/4/2019 19:45:49'!
+NextMonthOfYearFromToday
+	^FixedGregorianDate today monthOfYear next!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:46:41'!
+createCreditCardValidForToday
+	^CreditCard withNumber: 1 withOwner: 'defaultOwnerName' withExpDate: self today.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:46:41' prior: 50783287!
+test02CashierCheckoutsCartWithOneElementCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:46:41' prior: 50782958!
+test01AnEmptyCartCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := Date today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!methodRemoval: CashierTest #createCreditCard stamp: 'CL 11/4/2019 19:46:41'!
+createCreditCard
+	^CreditCard withNumber: 1 withOwner: 'defaultOwnerName' withExpDate: self today.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:46:55' prior: 50783366!
+test01AnEmptyCartCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:46:58'!
+PASSED!
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 19:46:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneElementCorrectly stamp: 'CL 11/4/2019 19:46:58'!
+PASSED!
+
+!methodRemoval: CashierTest #test02CashierCheckoutsCartWithOneElementCorrectly stamp: 'CL 11/4/2019 19:47:31'!
+test02CashierCheckoutsCartWithOneElementCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checksumOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:52:09'!
+test02CashierCheckoutsCartWithOneItemCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:52:34'!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	^self error: self class anEmptyCartCanNotCheckoutErrorDescription ! !
+
+!methodRemoval: Cashier #checksumOf:withCC:andDate: stamp: 'CL 11/4/2019 19:52:34'!
+checksumOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	^self error: self class anEmptyCartCanNotCheckoutErrorDescription !
+!CreditCard class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:53:15'!
+withID: anID withOwner: anOwnerName withExpDate: anExpirationDate 
+
+	^self new initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:53:15' prior: 50783338!
+createCreditCardValidForToday
+	^CreditCard withID: 1 withOwner: 'defaultOwnerName' withExpDate: self today.! !
+
+!methodRemoval: CreditCard class #withNumber:withOwner:withExpDate: stamp: 'CL 11/4/2019 19:53:15'!
+withNumber: anID withOwner: anOwnerName withExpDate: anExpirationDate 
+
+	^self new initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:53:31' prior: 50783392!
+test01AnEmptyCartCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:03:06' prior: 50783443!
+test02CashierCheckoutsCartWithOneItemCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook atEnd) equals: totalPrice.
+	self assert: aCart isEmpty.! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:03:12'!
+ERROR!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'CL 11/4/2019 20:04:06'!
+Object subclass: #Cart
+	instanceVariableNames: 'priceList items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:04:06' prior: 50782602!
+initializeAcceptingItemsOf: aCatalog
+
+	priceList := aCatalog.
+	items := Bag new.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:04:06' prior: 50782413!
+assertIsValidItem: anItem
+
+	(priceList includes: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!Cart methodsFor: 'initialization' stamp: 'CL 11/4/2019 20:04:23' prior: 50783542!
+initializeAcceptingItemsOf: aPriceList
+
+	priceList := aPriceList.
+	items := Bag new.! !
+!Cart class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 20:04:31' prior: 50782464!
+acceptingItemsOf: aPriceList
+
+	^self new initializeAcceptingItemsOf: aPriceList ! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:05:56'!
+ERROR!
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:05:56'!
+ERROR!
+
+priceList!
+
+anItem!
+
+priceList includes: anItem!
+!Cart methodsFor: 'assertions' stamp: 'CL 11/4/2019 20:07:02' prior: 50783548!
+assertIsValidItem: anItem
+
+	(priceList includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:07:04'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:08:29' prior: 50783456!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	^aCart totalPrice! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:08:32'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:08:54'!
+totalPrice
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:10:25' prior: 50783597!
+totalPrice
+	^items inject: 0 into:[:totalPrice :item| totalPrice + (priceList at: item)] ! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:10:28'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:11:42' prior: 50783513!
+test02CashierCheckoutsCartWithOneItemCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:11:45'!
+ERROR!
+
+self createSalesBook!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:13:51' prior: 50783585!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:13:58'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:14:07'!
+emptyCart
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:14:45' prior: 50783649!
+emptyCart
+	items := OrderedCollection new.! !
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:14:48'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:14:57'!
+PASSED!
+
+!methodRemoval: Cart #obtainTotalPriceBy: stamp: 'CL 11/4/2019 20:17:23'!
+obtainTotalPriceBy: aCashier 
+	^items inject: 0 into:[:totalPrice :item| totalPrice + (aCashier obtainPriceOf: item)].!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:21:07'!
+test03AnInvalidCreditCardCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCreditCard := self createCreditCardInvalidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:21:12'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:21:24'!
+createCreditCardInvalidForToday
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:22:31' prior: 50783478!
+createCreditCardValidForToday
+	^CreditCard withID: 1 withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:22:41' prior: 50783694!
+createCreditCardInvalidForToday
+	^CreditCard withID: 1 withOwner: 'defaultOwnerName' withExpDate: self invalidExpirationDateFromToday.! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:22:47'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:22:56'!
+invalidExpirationDateFromToday
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:23:20' prior: 50783718!
+invalidExpirationDateFromToday
+	^FixedGregorianDate today monthOfYear previous! !
+
+FixedGregorianDate today monthOfYear previous!
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:23:32'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:23:49'!
+anInvalidCreditCardCanNotCheckoutErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:24:10' prior: 50783733!
+anInvalidCreditCardCanNotCheckoutErrorDescription
+	^'La tarjeta esta vencida'! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:24:44' prior: 50783739!
+anInvalidCreditCardCanNotCheckoutErrorDescription
+	^'No se puede cobrar a una tarjeta vencida'! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:24:47'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:25:56' prior: 50783670!
+test03AnInvalidCreditCardCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardInvalidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:25:58'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:27:34' prior: 50783635!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:27:38'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:27:51'!
+hasExpiredBy: aFixedGregorianDate 
+	self shouldBeImplemented.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:29:10' prior: 50783798!
+hasExpiredBy: aDate 
+	^expirationDate < aDate monthOfYear.! !
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:29:13'!
+PASSED!
+
+!testRun: #CashierTest #test01AnEmptyCartCanNotCheckout stamp: 'CL 11/4/2019 20:29:13'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:29:13'!
+PASSED!
+
+!testRun: #CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:29:13'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:30:29'!
+test02CashierCheckoutsValidCartCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.! !
+
+!methodRemoval: CashierTest #test02CashierCheckoutsCartWithOneItemCorrectly stamp: 'CL 11/4/2019 20:30:29'!
+test02CashierCheckoutsCartWithOneItemCorrectly
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:48:27'!
+test0xCheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:49:21'!
+test03AnExpiredCreditCardCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardInvalidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!methodRemoval: CashierTest #test03AnInvalidCreditCardCanNotCheckout stamp: 'CL 11/4/2019 20:49:21'!
+test03AnInvalidCreditCardCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardInvalidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:54:08'!
+test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardWithInvalidUserName.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 20:54:08'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:54:15'!
+createCreditCardWithInvalidUserName
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:56:04' prior: 50783947!
+createCreditCardWithInvalidUserName
+	^CreditCard withID: 1 withOwner: 'OwnerNameWithExceedingAmountOfL' withExpDate: self validExpirationDateFromToday.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:57:49'!
+createCreditCardWithInvalidID
+	^CreditCard withID: '1000000000000000' withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 20:58:00'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:59:28' prior: 50783780!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isValidName: aCreditCard name) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:59:52' prior: 50783973!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isValidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 20:59:55'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:00:10'!
+OwnerName
+	self shouldBeImplemented.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:00:20' prior: 50784015!
+OwnerName
+	^ownerName ! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 21:00:25'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:00:34'!
+isValidName: aString 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:01:06' prior: 50784027!
+isValidName: aName
+
+	^aName size < 31! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 21:01:34'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:01:57'!
+isInvalidName: aName
+
+	^aName size < 31! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:01:57' prior: 50783992!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!methodRemoval: Cashier #isValidName: stamp: 'CL 11/4/2019 21:01:57'!
+isValidName: aName
+
+	^aName size < 31!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:02:08' prior: 50784040!
+isInvalidName: aName
+
+	^aName size > 30! !
+
+!testRun: #CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 21:02:22'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:02:56'!
+test04ACreditCardWithExceedingAmountOfLetersInOwnersNameCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardWithInvalidUserName.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!methodRemoval: CashierTest #test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout stamp: 'CL 11/4/2019 21:02:56'!
+test04ACreditCardWithExceedingAmountOfDigitsCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardWithInvalidUserName.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:03:29'!
+test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore.
+	aCreditCard := self createCreditCardWithInvalidID.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	aDate := self today.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:03:34'!
+FAILURE!
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:03:34'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:04:33' prior: 50784045!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	totalPrice := aCart totalPrice.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:04:38'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:04:45'!
+cardID
+	self shouldBeImplemented.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:04:56' prior: 50784180!
+cardID
+	^iD! !
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:04:59'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:05:05'!
+isInvalidID: aString 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:05:27' prior: 50784192!
+isInvalidID: anID 
+	^anID size > 15! !
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:05:28'!
+PASSED!
+
+!testRun: #CashierTest #test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout stamp: 'CL 11/4/2019 21:05:33'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:05:41'!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.! !
+
+!methodRemoval: CashierTest #test0xCheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:05:41'!
+test0xCheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	aCart add: self itemSellByTheStore.
+	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:06:26'!
+createInvalidCreditCardForInteface
+	^CreditCard withID: 1 withOwner: 'InvalidNameForInteface' withExpDate: self validExpirationDateFromToday.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:06:58' prior: 50784209!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:07:16' prior: 50784255!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:12:40'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:13:04'!
+FAILURE!
+
+!classDefinition: #MPRestInterfaceSimulator category: #TusLibros stamp: 'CL 11/4/2019 21:18:54'!
+Object subclass: #MPRestInterfaceSimulator
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:18:44' prior: 50784277!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook aMPRestInterface |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aMPRestInterface := MPRestInterfaceSimulator new.
+	aCashier := self createCashierWithSalesBook: aSalesBook andMPRI: aMPRestInterface.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:19:46' prior: 50784314!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:20:47' prior: 50783151!
+createCashierWith: aSalesBook
+	^Cashier withSalesBook: aSalesBook andMPRI: MPRestInterfaceSimulator new.! !
+!Cashier class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 21:21:52'!
+withSalesBook: aSalesBook andMPRI: aMPRI
+	
+	^self new initializeWithSalesBook: aSalesBook andMPRI: aMPRI! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/4/2019 21:24:08'!
+Object subclass: #Cashier
+	instanceVariableNames: 'salesBook mpri'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'CL 11/4/2019 21:24:03'!
+initializeWithSalesBook: aSalesBook andMPRI: aMPRI
+	salesBook := aSalesBook.
+	mpri := aMPRI.! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:24:58'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:25:23' prior: 50784339!
+test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
+
+	| aCart aCashier aCreditCard aDate aSalesBook |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore .
+	aDate := self today.
+	aCreditCard := self createInvalidCreditCardForInteface.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	
+	self 
+		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+			self assert: aSalesBook isEmpty]! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:25:26'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:25:56' prior: 50784247!
+createInvalidCreditCardForInteface
+	^CreditCard withID: '1' withOwner: 'InvalidNameForInteface' withExpDate: self validExpirationDateFromToday.! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:25:59'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:34:13' prior: 50784153!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice mpriResponse |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	totalPrice := aCart totalPrice.
+	mpriResponse := mpri charge: totalPrice on: aCreditCard.
+	(mpriResponse paymentWasUsuccessful) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	aCart emptyCart.
+	
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:40:21' prior: 50784429!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	totalPrice := aCart totalPrice.
+	mpri charge: totalPrice on: aCreditCard.
+	aCart emptyCart.
+	
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:40:44' prior: 50784458!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	totalPrice := aCart totalPrice.
+	mpri charge: totalPrice on: aCreditCard.
+	aCart emptyCart.
+	salesBook addLast: totalPrice.
+	^totalPrice! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:40:45'!
+ERROR!
+!MPRestInterfaceSimulator methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:40:53'!
+charge: aSmallInteger on: aCreditCard 
+	self shouldBeImplemented.! !
+!MPRestInterfaceSimulator methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:47:09' prior: 50784511!
+charge: anAmountToCharge on: aCreditCard 
+	(self isStolen: aCreditCard) ifTrue:[self error]! !
+
+!testRun: #CashierTest #test06CheckoutDoesNotCompleteWhenInterfaceReturnsError stamp: 'CL 11/4/2019 21:47:17'!
+ERROR!
+!MPRestInterfaceSimulator methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:47:32'!
+isStolen: aCreditCard 
+	self shouldBeImplemented.! !
+
+----QUIT----(4 November 2019 21:47:57) CuisUniversity-3938.image priorSource: 14440298!
