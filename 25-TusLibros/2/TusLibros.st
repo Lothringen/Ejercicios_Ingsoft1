@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 TestCase subclass: #CartTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -118,66 +118,14 @@ itemSellByTheStore
 	^ 'validBook'! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 TestCase subclass: #CashierTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'mpriResponse mpriWasCalled'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:34'!
-createCart
-	
-	^Cart acceptingItemsOf: self defaultPriceList! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:20:47'!
-createCashierWith: aSalesBook
-	^Cashier withSalesBook: aSalesBook andMPRI: MPRestInterfaceSimulator new.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:22:41'!
-createCreditCardInvalidForToday
-	^CreditCard withID: 1 withOwner: 'defaultOwnerName' withExpDate: self invalidExpirationDateFromToday.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:22:31'!
-createCreditCardValidForToday
-	^CreditCard withID: 1 withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:57:49'!
-createCreditCardWithInvalidID
-	^CreditCard withID: '1000000000000000' withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:56:04'!
-createCreditCardWithInvalidUserName
-	^CreditCard withID: 1 withOwner: 'OwnerNameWithExceedingAmountOfL' withExpDate: self validExpirationDateFromToday.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:25:56'!
-createInvalidCreditCardForInteface
-	^CreditCard withID: '1' withOwner: 'InvalidNameForInteface' withExpDate: self validExpirationDateFromToday.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:31:13'!
-createSalesBook
-	^OrderedCollection new.! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:46'!
-defaultPrice
-
-	^20! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:13:57'!
-defaultPriceList
-	
-	^ Dictionary with: self itemSellByTheStore -> self defaultPrice! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:23:20'!
-invalidExpirationDateFromToday
-	^FixedGregorianDate today monthOfYear previous! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:14:13'!
-itemSellByTheStore
-	
-	^ 'validBook'! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:53:31'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/4/2019 19:53:31'!
 test01AnEmptyCartCanNotCheckout
 
 	| aCart aCashier aCreditCard aDate aSalesBook |
@@ -193,7 +141,7 @@ test01AnEmptyCartCanNotCheckout
 		withExceptionDo: [:error| self assert: error messageText equals: Cashier anEmptyCartCanNotCheckoutErrorDescription.
 			self assert: aSalesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:30:29'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/6/2019 16:47:36'!
 test02CashierCheckoutsValidCartCorrectly
 
 	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
@@ -205,10 +153,11 @@ test02CashierCheckoutsValidCartCorrectly
 	
 	aCart add: self itemSellByTheStore.
 	totalPrice := aCashier checkoutOf: aCart withCC: aCreditCard andDate: aDate.
+	
 	self assert: (aSalesBook last) equals: totalPrice.
 	self assert: aCart isEmpty.! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:49:21'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/4/2019 20:49:21'!
 test03AnExpiredCreditCardCanNotCheckout
 
 	| aCart aCashier aCreditCard aDate aSalesBook |
@@ -225,7 +174,7 @@ test03AnExpiredCreditCardCanNotCheckout
 		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
 			self assert: aSalesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:02:56'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/4/2019 21:02:56'!
 test04ACreditCardWithExceedingAmountOfLetersInOwnersNameCanNotCheckout
 
 	| aCart aCashier aCreditCard aDate aSalesBook |
@@ -242,7 +191,7 @@ test04ACreditCardWithExceedingAmountOfLetersInOwnersNameCanNotCheckout
 		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
 			self assert: aSalesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:03:29'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/4/2019 21:03:29'!
 test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout
 
 	| aCart aCashier aCreditCard aDate aSalesBook |
@@ -259,34 +208,109 @@ test05ACreditCardWithExceedingAmountOfDigitsInIDCanNotCheckout
 		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
 			self assert: aSalesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:25:23'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/6/2019 16:43:13'!
 test06CheckoutDoesNotCompleteWhenInterfaceReturnsError
 
 	| aCart aCashier aCreditCard aDate aSalesBook |
 	aCart := self createCart.
 	aCart add: self itemSellByTheStore .
 	aDate := self today.
-	aCreditCard := self createInvalidCreditCardForInteface.
+	aCreditCard := self createCreditCardValidForToday.
 	aSalesBook := self createSalesBook.
 	aCashier := self createCashierWith: aSalesBook.
+	mpriResponse := [self error: 'La tarjeta no tiene fondos suficientes'].
 	
-	self 
+	self
 		should:[aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate] 
 		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:error| self assert: error messageText equals: Cashier anInvalidCreditCardCanNotCheckoutErrorDescription.
+		withExceptionDo: [:error| self assert: error messageText equals: 'La tarjeta no tiene fondos suficientes'.
 			self assert: aSalesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:44:30'!
+!CashierTest methodsFor: 'tests' stamp: 'CL 11/6/2019 16:49:33'!
+test07MPRIIsCalledEvenIfThereIsNoError
+
+	| aCart aCashier aCreditCard aDate aSalesBook totalPrice |
+	aCart := self createCart.
+	aCart add: self itemSellByTheStore .
+	aDate := self today.
+	aCreditCard := self createCreditCardValidForToday.
+	aSalesBook := self createSalesBook.
+	aCashier := self createCashierWith: aSalesBook.
+	mpriResponse := [].
+	mpriWasCalled := false.
+	
+	totalPrice := aCashier checkoutOf: aCart withCC:aCreditCard andDate:aDate.
+	
+	self assert: (aSalesBook last) equals: totalPrice.
+	self assert: aCart isEmpty.
+	self assert: mpriWasCalled.
+	! !
+
+
+!CashierTest methodsFor: 'mpriSimulator' stamp: 'CL 11/6/2019 16:50:34'!
+charge: aTotalPrice on: aCreditCard 
+	mpriWasCalled := true.
+	mpriResponse value.! !
+
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:13:34'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultPriceList! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/6/2019 16:31:21'!
+createCashierWith: aSalesBook
+	^Cashier withSalesBook: aSalesBook andMPRI: self.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/6/2019 16:31:59'!
+createCreditCardInvalidForToday
+	^CreditCard withID: '1' withOwner: 'defaultOwnerName' withExpDate: self invalidExpirationDateFromToday.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/6/2019 16:32:04'!
+createCreditCardValidForToday
+	^CreditCard withID: '1' withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 20:57:49'!
+createCreditCardWithInvalidID
+	^CreditCard withID: '1000000000000000' withOwner: 'defaultOwnerName' withExpDate: self validExpirationDateFromToday.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/6/2019 16:32:12'!
+createCreditCardWithInvalidUserName
+	^CreditCard withID: '1' withOwner: 'OwnerNameWithExceedingAmountOfL' withExpDate: self validExpirationDateFromToday.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:31:13'!
+createSalesBook
+	^OrderedCollection new.! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:13:46'!
+defaultPrice
+
+	^20! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:13:57'!
+defaultPriceList
+	
+	^ Dictionary with: self itemSellByTheStore -> self defaultPrice! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 20:23:20'!
+invalidExpirationDateFromToday
+	^FixedGregorianDate today monthOfYear previous! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:14:13'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:44:30'!
 today
 	^FixedGregorianDate today! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 19:45:49'!
+!CashierTest methodsFor: 'support' stamp: 'CL 11/4/2019 19:45:49'!
 validExpirationDateFromToday
 	^FixedGregorianDate today monthOfYear next! !
 
-
 
-!classDefinition: #Cart category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: #Cart category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 Object subclass: #Cart
 	instanceVariableNames: 'priceList items'
 	classVariableNames: ''
@@ -363,7 +387,7 @@ totalPrice
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -373,16 +397,12 @@ acceptingItemsOf: aPriceList
 	^self new initializeAcceptingItemsOf: aPriceList ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 Object subclass: #Cashier
 	instanceVariableNames: 'salesBook mpri'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
-
-!Cashier methodsFor: 'initialization' stamp: 'CL 11/4/2019 19:33:38'!
-initializeWith: aSalesBook 
-	salesBook := aSalesBook.! !
 
 !Cashier methodsFor: 'initialization' stamp: 'CL 11/4/2019 21:24:03'!
 initializeWithSalesBook: aSalesBook andMPRI: aMPRI
@@ -390,39 +410,68 @@ initializeWithSalesBook: aSalesBook andMPRI: aMPRI
 	mpri := aMPRI.! !
 
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:40:44'!
-checkoutOf: aCart withCC: aCreditCard andDate: aDate 
-	
-	| totalPrice |
-	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
-	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
-	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
-	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
-	totalPrice := aCart totalPrice.
-	mpri charge: totalPrice on: aCreditCard.
-	aCart emptyCart.
-	salesBook addLast: totalPrice.
-	^totalPrice! !
-
-!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:05:27'!
+!Cashier methodsFor: 'private' stamp: 'CL 11/4/2019 21:05:27'!
 isInvalidID: anID 
 	^anID size > 15! !
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:02:08'!
+!Cashier methodsFor: 'private' stamp: 'CL 11/4/2019 21:02:08'!
 isInvalidName: aName
 
 	^aName size > 30! !
 
+
+!Cashier methodsFor: 'assertions' stamp: 'CL 11/6/2019 16:58:52'!
+assertCartIsNotEmpty: aCart
+	
+	
+	aCart isEmpty ifTrue: [^self error: self class anEmptyCartCanNotCheckoutErrorDescription].
+! !
+
+!Cashier methodsFor: 'assertions' stamp: 'CL 11/6/2019 17:02:39'!
+assertCheckoutRestrictionsAreMetForCreditCard: aCreditCard forDate: aDate
+	
+	self assertCreditCardHasNotExpired: aCreditCard forDate: aDate.
+	self assertCreditCardHasValidOwnerName: aCreditCard.
+	self assertCreditCardHasValidID: aCreditCard.
+	! !
+
+!Cashier methodsFor: 'assertions' stamp: 'CL 11/6/2019 17:00:40'!
+assertCreditCardHasNotExpired: aCreditCard forDate: aDate
+	
+	(aCreditCard hasExpiredBy: aDate) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].! !
+
+!Cashier methodsFor: 'assertions' stamp: 'CL 11/6/2019 17:02:24'!
+assertCreditCardHasValidID: aCreditCard
+	
+	(self isInvalidID: aCreditCard cardID) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].
+	! !
+
+!Cashier methodsFor: 'assertions' stamp: 'CL 11/6/2019 17:01:43'!
+assertCreditCardHasValidOwnerName: aCreditCard
+	
+	(self isInvalidName: aCreditCard OwnerName) ifTrue: [^self error: self class anInvalidCreditCardCanNotCheckoutErrorDescription].! !
+
+
+!Cashier methodsFor: 'checkout' stamp: 'CL 11/6/2019 16:59:37'!
+checkoutOf: aCart withCC: aCreditCard andDate: aDate 
+	
+	| totalPrice |
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCheckoutRestrictionsAreMetForCreditCard: aCreditCard forDate: aDate.
+	 
+	totalPrice := aCart totalPrice.
+	mpri charge: totalPrice on: aCreditCard.
+	aCart emptyCart.
+	salesBook addLast: totalPrice.
+	
+	^totalPrice! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 Cashier class
 	instanceVariableNames: ''!
-
-!Cashier class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 19:33:09'!
-with: aSalesBook 
-	
-	^self new initializeWith: aSalesBook. ! !
 
 !Cashier class methodsFor: 'instance creation' stamp: 'CL 11/4/2019 21:21:52'!
 withSalesBook: aSalesBook andMPRI: aMPRI
@@ -440,7 +489,7 @@ anInvalidCreditCardCanNotCheckoutErrorDescription
 	^'No se puede cobrar a una tarjeta vencida'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'iD ownerName expirationDate'
 	classVariableNames: ''
@@ -454,21 +503,21 @@ initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate
 	expirationDate := anExpirationDate.! !
 
 
-!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:00:20'!
+!CreditCard methodsFor: 'accessing' stamp: 'CL 11/4/2019 21:00:20'!
 OwnerName
 	^ownerName ! !
 
-!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:04:56'!
+!CreditCard methodsFor: 'accessing' stamp: 'CL 11/4/2019 21:04:56'!
 cardID
 	^iD! !
 
-!CreditCard methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 20:29:10'!
+!CreditCard methodsFor: 'accessing' stamp: 'CL 11/4/2019 20:29:10'!
 hasExpiredBy: aDate 
 	^expirationDate < aDate monthOfYear.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'CL 11/6/2019 17:06:18'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -476,19 +525,3 @@ CreditCard class
 withID: anID withOwner: anOwnerName withExpDate: anExpirationDate 
 
 	^self new initializeWithID: anID withOwner: anOwnerName withExpDate: anExpirationDate ! !
-
-
-!classDefinition: #MPRestInterfaceSimulator category: #TusLibros stamp: 'CL 11/4/2019 21:47:54'!
-Object subclass: #MPRestInterfaceSimulator
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'TusLibros'!
-
-!MPRestInterfaceSimulator methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:47:09'!
-charge: anAmountToCharge on: aCreditCard 
-	(self isStolen: aCreditCard) ifTrue:[self error]! !
-
-!MPRestInterfaceSimulator methodsFor: 'as yet unclassified' stamp: 'CL 11/4/2019 21:47:32'!
-isStolen: aCreditCard 
-	self shouldBeImplemented.! !
