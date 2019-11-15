@@ -7018,3 +7018,245 @@ acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker
 	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker !
 
 ----QUIT----(14 November 2019 16:26:37) CuisUniversity-3938.image priorSource: 14659121!
+
+----STARTUP---- (14 November 2019 17:20:01) as /home/cliberman/Descargas/linux64/CuisUniversity-3938.image!
+
+!ClientRestInterface class methodsFor: 'instance creation' stamp: 'CL 11/14/2019 17:33:22'!
+acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aCartTimeCounter
+	
+	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter! !
+!ClientRestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:33:22' prior: 50791733!
+newClientRestInterface
+	
+	^ClientRestInterface acceptingItemsOf: testObjectsFactory defaultCatalog andCheckingUsersWith: self andWithClock: self ! !
+
+!methodRemoval: ClientRestInterface class #acceptingItemsOf:andCheckingUsersWith:andCheckingTimeWith: stamp: 'CL 11/14/2019 17:33:22'!
+acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter
+	
+	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter!
+!ClientRestInterface class methodsFor: 'instance creation' stamp: 'CL 11/14/2019 17:33:37' prior: 50792715!
+acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
+	
+	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aClock! !
+!ClientRestInterface methodsFor: 'initialization' stamp: 'CL 11/14/2019 17:34:13' prior: 50791762!
+initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aClock
+	
+	catalog := aCatalog.
+	userChecker := aUserChecker.
+	cartTimeCounter := aClock.
+	newCartID := 0.
+	clientsCarts := Dictionary new.
+	clients := Dictionary new.! !
+!ClientRestInterface methodsFor: 'initialization' stamp: 'CL 11/14/2019 17:34:29'!
+initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
+	
+	catalog := aCatalog.
+	userChecker := aUserChecker.
+	cartTimeCounter := aClock.
+	newCartID := 0.
+	clientsCarts := Dictionary new.
+	clients := Dictionary new.! !
+!ClientRestInterface class methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:34:29' prior: 50792746!
+acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
+	
+	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock! !
+
+!methodRemoval: ClientRestInterface #initializeAcceptingItemsOf:andCheckingUsersWith:andCheckingTimeWith: stamp: 'CL 11/14/2019 17:34:29'!
+initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aClock
+	
+	catalog := aCatalog.
+	userChecker := aUserChecker.
+	cartTimeCounter := aClock.
+	newCartID := 0.
+	clientsCarts := Dictionary new.
+	clients := Dictionary new.!
+
+!classDefinition: #ClientRestInterface category: #TusLibros stamp: 'CL 11/14/2019 17:34:41'!
+Object subclass: #ClientRestInterface
+	instanceVariableNames: 'catalog clientsCarts inputRestInterfaceTest userChecker newCartID merchantProcessor salesBook clients clock'
+	classVariableNames: 'ClientsCart'
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:34:41' prior: 50792475!
+addToCart: aCartID thisAmount: anAmountOfItems ofThisItem: anItem
+
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotAddToInvalidCartErrorMessage]) at: 2) ifTrue:[self error: self class canNotAddItemsToACheckedoutCartErrorMessage].
+	clock hasCartTimedout: aCartID.
+	((clientsCarts at: aCartID) at: 1) add: anAmountOfItems of: anItem.
+	clock updateCartLastActionTime: aCartID.! !
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:34:41' prior: 50792020!
+createCartWithClientID: aClientID andPassword: aPassword
+
+	| collectionOfCartIDs tupleCartAndCheckoutBool |
+	userChecker isUserValid: aClientID withPassword: aPassword.
+	newCartID := newCartID+1.
+	tupleCartAndCheckoutBool := OrderedCollection with: (Cart acceptingItemsOf: catalog) with: false.
+	clientsCarts add: newCartID-> tupleCartAndCheckoutBool.
+	collectionOfCartIDs := (clients at: aClientID ifAbsent:[OrderedCollection new]).
+	collectionOfCartIDs addLast: newCartID.
+	clients add: aClientID->collectionOfCartIDs.
+	clock updateCartLastActionTime: newCartID.
+	^newCartID! !
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:34:41' prior: 50792492!
+checkoutCart: aCartID withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner
+	| aCreditCard |
+	
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotCheckoutInvalidCartErrorMessage]) at:2) ifTrue:[self error: self class canNotCheckoutACheckedoutCartErrorMessage].
+	clock hasCartTimedout: aCartID.
+	aCreditCard := CreditCard withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner.
+	Cashier toCheckout: (clientsCarts at: aCartID) charging: aCreditCard throught: merchantProcessor on: DateAndTime now registeringOn: salesBook.
+	(clientsCarts at: aCartID) at:2 put: true.! !
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:34:41' prior: 50792767!
+initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
+	
+	catalog := aCatalog.
+	userChecker := aUserChecker.
+	clock := aClock.
+	newCartID := 0.
+	clientsCarts := Dictionary new.
+	clients := Dictionary new.! !
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:35:48' prior: 50792812!
+addToCart: aCartID thisAmount: anAmountOfItems ofThisItem: anItem
+
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotAddToInvalidCartErrorMessage]) at: 2) ifTrue:[self error: self class canNotAddItemsToACheckedoutCartErrorMessage].
+	self hasCartTimedout: aCartID.
+	((clientsCarts at: aCartID) at: 1) add: anAmountOfItems of: anItem.
+	clock updateCartLastActionTime: aCartID.! !
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:35:55'!
+hasCartTimedout: aCartID! !
+
+!classDefinition: #ClientRestInterface category: #TusLibros stamp: 'CL 11/14/2019 17:38:12'!
+Object subclass: #ClientRestInterface
+	instanceVariableNames: 'catalog clientsCarts inputRestInterfaceTest userChecker newCartID merchantProcessor salesBook clients clock cartActionsTimeInterval'
+	classVariableNames: 'ClientsCart'
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!ClientRestInterface methodsFor: 'private' stamp: 'CL 11/14/2019 17:38:09' prior: 50792900!
+hasCartTimedout: aCartID
+
+	((clock now - (cartActionsTimeInterval at: aCartID)) > 30) ifTrue:[self error: self class cannotPerformActionsOnAnExpiredCartErrorMessage ]! !
+!ClientRestInterface methodsFor: 'private' stamp: 'CL 11/14/2019 17:39:00'!
+assertHasCartTimedout: aCartID
+
+	((clock now - (cartActionsTimeInterval at: aCartID)) > 30) ifTrue:[self error: self class cannotPerformActionsOnAnExpiredCartErrorMessage ]! !
+!ClientRestInterfaceTest methodsFor: 'timeoutChecker' stamp: 'CL 11/14/2019 17:39:00'!
+assertHasCartTimedout: aCartID
+	((Time now asDurationSinceMidnight - (cartActionsTimeInterval at: aCartID)) > (Duration minutes: 30)) ifTrue:[self error: ClientRestInterface cannotPerformActionsOnAnExpiredCartErrorMessage ]! !
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:39:00' prior: 50792885!
+addToCart: aCartID thisAmount: anAmountOfItems ofThisItem: anItem
+
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotAddToInvalidCartErrorMessage]) at: 2) ifTrue:[self error: self class canNotAddItemsToACheckedoutCartErrorMessage].
+	self assertHasCartTimedout: aCartID.
+	((clientsCarts at: aCartID) at: 1) add: anAmountOfItems of: anItem.
+	clock updateCartLastActionTime: aCartID.! !
+!ClientRestInterface methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:39:00' prior: 50792850!
+checkoutCart: aCartID withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner
+	| aCreditCard |
+	
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotCheckoutInvalidCartErrorMessage]) at:2) ifTrue:[self error: self class canNotCheckoutACheckedoutCartErrorMessage].
+	clock assertHasCartTimedout: aCartID.
+	aCreditCard := CreditCard withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner.
+	Cashier toCheckout: (clientsCarts at: aCartID) charging: aCreditCard throught: merchantProcessor on: DateAndTime now registeringOn: salesBook.
+	(clientsCarts at: aCartID) at:2 put: true.! !
+
+!methodRemoval: ClientRestInterface #hasCartTimedout: stamp: 'CL 11/14/2019 17:39:00'!
+hasCartTimedout: aCartID
+
+	((clock now - (cartActionsTimeInterval at: aCartID)) > 30) ifTrue:[self error: self class cannotPerformActionsOnAnExpiredCartErrorMessage ]!
+
+!methodRemoval: ClientRestInterfaceTest #hasCartTimedout: stamp: 'CL 11/14/2019 17:39:00'!
+hasCartTimedout: aCartID
+	((Time now asDurationSinceMidnight - (cartActionsTimeInterval at: aCartID)) > (Duration minutes: 30)) ifTrue:[self error: ClientRestInterface cannotPerformActionsOnAnExpiredCartErrorMessage ]!
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:39:54' prior: 50792944!
+addToCart: aCartID thisAmount: anAmountOfItems ofThisItem: anItem
+
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotAddToInvalidCartErrorMessage]) at: 2) ifTrue:[self error: self class canNotAddItemsToACheckedoutCartErrorMessage].
+	self assertHasCartTimedout: aCartID.
+	((clientsCarts at: aCartID) at: 1) add: anAmountOfItems of: anItem.
+	self updateCartLastActionTime: aCartID.! !
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:40:04'!
+updateCartLastActionTime: aCartID
+
+	! !
+!ClientRestInterface methodsFor: 'private' stamp: 'CL 11/14/2019 17:40:33' prior: 50793018!
+updateCartLastActionTime: aCartID
+
+	cartActionsTimeInterval at: aCartID put: clock now.! !
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:41:54' prior: 50792960!
+checkoutCart: aCartID withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner
+	| aCreditCard |
+	
+	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotCheckoutInvalidCartErrorMessage]) at:2) ifTrue:[self error: self class canNotCheckoutACheckedoutCartErrorMessage].
+	self assertHasCartTimedout: aCartID.
+	aCreditCard := CreditCard withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner.
+	Cashier toCheckout: (clientsCarts at: aCartID) charging: aCreditCard throught: merchantProcessor on: DateAndTime now registeringOn: salesBook.
+	(clientsCarts at: aCartID) at:2 put: true.! !
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:42:04' prior: 50792828!
+createCartWithClientID: aClientID andPassword: aPassword
+
+	| collectionOfCartIDs tupleCartAndCheckoutBool |
+	userChecker isUserValid: aClientID withPassword: aPassword.
+	newCartID := newCartID+1.
+	tupleCartAndCheckoutBool := OrderedCollection with: (Cart acceptingItemsOf: catalog) with: false.
+	clientsCarts add: newCartID-> tupleCartAndCheckoutBool.
+	collectionOfCartIDs := (clients at: aClientID ifAbsent:[OrderedCollection new]).
+	collectionOfCartIDs addLast: newCartID.
+	clients add: aClientID->collectionOfCartIDs.
+	self updateCartLastActionTime: newCartID.
+	^newCartID! !
+
+!methodRemoval: ClientRestInterfaceTest #assertHasCartTimedout: stamp: 'CL 11/14/2019 17:43:12'!
+assertHasCartTimedout: aCartID
+	((Time now asDurationSinceMidnight - (cartActionsTimeInterval at: aCartID)) > (Duration minutes: 30)) ifTrue:[self error: ClientRestInterface cannotPerformActionsOnAnExpiredCartErrorMessage ]!
+
+!methodRemoval: ClientRestInterfaceTest #updateCartLastActionTime: stamp: 'CL 11/14/2019 17:43:20'!
+updateCartLastActionTime: aCartID 
+	cartActionsTimeInterval at: aCartID put: Time now asDurationSinceMidnight.!
+
+!classDefinition: #ClientRestInterfaceTest category: #TusLibros stamp: 'CL 11/14/2019 17:44:09'!
+TestCase subclass: #ClientRestInterfaceTest
+	instanceVariableNames: 'testObjectsFactory userCheckerSimulatorClosure cartActionsTimeInterval time'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!ClientRestInterfaceTest methodsFor: 'userCheckerSimulator' stamp: 'CL 11/14/2019 17:44:01'!
+now
+
+	^time! !
+
+!methodRemoval: ClientRestInterfaceTest #now stamp: 'CL 11/14/2019 17:44:28'!
+now
+
+	^time!
+
+TestCase subclass: #Clock
+	instanceVariableNames: 'time'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Clock category: #TusLibros stamp: 'CL 11/14/2019 17:44:48'!
+TestCase subclass: #Clock
+	instanceVariableNames: 'time'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #ClientRestInterfaceTest
+	instanceVariableNames: 'testObjectsFactory userCheckerSimulatorClosure cartActionsTimeInterval'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #ClientRestInterfaceTest category: #TusLibros stamp: 'CL 11/14/2019 17:44:58'!
+TestCase subclass: #ClientRestInterfaceTest
+	instanceVariableNames: 'testObjectsFactory userCheckerSimulatorClosure cartActionsTimeInterval'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Clock methodsFor: 'no messages' stamp: 'CL 11/14/2019 17:45:09'!
+now! !
+!Clock methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:45:32'!
+adjustTime: aDuration! !
+
+----QUIT----(14 November 2019 21:46:03) CuisUniversity-3938.image priorSource: 14753833!

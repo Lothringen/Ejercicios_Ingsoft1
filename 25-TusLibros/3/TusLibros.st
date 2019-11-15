@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -98,7 +98,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior'
 	classVariableNames: ''
@@ -246,25 +246,17 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
-!classDefinition: #ClientRestInterfaceTest category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #ClientRestInterfaceTest category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 TestCase subclass: #ClientRestInterfaceTest
 	instanceVariableNames: 'testObjectsFactory userCheckerSimulatorClosure cartActionsTimeInterval'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!ClientRestInterfaceTest methodsFor: 'timeoutChecker' stamp: 'CL 11/14/2019 16:02:43'!
-hasCartTimedout: aCartID
-	((Time now asDurationSinceMidnight - (cartActionsTimeInterval at: aCartID)) > (Duration minutes: 30)) ifTrue:[self error: ClientRestInterface cannotPerformActionsOnAnExpiredCartErrorMessage ]! !
-
 !ClientRestInterfaceTest methodsFor: 'timeoutChecker' stamp: 'CL 11/14/2019 15:50:56'!
 makeThirtyMinutesTimePassFor: aCartID
 
 	cartActionsTimeInterval at: aCartID put: ((cartActionsTimeInterval at: aCartID) - (Duration minutes: 30)).! !
-
-!ClientRestInterfaceTest methodsFor: 'timeoutChecker' stamp: 'CL 11/14/2019 15:43:57'!
-updateCartLastActionTime: aCartID 
-	cartActionsTimeInterval at: aCartID put: Time now asDurationSinceMidnight.! !
 
 
 !ClientRestInterfaceTest methodsFor: 'setUp' stamp: 'CL 11/14/2019 15:48:37'!
@@ -541,10 +533,10 @@ test16CanNotCheckoutAnExpiredCart
 ! !
 
 
-!ClientRestInterfaceTest methodsFor: 'clientRestInterface' stamp: 'CL 11/14/2019 15:01:48'!
+!ClientRestInterfaceTest methodsFor: 'clientRestInterface' stamp: 'CL 11/14/2019 17:33:22'!
 newClientRestInterface
 	
-	^ClientRestInterface acceptingItemsOf: testObjectsFactory defaultCatalog andCheckingUsersWith: self andCheckingTimeWith: self ! !
+	^ClientRestInterface acceptingItemsOf: testObjectsFactory defaultCatalog andCheckingUsersWith: self andWithClock: self ! !
 
 
 !ClientRestInterfaceTest methodsFor: 'userCheckerSimulator' stamp: 'CL 11/11/2019 17:37:30'!
@@ -552,7 +544,21 @@ isUserValid: aClientID withPassword: aPassword
 	^userCheckerSimulatorClosure value.! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #Clock category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
+TestCase subclass: #Clock
+	instanceVariableNames: 'time'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!Clock methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:45:32'!
+adjustTime: aDuration! !
+
+!Clock methodsFor: 'as yet unclassified' stamp: 'CL 11/14/2019 17:45:09'!
+now! !
+
+
+!classDefinition: #Cart category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -631,7 +637,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -641,7 +647,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -692,7 +698,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -732,32 +738,32 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #ClientRestInterface category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #ClientRestInterface category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #ClientRestInterface
-	instanceVariableNames: 'catalog clientsCarts inputRestInterfaceTest userChecker newCartID merchantProcessor salesBook clients cartTimeCounter'
+	instanceVariableNames: 'catalog clientsCarts inputRestInterfaceTest userChecker newCartID merchantProcessor salesBook clients clock cartActionsTimeInterval'
 	classVariableNames: 'ClientsCart'
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 16:18:19'!
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:39:54'!
 addToCart: aCartID thisAmount: anAmountOfItems ofThisItem: anItem
 
 	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotAddToInvalidCartErrorMessage]) at: 2) ifTrue:[self error: self class canNotAddItemsToACheckedoutCartErrorMessage].
-	cartTimeCounter hasCartTimedout: aCartID.
+	self assertHasCartTimedout: aCartID.
 	((clientsCarts at: aCartID) at: 1) add: anAmountOfItems of: anItem.
-	cartTimeCounter updateCartLastActionTime: aCartID.! !
+	self updateCartLastActionTime: aCartID.! !
 
-!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 16:18:32'!
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:41:54'!
 checkoutCart: aCartID withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner
 	| aCreditCard |
 	
 	((clientsCarts at: aCartID ifAbsent:[self error: self class canNotCheckoutInvalidCartErrorMessage]) at:2) ifTrue:[self error: self class canNotCheckoutACheckedoutCartErrorMessage].
-	cartTimeCounter hasCartTimedout: aCartID.
+	self assertHasCartTimedout: aCartID.
 	aCreditCard := CreditCard withCCN: aCreditCardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner.
 	Cashier toCheckout: (clientsCarts at: aCartID) charging: aCreditCard throught: merchantProcessor on: DateAndTime now registeringOn: salesBook.
 	(clientsCarts at: aCartID) at:2 put: true.! !
 
-!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 15:50:11'!
+!ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 17:42:04'!
 createCartWithClientID: aClientID andPassword: aPassword
 
 	| collectionOfCartIDs tupleCartAndCheckoutBool |
@@ -768,7 +774,7 @@ createCartWithClientID: aClientID andPassword: aPassword
 	collectionOfCartIDs := (clients at: aClientID ifAbsent:[OrderedCollection new]).
 	collectionOfCartIDs addLast: newCartID.
 	clients add: aClientID->collectionOfCartIDs.
-	cartTimeCounter updateCartLastActionTime: newCartID.
+	self updateCartLastActionTime: newCartID.
 	^newCartID! !
 
 !ClientRestInterface methodsFor: 'client actions' stamp: 'CL 11/14/2019 14:08:29'!
@@ -793,26 +799,37 @@ listPurchasesOf: aClientID withPassword: aClientPassword
 	^cartsList , totalPrice asString! !
 
 
-!ClientRestInterface methodsFor: 'initialization' stamp: 'CL 11/14/2019 15:04:28'!
-initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter
+!ClientRestInterface methodsFor: 'initialization' stamp: 'CL 11/14/2019 17:34:41'!
+initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
 	
 	catalog := aCatalog.
 	userChecker := aUserChecker.
-	cartTimeCounter := aCartTimeCounter.
+	clock := aClock.
 	newCartID := 0.
 	clientsCarts := Dictionary new.
 	clients := Dictionary new.! !
 
+
+!ClientRestInterface methodsFor: 'private' stamp: 'CL 11/14/2019 17:39:00'!
+assertHasCartTimedout: aCartID
+
+	((clock now - (cartActionsTimeInterval at: aCartID)) > 30) ifTrue:[self error: self class cannotPerformActionsOnAnExpiredCartErrorMessage ]! !
+
+!ClientRestInterface methodsFor: 'private' stamp: 'CL 11/14/2019 17:40:33'!
+updateCartLastActionTime: aCartID
+
+	cartActionsTimeInterval at: aCartID put: clock now.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'ClientRestInterface class' category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: 'ClientRestInterface class' category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 ClientRestInterface class
 	instanceVariableNames: ''!
 
-!ClientRestInterface class methodsFor: 'instance creation' stamp: 'CL 11/14/2019 15:03:47'!
-acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter
+!ClientRestInterface class methodsFor: 'instance creation' stamp: 'CL 11/14/2019 17:34:29'!
+acceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock
 	
-	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andCheckingTimeWith: aCartTimeCounter! !
+	^self new initializeAcceptingItemsOf: aCatalog andCheckingUsersWith: aUserChecker andWithClock: aClock! !
 
 
 !ClientRestInterface class methodsFor: 'error messages' stamp: 'CL 11/14/2019 14:47:13'!
@@ -848,7 +865,7 @@ cannotPerformActionsOnAnExpiredCartErrorMessage
 	^'No se pueden realizar operaciones sobre un carrito expirado'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'creditCardExpirationDate creditcardNumber creditCardOwner'
 	classVariableNames: ''
@@ -883,7 +900,7 @@ initializeWithCCN: aCreditcardNumber withCCED: aCreditCardExpirationDate withCCO
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -898,7 +915,7 @@ withCCN: aCreditcardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditC
 	^self new initializeWithCCN: aCreditcardNumber withCCED: aCreditCardExpirationDate withCCO: aCreditCardOwner! !
 
 
-!classDefinition: #Sale category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #Sale category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #Sale
 	instanceVariableNames: 'total'
 	classVariableNames: ''
@@ -918,7 +935,7 @@ initializeTotal: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -929,7 +946,7 @@ of: aTotal
 	^self new initializeTotal: aTotal ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'CL 11/14/2019 16:26:30'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'CL 11/14/2019 21:45:58'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
